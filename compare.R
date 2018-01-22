@@ -5,11 +5,14 @@
 ##################################################
 
 ####require ggplot, neuralnet, caTools, else stop
+##pkgs<-c("ggplot2","neuralnet","caTools")
+##if(!(require(pkgs,quietly=T))) {stop}
+
 
 ####define function to compare predictive analysis between GLM and NN:
 compare<-function(
-	###dat to be analyzed -- default = 50 sample data points from 'diamonds' data set
-		dat=diamonds[sample(53940,50),],	
+	###N of data pts from 'diamonds' to be analyzed -- default = 500 sample data points
+		N=500,	
 	###response variable from data set. default to 'price' for diamonds.
 		pred="price",					
 	###percentage of data to be used as 'train' data set -- default 70%
@@ -17,17 +20,15 @@ compare<-function(
 	{
 
 ##########checking arguments else stop
-#escape if dat doesn't exist...   investigate 'args'	
-#	if(exists(as.character(quote(dat)))){
-#		}
-
+##if(N>nrow(diamonds)) {stop}
+##if(!is.data.frame(dat)) {stop}
+##if(!(pred %in% names(dat))) {stop}
+##if(!(train.pct>=0 && 1>=train.pct)) {stop}
+	
+	####define data frame
+	dat<-diamonds[sample(53940,N),]
 	###get variable names
 	names(dat)->vars
-
-##escape  if pred is not in vars...
-
-##escape if train.pct is not between 0 & 1....
-
 
 ######################code!!
 	###identify predictive column in data frame
@@ -40,6 +41,9 @@ compare<-function(
 
 	#######convert all data to numeric -- get rid of factors!!
 	dat<-as.data.frame(lapply(dat,as.numeric))
+
+	####create indexes for train/test subsets, according to train.pct
+	sp<-sample.split(dat[,pred.col],train.pct)
 
 ########################
 #######neural net
@@ -54,8 +58,7 @@ unlist(lapply(dat,min))->mins
 unlist(lapply(dat,max))->maxs			
 as.data.frame(scale(dat,mins,maxs-mins))->dat.scaled
 
-####split data into train/test subsets, according to train.pct
-sp<-sample.split(dat.scaled[,pred.col],train.pct)
+########define train/test for NN w.scaled data
 train<-subset(dat.scaled,sp==T)
 test<-subset(dat.scaled,sp==F)
 
@@ -67,8 +70,13 @@ nn.pred<-compute(nn,test[,-pred.col])$net.result
 #####find actual response variables for comparison
 test.response<-dat[which(sp==F),pred.col]
 
+###compute NN Standard error
+nn.se<-sum((nn.pred-test.response)^2)/length(test.response)
+
 ###compare -- organize predicted responses side-by-side w/actual responses
-NN.results<-data.frame(NN=nn.pred,NNunscaled=pred.min+(pred.max-pred.min)*nn.pred,RESP=test.response)
+NN.results<-data.frame(NNscaled=nn.pred,NN=pred.min+(pred.max-pred.min)*nn.pred,RESP=test.response,NN.SE=nn.se)
+
+
 
 
 ########################
@@ -86,10 +94,13 @@ glm(f,,trainn)->glm.model
 
 ###predict 
 predict(glm.model,testt)->glm.pred
-as.numeric(glm.pred)->glm.predd		
+as.data.frame(glm.pred)->glm.pred		
+
+###compute GLM Standard error
+glm.se<-sum((glm.pred-test.response)^2)/length(test.response)
 
 ####compare
-GLM.results<-data.frame(GLM=glm.predd,GLMunscaled=glm.predd,RESP=test.response)
+GLM.results<-data.frame(GLM=glm.pred,RESP=test.response,GLM.SE=glm.se)
 
 #####################
 ###output

@@ -93,7 +93,7 @@ groups<-round(1/(1-train.pct))
 		####actual responses
 		resp.nn<-test[,pred.col]*(pred.max-pred.min)+pred.min
 		####calculate standard error
-		nn.cv[i]<-sum((resp.nn-pred.nn)^2)/nrow(test)
+		nn.cv[i]<-sum((dat[-index,pred.col]-pred.nn)^2)/nrow(test)
 		####step up
 		pbar$step()
 		}

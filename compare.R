@@ -65,16 +65,19 @@ test<-subset(dat.scaled,sp==F)
 #####create neuralnet
 nn<-neuralnet(f,train,hidden=c(10,10,10),linear.output=F)
 
-#####predict with NN
+#####predict with NN... this is normalized predictions
 nn.pred<-compute(nn,test[,-pred.col])$net.result
+#####re-scale predictions
+nn.pred<-nn.pred*(pred.max-pred.min)+pred.min
+
 #####find actual response variables for comparison
 test.response<-dat[which(sp==F),pred.col]
 
-###compute NN Standard error
-nn.se<-sum((nn.pred-test.response)^2)/length(test.response)
+###compute NN Standard error   ####make sure you use re-scaled predictions!!!
+nn.se<-sum(((nn.pred-test.response)^2)/length(test.response)
 
 ###compare -- organize predicted responses side-by-side w/actual responses
-NN.results<-data.frame(NNscaled=nn.pred,NN=pred.min+(pred.max-pred.min)*nn.pred,RESP=test.response,NN.SE=nn.se)
+NN.results<-data.frame(NN=nn.pred,RESP=test.response,NN.SE=nn.se)
 
 
 
@@ -99,11 +102,15 @@ as.data.frame(glm.pred)->glm.pred
 ###compute GLM Standard error
 glm.se<-sum((glm.pred-test.response)^2)/length(test.response)
 
-####compare
+####if you need the summary....
+###summary(glm.model)->summ
+
+####compare predictions to responses.   (add GLM.SUM=summ for summary info)
 GLM.results<-data.frame(GLM=glm.pred,RESP=test.response,GLM.SE=glm.se)
 
 #####################
 ###output
 #######################
+
 results<-list(NN.results=NN.results,GLM.results=GLM.results)
 results}

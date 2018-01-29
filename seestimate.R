@@ -14,38 +14,58 @@
 
 ####define function to compare predictive analysis between GLM and NN:
 se.estimate<-function(
+	########what data to model? default=diamonds dataset
+		dat=NULL,
+	########what is the response variable?  default="price"
+		pred.var=NULL,
 	####number of sample groups to draw		
-		resamples=100,
-	#####pct of data used to re-sample. will override resample.size if given 
-		resample.pct=NULL,		
-	#####size of re-sample groups (valid only if resample.pct is not defined)
-		resample.size=500,
+		resamples=10,
+	#####pct of data used for test/validation set in each re-sample. 
+		test.pct=0.10,		
+	#####size of test/validation sets in each re-sample groups. will override test.pct if given
+		test.size=NULL,
 	###percentage of re-sample data to be used as 'train' data set -- default 70%
-		train.pct=0.70,
+		##train.pct=0.70,
 	###select method(s) used to calculate standard error -- "glm", "nn", "both"
 		method="both",
 	###progress bar?  T or F
 		prog.bar=T)
 	{
 
-######define data set
-dat<-diamonds
-N<-nrow(dat)
-######define response variable
-pred.var<-"price"
+##########if no data set is given, default is 2000 row sample of 'diamonds' data set
+if(is.null(dat)){
+	index<-sample(nrow(diamonds),2000)
+	dat<-diamonds[index,]
+	pred.var<-"price"
+	}
 
+#######check argument:  'data'
+if(!is.data.frame(dat)) stop("Argument `dat' must be a valid data frame")
+
+########a little more about our (now valid) data frame:
+	########how big is the data set??
+	N<-nrow(dat)
+	###get variable names
+	names(dat)->vars
+
+#######check argument:  'pred.var'
+if(!(pred.var %in% vars)) stop("Argument `pred.var' must be a column in the given data frame")
 #######check argument:  'resamples'
 if(!(resamples==round(resamples) && resamples>0)) stop("Argument `resamples' must be a positive integer")
-#######check argument:  'resample.pct'  does it exist?  is it valid?  then, override resample.size
-if(!is.null(resample.pct)) {
-	if(!(resample.pct>0 && resample.pct<=1)) stop("Argument `resample.pct' must be a value greater than zero and less than or equal to 1")
-	resample.size<-round(N*resample.pct)
+
+#######check argument:  'test.size' does it exist?  is it valid?  then, define test.pct=NULL to override
+if(!is.null(test.size)){
+	if(!(test.size==round(test.size) && test.size>0)) stop("Argument `test.size' must be a positive integer")
+	if(test.size>N) stop("Argument `test.size' exceeds rows in data set")
+	test.pct=NULL
 	}
-#######check argument:  'resample.size'
-if(!(resample.size==round(resample.size) && resample.size>0)) stop("Argument `resample.size' must be a positive integer")
-if(resample.size>N) stop("Argument `resample.size' exceeds rows in data set")
+#######check argument:  'test.pct' is it overridden?  is it valid? then, use it to define test.size
+if(!is.null(test.pct)) {
+	if(!(test.pct>0 && test.pct<=1)) stop("Argument `test.pct' must be a value greater than zero and less than or equal to 1")
+	test.size<-round(N*test.pct)
+	}
 #######check argument:  'train.pct'
-if(!(train.pct>0 && train.pct<1)) stop("Argument `train.pct' must be a value between zero and one, exclusive")
+##if(!(train.pct>0 && train.pct<1)) stop("Argument `train.pct' must be a value between zero and one, exclusive")
 #######possible methods; make sure 'method' arg is valid
 method.options<-c("glm","nn","both")
 if(!(method %in% method.options)) stop("Argument `method' must be one of `glm', `nn', or `both'")
@@ -54,27 +74,24 @@ if(!is.logical(prog.bar)) stop("Argument `prog.bar' must be logical")
 
 
 ##########prep data
-	###get variable names
-	names(dat)->vars
-
 	###identify predictive column in data frame
 	which(vars==pred.var)->resp.col
 	
-	#####create formula for predictive model
+	#####create formula of from 'pred.var ~ .' for predictive model 
 	model.formula<-paste(vars[-resp.col],collapse=" + ")
 	model.formula<-paste(vars[resp.col],"~",model.formula)
 	model.formula<-as.formula(model.formula)
 
 	#######convert all data to numeric -- get rid of factors!!
-	dat<-as.data.frame(lapply(dat,as.numeric))
+	dat2<-as.data.frame(lapply(dat,as.numeric))
 
 	#####unscale info for response
-	min(dat[,resp.col])->resp.min	
-	max(dat[,resp.col])->resp.max
+	min(dat2[,resp.col])->resp.min	
+	max(dat2[,resp.col])->resp.max
 	#####scale data
-	apply(dat,2,min)->mins
-	apply(dat,2,max)->maxs			
-	as.data.frame(scale(dat,mins,maxs-mins))->dat.scaled
+	apply(dat2,2,min)->mins
+	apply(dat2,2,max)->maxs			
+	as.data.frame(scale(dat2,mins,maxs-mins))->dat2.scaled
 
 ################################
 ###########GLM se.estimate
@@ -91,13 +108,13 @@ if(!is.logical(prog.bar)) stop("Argument `prog.bar' must be logical")
 			}
 		#######train/test/compute SE  "resamples" number of times
 		for(i in 1:resamples){
-			###find index for re-sampling set
-			resample.index<-sample(N,resample.size)
-			###divide re-sample into test/train index
-			train.index<-sample(resample.size,round(train.pct*resample.size))
+			###find index for re-sampling TEST set
+			test.index<-sample(N,test.size)
+			###find its compliment -- the TRAIN set
+			train.index<-seq(1,N)[-test.index]
 			####define train/set from data
-			train<-dat[resample.index[train.index],]
-			test<-dat[resample.index[-train.index],]
+			train<-dat[train.index,]
+			test<-dat[test.index,]
 		
 			####create glm!!
 			glm.model<-glm(model.formula,,train)
@@ -129,14 +146,14 @@ if(!is.logical(prog.bar)) stop("Argument `prog.bar' must be logical")
 			}
 		#######train/test/compute SE  "resamples" number of times
 		for(i in 1:resamples){
-			###find index for re-sampling set
-			resample.index<-sample(N,resample.size)
-			###divide re-sample into test/train index
-			train.index<-sample(resample.size,round(train.pct*resample.size))
-			####define train/set from scaled data
-			train<-dat.scaled[resample.index[train.index],]
-			test<-dat.scaled[resample.index[-train.index],]
-		
+			###find index for re-sampling TEST set
+			test.index<-sample(N,test.size)
+			###find its compliment -- the TRAIN set
+			train.index<-seq(1,N)[-test.index]
+			####define train/set from data... use dat2.scaled for NN!
+			train<-dat2.scaled[train.index,]
+			test<-dat2.scaled[test.index,]
+
 			####create neuralnet!!
 			nn<-neuralnet(model.formula,train,hidden=c(10,10,10),linear.output=F)
 			####predict, and re-scale:
@@ -144,6 +161,7 @@ if(!is.logical(prog.bar)) stop("Argument `prog.bar' must be logical")
 			pred.nn<-pred.nn$net.result*(resp.max-resp.min)+resp.min
 			####actual responses
 			resp.nn<-test[,resp.col]*(resp.max-resp.min)+resp.min
+			##resp.nn<-dat[test.index,resp.col]  ###does it work too??
 			####calculate standard error
 			nn.se.estimate[i]<-sum((resp.nn-pred.nn)^2)/nrow(test)
 			####if prog.bar=T, step up

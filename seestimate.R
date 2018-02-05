@@ -28,6 +28,8 @@ se.estimate<-function(
 		##train.pct=0.70,
 	###select method(s) used to calculate standard error -- "glm", "nn", "both"
 		method="both",
+	###select type of response variable
+		distrib="continuous",
 	###progress bar?  T or F
 		prog.bar=T)
 	{
@@ -69,6 +71,9 @@ if(!is.null(test.pct)) {
 #######possible methods; make sure 'method' arg is valid
 method.options<-c("glm","nn","both")
 if(!(method %in% method.options)) stop("Argument `method' must be one of `glm', `nn', or `both'")
+#########check argument: 'distrib'
+if(!(distrib %in% c("continuous","categorical"))) stop("Argument `distrib' must be either `continuous' or `categorical'")
+
 #######check argument: 'prog.bar'
 if(!is.logical(prog.bar)) stop("Argument `prog.bar' must be logical")
 
@@ -117,9 +122,15 @@ if(!is.logical(prog.bar)) stop("Argument `prog.bar' must be logical")
 			test<-dat[test.index,]
 		
 			####create glm!!
-			glm.model<-glm(model.formula,,train)
+				####for continuous response (assumed normal distrib)
+					if(distrib=="continuous") glm.model<-glm(model.formula,,train)
+				####for categorical response 
+					if(distrib=="categorical") glm.model<-glm(model.formula,family=binomial(link = 'logit'),data=train)
 			####predict from model:
-			pred.glm<-predict(glm.model,test)
+				###for continuous response
+					if(distrib=="continuous") pred.glm<-predict(glm.model,test)
+				###for categorical response
+					if(distrib=="categorical") pred.glm<-predict(glm.model,test,type="response")
 			####actual responses
 			resp.glm<-test[,resp.col]
 			####calculate standard error

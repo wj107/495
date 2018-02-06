@@ -56,14 +56,14 @@
 #--------------TEST standard errors on 100 data points. repeat 50x, detect mean/median of s.e.
 #-----------------------------------------------------------------------------------------------
 
-dat2.2<-datt[sample(nrow(datt),1000),]
-trial2.2<-se.estimate(dat=dat2.2,pred.var="WL",resamples=50,test.pct=0.10,method="both",distrib="categorical",prog.bar=T)
+#dat2.2<-datt[sample(nrow(datt),1000),]
+#trial2.2<-se.estimate(dat=dat2.2,pred.var="WL",resamples=50,test.pct=0.10,method="both",distrib="categorical",prog.bar=T)
 
 #-----------------------------------------------------------------------------------------------
 #---trial 2.3: using 2000 rows of bxdat, TRAIN glm/nn models on 1800 data points,
 #--------------TEST standard errors on 200 data points. repeat 50x, detect mean/median of s.e.
 #-----------------------------------------------------------------------------------------------
 
-dat2.3<-datt[sample(nrow(datt),2000),]
-trial2.3<-se.estimate(dat=dat2.3,pred.var="WL",resamples=50,test.pct=0.10,method="both",distrib="categorical",prog.bar=T)
+#dat2.3<-datt[sample(nrow(datt),2000),]
+#trial2.3<-se.estimate(dat=dat2.3,pred.var="WL",resamples=50,test.pct=0.10,method="both",distrib="categorical",prog.bar=T)
 

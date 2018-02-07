@@ -58,7 +58,7 @@ if(11 %in% trials) {
 #--------------TEST standard errors on 100 data points. repeat 50x, detect mean/median of s.e.
 #-----------------------------------------------------------------------------------------------
 
-if(12 %in% trial) {
+if(12 %in% trials) {
 	###subset of diamonds to train/test
 		dat<-diamonds[sample(nrow(diamonds),1000),]
 	###run SEestimate to approximate SE for GLM/NN models
@@ -78,7 +78,7 @@ if(12 %in% trial) {
 #--------------TEST standard errors on 200 data points. repeat 50x, detect mean/median of s.e.
 #-----------------------------------------------------------------------------------------------
 
-if(13 %in% trial) {
+if(13 %in% trials) {
 	###subset of diamonds to train/test
 		dat<-diamonds[sample(nrow(diamonds),2000),]
 	###run SEestimate to approximate SE for GLM/NN models
@@ -102,7 +102,7 @@ if(13 %in% trial) {
 #--------------TEST standard errors on 50 data points. repeat 50x, detect mean/median of s.e.
 #-----------------------------------------------------------------------------------------------
 
-if(21 %in% trial) {
+if(21 %in% trials) {
 	###subset of gamelog_data to train/test
 		dat<-datt[sample(nrow(datt),500),]
 	###run SEestimate to approximate SE for GLM/NN models
@@ -122,7 +122,7 @@ if(21 %in% trial) {
 #--------------TEST standard errors on 100 data points. repeat 50x, detect mean/median of s.e.
 #-----------------------------------------------------------------------------------------------
 
-if(22 %in% trial) {
+if(22 %in% trials) {
 	###subset of gamelog_data to train/test
 		dat<-datt[sample(nrow(datt),1000),]
 	###run SEestimate to approximate SE for GLM/NN models
@@ -142,7 +142,7 @@ if(22 %in% trial) {
 #--------------TEST standard errors on 200 data points. repeat 50x, detect mean/median of s.e.
 #-----------------------------------------------------------------------------------------------
 
-if(23 %in% trial) {
+if(23 %in% trials) {
 	###subset of gamelog_data to train/test
 		dat<-datt[sample(nrow(datt),2000),]
 	###run SEestimate to approximate SE for GLM/NN models

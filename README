@@ -1,16 +1,30 @@
-#######################################
-###############GLM  vs NN   v1.0
-######################################
-###############16 January 2018
-#####################################
+#####################################################################
+############# COMPARING ACCURACY OF GLM and NN Predictive Models
+############# v0.1 -- 6 February 2018
+#####################################################################
+#-------- Author: wj107
+#-------- Email: will.johnson@gmail.com
+#---------------------------------
+#----------- The R scripts run some pre-designed trials on pre-selected data sets in an effort to analyze the
+#----------- standard error for both GLM and NN predictive models.  The standard errors are computed across 
+#----------- a number of re-sampled data sets, allowing us to view averages as a reasonable estimate for true standard error
+#----------- parameter for a model.
 
-Predictive modeling!
-GLM!
-NN!
+#----------- We look for trends: which model type is more accurate?  How much so?  The results are also presented graphically.
+#----------- Along with the scripts is a LaTeX document outlining the process with more detail.  An outlive for this document is
+#----------- provided in the OUTLINE file in this folder.
 
-....let's see how they all stack up.
-Need to add some graphical analysis. Need to build out some error messages, etc.
+#---------------------------------
 
-It's coming!....
+#---------------v0.1 has:
+#-----------relies on 'diamonds' data set and 'gamelogs' from NBA data
+#-----------select from 6 pre-designed trials, and specify data frame to output results
+#-----------graph two summary graphs of the SE results, distinguishing between trial size, response variable type, and model type (GLM/NN)
+#-----------options to save (w.out dimensions) or display graphs.
 
-
+#---------------v0.1+ needs:
+#-----------re-name data files *.RData
+#-----------work to broaden functions, fold them into SEestimate... make like an SEestimate.study function.
+#-----------add data to 495trials function
+#-----------customize parameters for "output"... not always 50, 100, 200 test size
+#-----------improve dim's on graphs.  display both graphs in one function call??

@@ -1,0 +1,128 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%495:  GLM vs NN
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%v0.1: high-level outline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%set document class + options
+%%%%%%%%(some) options available: 10,11,12pt; a4,letterpaper; titlepage, twocolumn, twoside, landscape, draft
+\documentclass[12pt]{article}  
+
+%%%%PREAMBLE!!  Here you set conditions for the entire document
+%%%%conditions....
+\setcounter{secnumdepth}{2}		%%%%%%number sections down to x.y
+
+%%%%%Packages.....
+%%%%gotta find the math packages!!!
+%\usepackage[options]{package}
+
+%%%%%TEXT/BODY of the document.
+\begin{document}
+%%%%%%now you're in the DOCUMENT environment
+%%%%%%%%'top matter'
+\title{Generalized Linear Models and Neural Nets: Comparison Between Methods for Predictive Analysis}
+\author{William R. Johnson}
+%%%%other title commands??  advisor?  
+\date{18 January 2018}
+\maketitle
+
+%%%herecomes the abstract!!
+\renewcommand{\abstractname}{Abstract:}
+\begin{abstract}
+%%%abstract environment
+Whether a fluffy article about primetime awards programs on the website fivethirtyeight.com, or deep within the workings or multi-billion dollar, 
+multinational corporations, predictive analysis is a critical part of our world in the age of "big data".  In this paper, I will examine two types
+of predicitive analysis, Generalized Linear Models (GLM) and Neural Nets (NN).  I will examine how both methods use data to create predictive 
+models for a response variable.  I will then test but methods using publicly available data and examine the results.  These results will initiate
+a conversation about pro's and con's for the two predictive methods.  In particular I will focus on the speed and accuracy for both methods, as well
+as their ability to improve predictions, given additional data.
+\end{abstract}
+\vfill\eject
+
+%%%%%here comes the body...
+
+%%%%%%sections (not used in letters):  (use *before {} to eliminate numbering)
+
+%\subsubsection{Even more subsection}
+%\paragraph{Paragraph}
+%\subparagraph{Subparagraph}
+
+\section{Intro to Predictive Analysis.}
+We live in the age of 'big data'.  Using that data to measure, observe, and predict has great value:  economically, culturally, socially.  It's 
+easy to say that this prediction is done by an app -- highlight data, point, click, ta-da!  You can find predictions for a travel time, suggested
+consumer goods, outcome of sporting events with a few simple tap on your phone.  But what's the mathematical machinery behind these predictions?
+Are all the predictions calculated in a similar manner?  Or are there different methods -- and what are the pro's and con's of these methods?
+
+Now, I will not discuss the specific predictive methods for proprietary applications, like the aforementioned travel predictions from Google or 
+suggested product recommendations from Amazon.  But I will offer a cursory examination of two major mathematical methods for predictive analysis:
+Generalized Linear Models, and Neural Networks.  Both methods allow us to create predictive models from a set of collected data that allow us to
+predict values for a chosen response variable.  The mathematical machinery that allows both methods (GLM and NN) to `work'  will be discussed. 
+We will see how these models can handle different types of data sets: quantitative data (for instance, the travel time between two locations) or 
+categorical data (whether a team wins or loses a sporting event).  And, looking at the two methods side-by-side, we will use both methods to draw
+predictions from the same data set, and look for notable distinctions between the two methods in terms of consistency or accuracy or predictions.
+
+Aside from the broad overview of these predictive methods discussed in this paper, applications for both methods can be seen in ....LITERATURE 
+"REVIEW".
+
+\section{Generalized Linear Models.}
+
+\subsection{An Introduction to GLM.}
+A very basic form of predictive analysis, palatable beyond self-identified `math people', can be found in the form
+of linear regression.  Given two quantitative variables, we can approximate a linear relationship between the variables using a basic linear
+regression.  This regression line and the data points are easily visualized in a 2-dimensional plot, offering a strong intuitive foundation for the
+concept of predictive analysis.  In fact, this method of predicti
+
+\subsection{A basic GLM example.}
+One application of GLM would be....
+
+The sheer volume of calculation required to construct Generalized Linear Models or Neural Nets for all but the simplest data sets is at once 
+unworkable without the aid of statistics software.  The R programming language has packages which bear the burden of these calculations; 
+
+\section{Neural Nets.}
+
+\subsection{An Introduction to Neural Nets.}
+Research needed, here!!
+
+\subsection{A basic NN example.}
+We can see Neural Nets in action if we consider the data set....  As before, we will use R to construct a Neural Net, from the functions available
+in the -- surprise! -- `neuralnet' package.
+
+\section{A Comparison of GLM and NN.}
+Having looked at both GLM and Neural Nets individually, now we can examine more closely how the two methods stack up when they aim to create a 
+predictive model for the same data set.  Which model offers more accurate predictions?  What data set offers more consistent predictions?  Is there
+an appreciable difference between the two methods?  To weigh in on this comparison, I will (1) demonstrate how to divide a data set into `train' 
+and `test' subsets so we can create and test predictive models (2) outline R code that calculates predictive models for both methods, (3) compare 
+the responses from the two predictive models, both numerically and graphically, and (4) draw some observations from the comparisons.
+
+\subsection{A Data Set for our Predictions.}
+In the `real world' of big data predictions, there is collected data and future data.  The collected data is used to create a predictive model, and
+the hope is it can be tested (and refined) in the future as more, newer data becomes available.  Considering present/future data is not feasible 
+for this paper; I'm not going to create a predictive model here with current and come back to write Volume \#2 in six months after testing future 
+data.  We need to `simulate' current and future data from existing, collected data.
+
+To accomplish this, the R package `caTools' offers the function `sample.split'.  This function allows us to ....
+
+\subsection{Creating Predictive Models in R.}
+With our `train' and `test' data sets in hand, it's time to create predictive models.  In previous sections, we saw how to accomplish this in R.  
+However, since our focus is on offering a general comparison for ANY multi-variable data set, we need to fine-tune the code a bit.  To that end...
+
+\subsection{A Comparison of the Predictive Models.}
+The above code allowed us to see, side-by-side, the predicted and actual responses for our data set, and the standard errors for the predictions.
+We can analyze these outputs both numerically and graphically.  For instance....
+
+\subsection{Observations from the Comparison.}
+After looking at the predictions and responses from the two methods, we can see that....
+
+
+\section{Topics for Further Study.}
+Having completed a very basic side-by-side comparison of GLM and Neural Net predictive methods for data sets, we can begin to focus on some 
+questions that might offer opportunities for further exploration.  For instance....
+
+
+
+%%%bibliography, etc
+
+\end{document}

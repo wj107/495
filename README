@@ -1,6 +1,6 @@
 #####################################################################
 ############# COMPARING ACCURACY OF GLM and NN Predictive Models
-############# v0.11 -- 11 February 2018
+############# v0.117 -- 12 February 2018
 #####################################################################
 #-------- Author: wj107
 #-------- Email: will.johnson@gmail.com
@@ -29,5 +29,4 @@
 #-----------add data to 495trials function
 #-----------customize parameters for "output"... not always 50, 100, 200 test size
 #-----------improve dim's on graphs.  display both graphs in one function call??
-#-----------inline links in the pdf in LaTeX
-#-----------caption sizes for figures!
+#-----------caption sizes for figures!#------------height vs. weight graphs with sample GLM/NN models for the introduction

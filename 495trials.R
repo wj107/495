@@ -7,7 +7,7 @@
 ###ggplot2, for diamonds dataset (normal response)
 	require(ggplot2)
 ###gamelog_data, for box score + W/L dataset (categorical response)
-	load("gamelog_data")
+	load("gamelog.RData")
 ###SEestimate.R, to find SE estimates for the model predictions
 	source("~/R/SEestimate/SEestimate.R")
 	

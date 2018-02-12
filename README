@@ -1,6 +1,6 @@
 #####################################################################
 ############# COMPARING ACCURACY OF GLM and NN Predictive Models
-############# v0.1 -- 6 February 2018
+############# v0.11 -- 11 February 2018
 #####################################################################
 #-------- Author: wj107
 #-------- Email: will.johnson@gmail.com
@@ -16,15 +16,18 @@
 
 #---------------------------------
 
-#---------------v0.1 has:
+#---------------v0.11 has:
 #-----------relies on 'diamonds' data set and 'gamelogs' from NBA data
 #-----------select from 6 pre-designed trials, and specify data frame to output results
 #-----------graph two summary graphs of the SE results, distinguishing between trial size, response variable type, and model type (GLM/NN)
 #-----------options to save (w.out dimensions) or display graphs.
+#-----------the start of my write-up paper!!
 
-#---------------v0.1+ needs:
+#---------------v0.11+ needs:
 #-----------re-name data files *.RData
 #-----------work to broaden functions, fold them into SEestimate... make like an SEestimate.study function.
 #-----------add data to 495trials function
 #-----------customize parameters for "output"... not always 50, 100, 200 test size
 #-----------improve dim's on graphs.  display both graphs in one function call??
+#-----------inline links in the pdf in LaTeX
+#-----------caption sizes for figures!

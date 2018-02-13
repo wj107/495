@@ -1,6 +1,6 @@
 #####################################################################
 ############# COMPARING ACCURACY OF GLM and NN Predictive Models
-############# v0.117 -- 12 February 2018
+############# v0.12 -- 12 February 2018
 #####################################################################
 #-------- Author: wj107
 #-------- Email: will.johnson@gmail.com
@@ -11,22 +11,23 @@
 #----------- parameter for a model.
 
 #----------- We look for trends: which model type is more accurate?  How much so?  The results are also presented graphically.
-#----------- Along with the scripts is a LaTeX document outlining the process with more detail.  An outlive for this document is
+#----------- Along with the scripts is a LaTeX document outlining the process with more detail.  An outline for this document is
 #----------- provided in the OUTLINE file in this folder.
 
 #---------------------------------
 
-#---------------v0.11 has:
-#-----------relies on 'diamonds' data set and 'gamelogs' from NBA data
-#-----------select from 6 pre-designed trials, and specify data frame to output results
-#-----------graph two summary graphs of the SE results, distinguishing between trial size, response variable type, and model type (GLM/NN)
+#---------------v0.12 has:
+#-----------'diamonds' data set and 'gamelogs' with NBA data for training/testing models
+#-----------six pre-designed trials, and a function that inputs data frame, response variable, and outputs SE estimates
+#-----------creates summary graphs of the SE results, distinguishing between trial size, response variable type, and model type (GLM/NN)
 #-----------options to save (w.out dimensions) or display graphs.
-#-----------the start of my write-up paper!!
+#-----------intro chapter in the write-up:  examples of GLM, NN in literature, and outlining methodology of this project
 
-#---------------v0.11+ needs:
-#-----------re-name data files *.RData
+#---------------v0.12+ needs:
+#-----------create mini-scripts to produce figures for write-up
 #-----------work to broaden functions, fold them into SEestimate... make like an SEestimate.study function.
 #-----------add data to 495trials function
 #-----------customize parameters for "output"... not always 50, 100, 200 test size
 #-----------improve dim's on graphs.  display both graphs in one function call??
-#-----------caption sizes for figures!#------------height vs. weight graphs with sample GLM/NN models for the introduction
+#-----------caption sizes for figures!
+#-----------careful listing of sources for the write-up

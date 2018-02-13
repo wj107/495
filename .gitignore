@@ -1,0 +1,21 @@
+############################################################################################
+########ignore R objects (lists, data frames) until I can separate 495 & seestimate proj's
+############################################################################################
+
+####ignore gitignore?  heh, quine-able.
+#.gitignore
+
+####in case there's an open file while you're committing...
+*.swp
+
+#####gamelog_data
+#gamelog_data
+
+####trial_data
+#trialdata_feb2018
+
+#####ignore tex files
+*.aux
+*.log
+*.pdf
+*.out

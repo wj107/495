@@ -2,18 +2,21 @@
 %%%%%%% 495 Report: comparing standard error between GLM and NN models
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%----------------------------------
+%-------- preamble
+%----------------------------------
 
 %---set font size, options for document
 	\documentclass[12pt]{article}  
-
-%---set conditions in the preamble
+%---set numbering depth
 	\setcounter{secnumdepth}{2}
 %---get packages!
 	%---for math notations
 	\usepackage{amsmath}
 	%---for including graphics	
 	\usepackage{graphicx}
-
+	%---for hyperlinks
+	\usepackage{hyperref}
 
 %---set graphicspath
 	\graphicspath{
@@ -33,8 +36,10 @@
 %---abstract
 	\renewcommand{\abstractname}{Abstract:}
 	\begin{abstract}
-		Whether a fluffy article about primetime awards programs on the website fivethirtyeight.com, or deep within the analytical 
-department of a multi-billion dollar, multinational corporations, predictive analysis is a critical part of our world in the age of ``Big Data".  
+		Whether a \href{https:/fivethirtyeight.com/features/oscars-2018-early-predictions-nominations/}{fluffy article about primetime 
+awards programs on the website fivethirtyeight.com},
+ or deep within the analytical department of a multi-billion dollar, multinational corporations, predictive analysis is a critical part of our 
+world in the age of ``Big Data".  
 In this paper, I will examine two types of predicitive analysis, Generalized Linear Models (GLM) and Neural Nets (NN).  I will offer a cursory 
 overview of the mathematics behind each type of model, and using the R statistical software, I will analyze the accuracy of both GLM and NN 
 predictive models, as well as the time needed to construct each model. I will consider an approximation of the standard error as a measure of model 
@@ -83,8 +88,10 @@ GLM, however, the is a moment that approximates that: the publication in 1972, b
 in the \textit{Journal of the Royal Statistical Society}.  This often-cited work clearly laid out many of the ideas that are central to the study 
 of GLMs today.  On the back of this work, and with the rise of widely-available statistical software to calculate GLM models such as R and SPSS, 
 these models have been widely applied across the scientific literature in service of predictive analysis.  For instance, GLM has utility in
-analyzing systems as diverse as hydropower generation, habitat selection for small mammals, and insurance claims.  
-%%%inline pdf links??
+analyzing systems as varied as 
+\href{https://www.sciencedirect.com/science/article/pii/S037877961630222X}{hydropower generation}, 
+\href{https://www.sciencedirect.com/science/article/pii/S1470160X17306271}{habitat selection for small mammals}, and 
+\href{https://www.sciencedirect.com/science/article/pii/S0167668715303358}{insurance claims}.  
 
 
 Certainly, if GLM is used to obtain predictions of economically or ecologically important data, as suggested in the links above, we would want to 
@@ -99,9 +106,10 @@ whether or not a predictive model is a valid basis for making policy decisions t
 in use today in the age of `Big Data', the idea that the architecture of computing systems could be inspired by the architecture of the human brain
 and its neural networks has maintained a presence in the scientific literature.  With the dramatic rise in computational power in the last 
 generation along with statistical software such as R and SPSS, interest in neural networks has flourished, along with its place in scientific
-research.  We can see examples of current research using neural nets to analyze topics as diverse as the gender of Russian authors, the surface
-radiation in the Sundarban forest in India, and routes through the city of Zhengzhou chosen by tourists.
-%%%inline links!!!
+research.  We can see examples of current research using neural nets to analyze topics as diverse as
+\href{https://www.sciencedirect.com/science/article/pii/S1877050918300656}{the gender of Russian authors}, 
+\href{https://www.sciencedirect.com/science/article/pii/S2468203916300024}{the surface radiation in the Sundarban forest in India}, and 
+\href{https://www.sciencedirect.com/science/article/pii/S1877050917303617}{routes through the city of Zhengzhou chosen by tourists}.
 		
 A distinct characteristic of neural nets is that of \textit{machine learning} -- given more data to `train' the model, it can improve the accuracy
 of the response variable.  However, adding more data to a neural network requires more computational muscle, and for large or complex datasets,
@@ -118,7 +126,7 @@ standard errors between the two models, hopefully drawing some conclusions about
 
 The datasets that will be considered are a listing of various attributes for nearly 54 000 diamonds, and team statistics for nearly 3000 
 basketball games from the NBA.  The diamonds data is provided without source as part of the `ggplot2' package for the R statistical software, while
-the gamelog dataset was retrieved from the website Basketball-Reference.com.  The diamonds dataset includes 10 variables for each of the diamonds,
+the gamelog dataset was retrieved from the website \href{https://www.basketball-reference.com/}{Basketball-Reference.com}.  The diamonds dataset includes 10 variables for each of the diamonds,
 while the gamelog dataset looks at 21 statistics for each basketball game.  When creating predictive models, we will consider the quantitative 
 variable \textit{price} as our response variable for the diamonds dataset, and the categorical variable \textit{WL} (whether a team won or lost a
 basketball game) as our response variable for the gamelog dataset.  A motivation for working with these two datasets is the fact that the  

@@ -55,8 +55,9 @@ time -- will be analyzed across the different model types, the different respons
 %-------------body
 %------------------------------
 
-
+%---------------------------------------------------------------------------------------------------------------
 %---------------SECTION #1: INTRO, citation of GLM/NN in scholarly works, overview of my study------------------
+%---------------------------------------------------------------------------------------------------------------
 
 	\section{Intro to Predictive Analysis.}
 		We live in the age of `Big Data'.  Using that data to measure, observe, and predict has great value:  economically, culturally, 
@@ -124,7 +125,12 @@ accuracy in this paper will be to approximate the standard error for a given NN 
 
 %---------------SUBSECTION #1.3: Predictive models and this paper-----------
 
+
 	\subsection{Methodolgy.}
+
+	$$professor's suggestion:  move \S 1.3 to chapter 3.$$
+$$My suggestion:  replace this with \S1.3 on accuracy of predictive models in literature??$$
+
 		For this paper, I will train both GLM and NN models using two pre-selected datasets.  As mentioned above, for each type of
 predictive model, we can approximate the standard error for each model, quantifying for us the accuracy of each model.  We can then compare the 
 standard errors between the two models, hopefully drawing some conclusions about the relative accuracy of one model compared to the other.
@@ -159,6 +165,53 @@ validation three times, with training sets of size 500, 1000, and 2000.
 To measure accuracy for each of the models, we will calculate the observed standard error of the test subset.  The computations will be carried out
 using the open-source R statistical software.
 
+%------------------------------------------------------------------------------------------
+%----------- SECTION #2: THE PARTS OF THE PREDICTIVE MODELS
+%------------------------------------------------------------------------------------------
+
+	\section{The Parts of the Predictive Models.}
+In the first section of this paper, I presented two side-by-side graphs, one representing a GLM predictive model, and the other representing a NN
+predictive model.  But I presented the two graphs without any description of how they were created, other than alluding to the use of statistical
+computer software to carry out the computations.  The computer certainly makes the process of model creation easier; but I can't say ``Hey, R, make
+me a GLM model, please!"  (Although it's not too far off, frankly\dots)  Even if the computer is doing the heavy lifting, I need to understand the
+fundamental parts of a GLM model, and I need to understand some critical attributes of my data before a workable predictive model is created.  In 
+this section, without wading too deeply into theoretical matters, we'll look at the parts of a predictive model, so we're able to understand the 
+information we're responsible for feeding into the computer before it does its 1's and 0's thing and returns us a predictive model.
+
+%-------------------SUBSECTION #2.1:  GENERALIZED LINEAR MODELS-----------------
+
+	\subsection{The Parts of GLM.}
+	
+	\subsubsection{Linear Models.}
+
+To understand a GLM predictive model, examining a very basic linear regression model first will be instructive.  In Figure \#3, we can see four
+critical parts of a predictive model:  the observed data (the red dots in the graph), the predictor variable (tonnage of lemon imports), the 
+response variable (highway fatality rate), and a linear relationship established between the two variables (an equation of the form 
+$Y = \beta_0 + \beta_1 X$).  If our data set has multiple predictor variables, we can consider a multiple regression equation 
+$Y = \beta_0 + \hat{\beta_1} X$ where $X$ is a column matrix and $\hat{\beta_1}$ is a row matrix, with entries for each of the predictor variables.  
+Although it's more challenging to visualize in a multiple regression, the underlying goal is the same as what is shown in Figure \#3: finding 
+coefficients $\beta_i$ so that the resulting linear regression equation `fits' the data most closely.  The process of finding `best fit' 
+coefficients is easily carried out by statistical software -- but we need to be able to specify the observed data, the predictor and response 
+variables, in order to get the coefficients $\beta_i$ for a linear model.
+
+\begin{figure}[h!]
+\includegraphics[height=1.5in]{{regression1.jpg}}
+\caption{A basic linear regression with dataset, predictor and response variables, and linear model.}
+\end{figure}
+
+	\subsubsection{Standard Error.}
+In Figure \#3, we can see that the linear model -- the predictive model -- differs from the data points slightly.  That difference is referred to
+as the \textit{residual}, and the goal of a regression model is not to minimize the sum of the residuals, but to minimize the sum of the 
+\textit{squares} of the residuals.  This sum, $\sum (\bar{Y} - Y)^2$, is referred to as the \textit{standard error}.  
+
+Standard error in model creation, standard error in testing model for accuracy.
+
+	\subsubsection{Generalized Linear Models.}
+	Consider a dataset.... pts scored, W/L.
+
+	\subsubsection{The Parts of a Generalized Linear Model.}
+	In conclusion, dataset, vairables, response, link function, test data set, standard error calculation	
+
 
 
 
@@ -167,24 +220,6 @@ using the open-source R statistical software.
 
 
 
-	%---subsection: GLM in scholarly works
-	
-
-
-
-\section{Generalized Linear Models.}
-
-\subsection{An Introduction to GLM.}
-A very basic form of predictive analysis, palatable beyond self-identified `math people', can be found in the form
-of linear regression.  Given two quantitative variables, we can approximate a linear relationship between the variables using a basic linear
-regression.  This regression line and the data points are easily visualized in a 2-dimensional plot, offering a strong intuitive foundation for the
-concept of predictive analysis.  In fact, this method of predicti
-
-\subsection{A basic GLM example.}
-One appliction of GLM would be....
-
-The sheer volume of calculation required to construct Generalized Linear Models or Neural Nets for all but the simplest data sets is at once 
-unworkable without the aid of statistics software.  The R programming language has packages which bear the burden of these calculations; 
 
 \section{Neural Nets.}
 
@@ -237,37 +272,3 @@ questions that might offer opportunities for further exploration.  For instance.
 %%%bibliography, etc
 
 \end{document}
-
-
-  A profoundly basic example of such a mathematical model involves a data set that measures the 
-amount of lemons imported to the United States from Mexico annually and the U.S. highway fatality rate.  As seen in the graph below, the line 
-represents a mathematical model (created by linear regression, a very specific case of GLM) that allows us to predict future outcomes.  
-
-%%include graphic!!
-
-From this mathematical model, created by a method closely related to GLM, we can predict future values of the highway fatality rate if we know how 
-many lemons are brought into the US from Mexico for a given year.  (If you can't detect my sarcasm in the previous sentence, please see a statistics 
-professor right away!  And be very careful if you're buying lemons and driving home!)  The prediction from this model -- the highway fatality rate
--- is called the \textbf{response variable}, and all predictions from a GLM and NN model takes the form of a response variable.  Another example to 
-illustrate this point uses a data set relating the height and weight of 20000 individuals in the US.  
-
-Again, the line represents a linear regression
-
-
-
-
-The mathematical theory that describes WHY the training process works will not be 
-discussed in this paper (but more information can be found in the `Further Reading' section), but I will give a detailed account of HOW the 
-training process can be carried out, using statistical software.  
-
-, if we 
-specify the outcome or response variable of interest to us.  That is, we identify what variable we are interested in predicting, 
-
-create predictive models from a set of collected data that allow us to
-predict values for a chosen response variable.  The mathematical machinery that allows both methods (GLM and NN) to `work'  will be discussed. 
-We will see how these models can handle different types of data sets: quantitative data (for instance, the travel time between two locations) or 
-categorical data (whether a team wins or loses a sporting event).  And, looking at the two methods side-by-side, we will use both methods to draw
-predictions from the same data set, and look for notable distinctions between the two methods in terms of consistency or accuracy or predictions.
-
-Aside from the broad overview of these predictive methods discussed in this paper, applications for both methods can be seen in ....LITERATURE 
-"REVIEW".

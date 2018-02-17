@@ -26,7 +26,7 @@ trial495<-function(
 if(!(trials %in% c(11:13,21:23))) stop("Argument 'trial' must be one of 11, 12, 13 or 21, 22, 23")
 
 #####make sure output data has right format
-if(!is.null(output)) if(ncol(output)!=4) stop("Argument 'output' must have 4 columns")
+if(!is.null(output) && ncol(output)!=5) stop("Argument 'output' must have 5 columns")
 
 
 #############################################################
@@ -40,14 +40,15 @@ if(!is.null(output)) if(ncol(output)!=4) stop("Argument 'output' must have 4 col
 
 if(11 %in% trials) {
 	###subset of diamonds to train/test
-		dat<-diamonds[sample(nrow(diamonds),500),]
+		dat<-diamonds[sample(nrow(diamonds),550),]
 	###run SEestimate to approximate SE for GLM/NN models
-		trial<-se.estimate(dat=dat,pred.var="price",resamples=50,test.pct=0.10,method="both",distrib="continuous",prog.bar=T)
+		trial<-se.estimate(dat=dat,pred.var="price",resamples=50,test.size=50,method="both",distrib="continuous",prog.bar=T,timer=T)
 	###create summary data frame for SEestimate
 		temp<-data.frame(RESP=c(rep("Normal",100)),
 				TEST.SIZE=rep(50,100),
 				MODEL.TYPE=c(rep("GLM",50),rep("NN",50)),
-				STANDARD.ERROR=unlist(c(trial[[1]],trial[[2]]))
+				STANDARD.ERROR=unlist(c(trial[[1]],trial[[2]])),
+				CREATE.TIME=unlist(c(trial[[5]],trial[[6]]))
 				)
 	####add summary data to output
 		output<-rbind(output,temp)
@@ -60,14 +61,15 @@ if(11 %in% trials) {
 
 if(12 %in% trials) {
 	###subset of diamonds to train/test
-		dat<-diamonds[sample(nrow(diamonds),1000),]
+		dat<-diamonds[sample(nrow(diamonds),1100),]
 	###run SEestimate to approximate SE for GLM/NN models
-		trial<-se.estimate(dat=dat,pred.var="price",resamples=50,test.pct=0.10,method="both",distrib="continuous",prog.bar=T)
+		trial<-se.estimate(dat=dat,pred.var="price",resamples=50,test.size=100,method="both",distrib="continuous",prog.bar=T,timer=T)
 	###create summary data frame for SEestimate
 		temp<-data.frame(RESP=c(rep("Normal",100)),
 				TEST.SIZE=rep(100,100),
 				MODEL.TYPE=c(rep("GLM",50),rep("NN",50)),
-				STANDARD.ERROR=unlist(c(trial[[1]],trial[[2]]))
+				STANDARD.ERROR=unlist(c(trial[[1]],trial[[2]])),
+				CREATE.TIME=unlist(c(trial[[5]],trial[[6]]))
 				)
 	####add summary data to output
 		output<-rbind(output,temp)
@@ -80,14 +82,15 @@ if(12 %in% trials) {
 
 if(13 %in% trials) {
 	###subset of diamonds to train/test
-		dat<-diamonds[sample(nrow(diamonds),2000),]
+		dat<-diamonds[sample(nrow(diamonds),2200),]
 	###run SEestimate to approximate SE for GLM/NN models
-		trial<-se.estimate(dat=dat,pred.var="price",resamples=50,test.pct=0.10,method="both",distrib="continuous",prog.bar=T)
+		trial<-se.estimate(dat=dat,pred.var="price",resamples=50,test.size=200,method="both",distrib="continuous",prog.bar=T,timer=T)
 	###create summary data frame for SEestimate
 		temp<-data.frame(RESP=c(rep("Normal",100)),
 				TEST.SIZE=rep(200,100),
 				MODEL.TYPE=c(rep("GLM",50),rep("NN",50)),
-				STANDARD.ERROR=unlist(c(trial[[1]],trial[[2]]))
+				STANDARD.ERROR=unlist(c(trial[[1]],trial[[2]])),
+				CREATE.TIME=unlist(c(trial[[5]],trial[[6]]))
 				)
 	####add summary data to output
 		output<-rbind(output,temp)
@@ -104,14 +107,15 @@ if(13 %in% trials) {
 
 if(21 %in% trials) {
 	###subset of gamelog_data to train/test
-		dat<-datt[sample(nrow(datt),500),]
+		dat<-datt[sample(nrow(datt),550),]
 	###run SEestimate to approximate SE for GLM/NN models
-		trial<-se.estimate(dat=dat,pred.var="WL",resamples=50,test.pct=0.10,method="both",distrib="categorical",prog.bar=T)
+		trial<-se.estimate(dat=dat,pred.var="WL",resamples=50,test.size=50,method="both",distrib="categorical",prog.bar=T,timer=T)
 	###create summary data frame for SEestimate
 		temp<-data.frame(RESP=c(rep("Binomial",100)),
 				TEST.SIZE=rep(50,100),
 				MODEL.TYPE=c(rep("GLM",50),rep("NN",50)),
-				STANDARD.ERROR=unlist(c(trial[[1]],trial[[2]]))
+				STANDARD.ERROR=unlist(c(trial[[1]],trial[[2]])),
+				CREATE.TIME=unlist(c(trial[[5]],trial[[6]]))
 				)
 	####add summary data to output
 		output<-rbind(output,temp)
@@ -124,14 +128,15 @@ if(21 %in% trials) {
 
 if(22 %in% trials) {
 	###subset of gamelog_data to train/test
-		dat<-datt[sample(nrow(datt),1000),]
+		dat<-datt[sample(nrow(datt),1100),]
 	###run SEestimate to approximate SE for GLM/NN models
-		trial<-se.estimate(dat=dat,pred.var="WL",resamples=50,test.pct=0.10,method="both",distrib="categorical",prog.bar=T)
+		trial<-se.estimate(dat=dat,pred.var="WL",resamples=50,test.size=100,method="both",distrib="categorical",prog.bar=T,timer=T)
 	###create summary data frame for SEestimate
 		temp<-data.frame(RESP=c(rep("Binomial",100)),
 				TEST.SIZE=rep(100,100),
 				MODEL.TYPE=c(rep("GLM",50),rep("NN",50)),
-				STANDARD.ERROR=unlist(c(trial[[1]],trial[[2]]))
+				STANDARD.ERROR=unlist(c(trial[[1]],trial[[2]])),
+				CREATE.TIME=unlist(c(trial[[5]],trial[[6]]))
 				)
 	####add summary data to output
 		output<-rbind(output,temp)
@@ -144,14 +149,15 @@ if(22 %in% trials) {
 
 if(23 %in% trials) {
 	###subset of gamelog_data to train/test
-		dat<-datt[sample(nrow(datt),2000),]
+		dat<-datt[sample(nrow(datt),2200),]
 	###run SEestimate to approximate SE for GLM/NN models
-		trial<-se.estimate(dat=dat,pred.var="WL",resamples=50,test.pct=0.10,method="both",distrib="categorical",prog.bar=T)
+		trial<-se.estimate(dat=dat,pred.var="WL",resamples=50,test.size=200,method="both",distrib="categorical",prog.bar=T,timer=T)
 	###create summary data frame for SEestimate
 		temp<-data.frame(RESP=c(rep("Binomial",100)),
 				TEST.SIZE=rep(200,100),
 				MODEL.TYPE=c(rep("GLM",50),rep("NN",50)),
-				STANDARD.ERROR=unlist(c(trial[[1]],trial[[2]]))
+				STANDARD.ERROR=unlist(c(trial[[1]],trial[[2]])),
+				CREATE.TIME=unlist(c(trial[[5]],trial[[6]]))
 				)
 	####add summary data to output
 		output<-rbind(output,temp)

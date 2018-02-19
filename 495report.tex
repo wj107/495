@@ -228,7 +228,7 @@ other variables will be predictor variables.  The resulting formula:
 
 \begin*{equation}
 \texttt{price \~ carat + cut + color + clarity + depth + table + x + y + z} 
-\end{equation}
+\end*{equation}
 
 can be abbreviated as \texttt{price \~ .}, with the dot indicating that all remaining variables are predictors.  For our gamelog data, we will use
 the formula \texttt{WL \~ .}, hoping that all the measured statistics can predict the response \texttt{WL} -- that is, we hope the stats can predict
@@ -236,112 +236,152 @@ whether or not a team won a basketball game.
 
 	\subsubsection{Cross Validation.}
 With our observed data set, and a formula that outlines the relationship we posit in our data, we could begin to create a predictive model using
-our entire dataset.  Furthermore, we could take this predictive model, compare its predicted results against the actual response variables in our
-data.  But the weakness of this method is that we are not introducing any new data for testing accuracy.  Instead, dividing 
-the data into disjoint `train' and `test' subsets gives us a better idea of how accurate a predictive model would be given new, independent data.
-Carrying out this `train-test' process once is prone to great variability, depending on the particular choice of dataset selected to train the 
-model.  Instead, repeating this `train-test' process a number of times across repeated random samples of the dataset will give a better
-picture of the accuracy for a predictive model.  This repeated resampling and model testing is known as \textit{cross validation}, and we will 
-carry it out 50 times (50-fold cross validation) for both GLM and NN predictive models with both of our datasets.
+our entire dataset.  Furthermore, we could take this predictive model and test it: we could compare the model's predicted values for the response
+variable against the actual response variables in the data.  The weakness of this method is that we are not introducing any new data for testing 
+accuracy.  
 
-	With an observed data set, and a formula that outlines the relationship we're positing in our data, we are nearly ready to create a
-predictive model.  However, if we use all our observed data to create a model, we are left without data to use in testing our model.  For this
-reason, we need to divide the data set into two disjoint subsets:  a \textbf{training set} and a \textbt{testing set}.  The relative size of these
-subsets can vary -- some `rules of thumb'    
-We can't 
+A solution to this issue is to divide the data into disjoint subsets, called the \textbf{training set} and \textbf{testing set}.  From here, we 
+create the model using the training set, and we test the model for accuracy using the testing set.  Separating out this process gives us a better 
+idea of how accurate a predictive model would be given new, independent data.  However, carrying out this `train-test' splitting of the data just 
+once is prone to great variability, depending on the particular choice of dataset selected to train the model.  Instead, repeating this `train-test' 
+splitting a number of times, repeatedly taking random samples from the data to select training and testing sets, will give a better picture of the 
+accuracy for a predictive model.  This repeated resampling and model testing is known as \textit{cross validation}.
 
+The ratio of the sizes of the train and test subsets can be adjusted, though a larger training subset will likely exhibit less variability across
+repeated resamplings.  A common ratio of the size of training and testing sets is 70-30.  In our analysis, we will hold a 10-1 ratio of the
+training and testing sets.  Also, we will resample 50 times to create 50 different training and testing sets (50-fold cross validation).
 
-	\subsubsection{Predictions and Residuals.}
-	
-	\subsubsection{Standard Error.}
+	\subsubsection{Residuals and Standard Error.}
+	Above we alluded to how we can consider accuracy for a predictive model: comparing the model's predicted values for the response
+variable against the actual response variables in the data.  The difference between these values, the predicted and the actual response, is called
+the \textbf{residual}.  Each data point in our testing set will have a residual.  How can we aggregate these values to obtain an overall picture of
+the accuracy of our model?  If we just added residuals, we could have a deceptive picture of accuracy:  if half of the data points were over
+estimated by the model, and half of the data points were under estimated, the sum of the residuals might be close to zero, but the predictions
+would be uniformly inaccurate.
+
+	To adjust for the sign of the residuals, we define the \textbf{standard error} as the sum of the \textit{squares} of the residuals.  This
+formula not only eliminates the issue of the positive and negative residuals, but it is nicely analogous to the summation in the formula for
+standard deviation for a data set:
+
+\begin*{equation}
+$SE = \sum (\bar{Y} - Y)^2$
+$SD = \sqrt{\frac{\sum(x-\bar{x})^2}{n-1}}$
+\end*{equation}	
+
+The standard error serves nicely as a metric that will represent the accuracy of our predictive models.  Through cross-validation, we will collect
+a sampling of standard errors, and a statistical summary of these standard errors will offer a more robust description of a predictive model's 
+accuracy.
 
 %--------------------SUBSECTION #2.2: PARTS of GLM------------------------------
 
-\subsubsection{The Parts of a Generalized Linear Model.}
+\subsection{The Parts of a Generalized Linear Model.}
 
-To understand a GLM predictive model, examining a very basic linear regression model first will be instructive.  In Figure \#3, we can see four
-critical parts of a predictive model:  the observed data (the red dots in the graph), the predictor variable (tonnage of lemon imports), the 
-response variable (highway fatality rate), and a linear relationship established between the two variables (an equation of the form 
-$Y = \beta_0 + \beta_1 X$).  If our data set has multiple predictor variables, we can consider a multiple regression equation 
-$Y = \beta_0 + \hat{\beta_1} X$ where $X$ is a column matrix and $\hat{\beta_1}$ is a row matrix, with entries for each of the predictor variables.  
-Although it's more challenging to visualize in a multiple regression, the underlying goal is the same as what is shown in Figure \#3: finding 
-coefficients $\beta_i$ so that the resulting linear regression equation `fits' the data most closely.  The process of finding `best fit' 
-coefficients is easily carried out by statistical software -- but we need to be able to specify the observed data, the predictor and response 
-variables, in order to get the coefficients $\beta_i$ for a linear model.
+For every single predictive model, we need to have observed data, we need to have classified the predictor and response variables, and use
+these variables to draw up a formula for the model.  To test the accuracy of any given predictive model, we need to establish how we will 
+cross-validate the model with our data set, and we need to identify a statistic (such as standard error) to quantify the accuracy of a model.  
+With these pieces in place, we can then look at some of the details unique to GLM models.
+
+\subsubsection{The Coefficients for a GLM formula.}
+In discussing how the formula for a predictive model takes the form \texttt{response variable $\sim$ predictor variables}, I committed only
+to the language `is related to' to describe the relationship between the variables.  But, in the case of a GLM predictive model, we can strengthen 
+this description: the model will describe a linear relationship between the response and predictor variables.  That is, a GLM model will provide
+an equation in the form of
+
+\begin*{equation}
+$Y = \beta_0 + \beta_1 * X_1 + \beta_2 * X_2 \dots \beta_k * X_k,$
+\end*{equation}
+
+that relates the response variable $Y$ and the $k$ different predictor variables $X_i$.  The \textbf{model coefficients} $\beta_i$ need to be
+calculated so that our model best `fits' the observed data.  We can see these pieces of a GLM model in a simple, two-variable linear regression
+model:
 
 \begin{figure}[h!]
 \includegraphics[height=1.5in]{{regression1.jpg}}
 \caption{A basic linear regression with dataset, predictor and response variables, and linear model.}
 \end{figure}
 
-	\subsubsection{Standard Error.}
-In Figure \#3, we can see that the linear model -- the predictive model -- differs from the data points slightly.  That difference is referred to
-as the \textit{residual}, and the goal of a regression model is not to minimize the sum of the residuals, but to minimize the sum of the 
-\textit{squares} of the residuals.  This sum, $\sum (\bar{Y} - Y)^2$, is referred to as the \textit{standard error}.  
+Here we can easily see three of the critical parts of a predictive model:  the observed data (the red dots in the graph), the predictor variable 
+(tonnage of lemon imports), and the response variable (highway fatality rate).  In the process of building a GLM model, coefficients $\beta_0$ and
+$\beta_1$ were calculated so that the standard errors (the sum of the residuals squared) is minimized, providing us with a linear relationship 
+between the variables that is represented by the line on the graph.
 
-Standard error in model creation, standard error in testing model for accuracy.
+When training a GLM model, the specific values for these coefficients can be obtained, and we can determine confidence intervals for the values of
+these coefficients.  Although we will not further analyze model coefficients in this paper, their presence in GLM models can give us very useful
+language to describe the relationship between variables.  For instance, looking at the coefficients for the model shown in Figure \#?? above,
+we see that for every XXX of lemon imports, the highway fatality rate decreases by YYY.
 
-	\subsubsection{Generalized Linear Models.}
-	Consider a dataset.... pts scored, W/L.
+%---insert output from GLM
 
-	\subsubsection{The Parts of a Generalized Linear Model.}
-	In conclusion, dataset, vairables, response, link function, test data set, standard error calculation	
+If you believe that result, I've got a statistics book to sell you\dots
+
+\subsubsection{The Link Function for a GLM model.}
+
+In figure \#4 above, it is a reasonable assumption (from the observed data) that the response variable, the highway fatality rate, is normally 
+distributed.  (In practice, you'd prefer more than five data points to corroborate your assumption\dots)  In this case, the linear relationship
+outlined by GLM provides an appropriate model for the response variable.  However, consider a situation where our observed data consists of the 
+points an NBA team scores in a game, and whether or not they win the game.  Here, the second variable is binomially distributed -- `win' or `loss' 
+-- and so trying to model this variable with a linear relationship and an equation with an output that spans the real number line has a fundamental
+flaw:  we want an output between 0 (definite loss) and 1 (definite victory).
+
+%--------------image:  'bad' GLM model w/ binomial output and identity link
+
+The solution to this?  We'll add another step to the GLM model process that describes the predictor-response relationship using the 
+$Y=\beta_0 + \sum \beta_i*X_i$ equation:  we'll \textit{link} this linear output to a particular function that better models our specific response
+variable.  For our circumstance, with the output varying between 0 and 1, we'll use a logistic function (with range 0 to 1) to `link' the linear 
+output to the binomial response variable.  
+
+%-------------image;  data + linear output + logistic link
+
+In general, for GLM predictive models, it is necessary to understand the distribution of the response variable, and then select a
+\textit{link function} that appropriately connects the linear output from the predictor variables to the response variable.  The particular
+link function to be chosen is (usually) determined by the distribution of the response variable; for the normally distributed response variables,
+there is no link function (or the link function is the trivial identity function).  For binomially distributed response variables, the link 
+function is a logistic function.  For responses variables with a Poisson distribution, a log function is used as a link function.
+
+For these three types of scenarios -- normal, binomial, and Poisson distributions for a response variable -- the process of connecting linear 
+output from the predictor variables to a link function puts the `G' in GLM:  it generalizes the linear regression methods shown in Figure \#??? to
+encompass response variables that do not exhibit linear behavior.  A common thread for the scenarios that allow us to apply the GLM proess?  The 
+response distributions all belong to the \textit{exponential} family of distributions.
 
 %--------------------SUBSECTION #2.3: PARTS of NN--------------------------------
 
-\subsubsection{The Parts of a Neural Net.}
+\subsection{The Parts of a Neural Net.}
 
+In the previous section, we described how GLM requires some extra information from us (the distribution of the response variable), but this method
+also provides us with some extra information (the coefficients describing the linear relationship between the variables).  For neural nets, no 
+extra information is required\dots but no extra information is given.  For GLM, we can describe some of the pieces that help us connect the 
+predictors to the response:  the model coefficients, the link function.  For NN, the model can, in ways, resemble a `black box':  observed data
+goes in, predictions come out.  Descriptions for what happens in between can be elusive, but I'll try\dots
 
+\subsubsection{What is a Neural Net?}
 
-
-
-%--------------for now!!
-\end{document}
-
-
-
-
-\section{Neural Nets.}
-
-\subsection{An Introduction to Neural Nets.}
 To offer a succinct definition of a neural net and how it works would be as simple as explaining how you know a chair when you see 
 one.  That is, your experience with all different forms of chairs, all the different styles of chairs, and all the different ways someone might use
 a chair allows you to (fairly definitely) state if something is a chair or not.  To use language more similar to those referencing mathematical
-models, your lifelong history experiencing chairs is a dataset that has `trained' you to know whether or not a given object is a chair.  In a 
-similar vein, if a neural net is `trained' on a given dataset, it can output information about a pre-determined response variable.
+models, your lifelong history experiencing chairs is a observed dataset that has `trained' you to know whether or not a given object is a chair.  
+In a similar vein, if a neural net is `trained' on a given dataset, it can output information about a pre-determined response variable.
 
 
+....NN *is* linear combinations and `link' functions.  But it's iterated, data-point by data-point.
 
-\subsection{A basic NN example.}
-We can see Neural Nets in action if we consider the data set....  As before, we will use R to construct a Neural Net, from the functions available
-in the -- surprise! -- `neuralnet' package.
+....data must be scaled to handle the link functions
+....we can add 'neurons', or more iterations of the linear combination + link function process to connect predictors to response
+....adjusting weights (or linear combinations) isn't to minimize a specific error metric (a la GLM)... it's simply an adjustment, since
+    model output != expected output.  repeated adjustments makes the whoel thing more accurate.... even if one particular adjustment doesn't
+    have a plainly evident goal.  it has a plainly evident cause -- output != expected output -- but not a plainly evident goal.  Yet, repeated
+	'blind; adjustments gives the model predictive value.  !!
 
-\section{A Comparison of GLM and NN.}
-Having looked at both GLM and Neural Nets individually, now we can examine more closely how the two methods stack up when they aim to create a 
-predictive model for the same data set.  Which model offers more accurate predictions?  What data set offers more consistent predictions?  Is there
-an appreciable difference between the two methods?  To weigh in on this comparison, I will (1) demonstrate how to divide a data set into `train' 
-and `test' subsets so we can create and test predictive models (2) outline R code that calculates predictive models for both methods, (3) compare 
-the responses from the two predictive models, both numerically and graphically, and (4) draw some observations from the comparisons.
+...data must be scaled!! 'link function' keeps neuron values between 0 and 1, so initial and output data needs to be scaled.
 
-\subsection{A Data Set for our Predictions.}
-In the `real world' of big data predictions, there is collected data and future data.  The collected data is used to create a predictive model, and
-the hope is it can be tested (and refined) in the future as more, newer data becomes available.  Considering present/future data is not feasible 
-for this paper; I'm not going to create a predictive model here with current and come back to write Volume \#2 in six months after testing future 
-data.  We need to `simulate' current and future data from existing, collected data.
+...NN can diverge?
 
-To accomplish this, the R package `caTools' offers the function `sample.split'.  This function allows us to ....
+...no need to specify distribution!  model is 'blind', just give it data, and let 'er go!
 
-\subsection{Creating Predictive Models in R.}
-With our `train' and `test' data sets in hand, it's time to create predictive models.  In previous sections, we saw how to accomplish this in R.  
-However, since our focus is on offering a general comparison for ANY multi-variable data set, we need to fine-tune the code a bit.  To that end...
+....trainable!  each new data point can train the model:  you don't have to re-train the whole model with N+1 data points.  just adjust the
+N-calibrated model with 1 new data point.
 
-\subsection{A Comparison of the Predictive Models.}
-The above code allowed us to see, side-by-side, the predicted and actual responses for our data set, and the standard errors for the predictions.
-We can analyze these outputs both numerically and graphically.  For instance....
-
-\subsection{Observations from the Comparison.}
-After looking at the predictions and responses from the two methods, we can see that....
-
+%--------------for now!!
+\end{document}
 
 \section{Topics for Further Study.}
 Having completed a very basic side-by-side comparison of GLM and Neural Net predictive methods for data sets, we can begin to focus on some 

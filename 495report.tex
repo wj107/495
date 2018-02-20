@@ -218,7 +218,7 @@ the variables is solely because visualizing these models is only feasible when w
 %-----------figure with raster plot of CDC data, and CDC model
 
 	After identifying the predictor and response variables, we can also write a formula that describes this relationship between the variables.
-For the example in Figure \#XXX above, we would write \texttt{weight \~ height + age}, the left-hand argument signifying our response variable, and
+For the example in Figure \#XXX above, we would write \texttt{weight $\sim$ height + age}, the left-hand argument signifying our response variable, and
 the right-hand sum comprised of the predictor variables.  (Could we add exponents or other operations to these terms?  Sure\dots but that's for
 another paper.)  Read aloud, we might say ``Weight is related to height and age". \textit{Is related to} is fairly vague language, but as we'll 
 see later on, the nature of the relationship depends on a number of other factors -- so we can offer a stronger characterization, here.
@@ -227,11 +227,11 @@ see later on, the nature of the relationship depends on a number of other factor
 other variables will be predictor variables.  The resulting formula:
 
 \begin*{equation}
-\texttt{price \~ carat + cut + color + clarity + depth + table + x + y + z} 
+\texttt{price $\sim$ carat + cut + color + clarity + depth + table + x + y + z} 
 \end*{equation}
 
-can be abbreviated as \texttt{price \~ .}, with the dot indicating that all remaining variables are predictors.  For our gamelog data, we will use
-the formula \texttt{WL \~ .}, hoping that all the measured statistics can predict the response \texttt{WL} -- that is, we hope the stats can predict
+can be abbreviated as \texttt{price $\sim$ .}, with the dot indicating that all remaining variables are predictors.  For our gamelog data, we will use
+the formula \texttt{WL $\sim$ .}, hoping that all the measured statistics can predict the response \texttt{WL} -- that is, we hope the stats can predict
 whether or not a team won a basketball game.
 
 	\subsubsection{Cross Validation.}
@@ -361,26 +361,77 @@ a chair allows you to (fairly definitely) state if something is a chair or not. 
 models, your lifelong history experiencing chairs is a observed dataset that has `trained' you to know whether or not a given object is a chair.  
 In a similar vein, if a neural net is `trained' on a given dataset, it can output information about a pre-determined response variable.
 
+We might be able to understand the concept of `training' using the chair example above, but knowing more specifics about how it works is difficult 
+to pin down.  But that's the human brain and the fluid experiences of real-life; we'll focus on training computational neural nets with numerical
+data.  In this slighty more well-defined realm, can we say more about how a neural net connects the predictor variables to a response?  For GLM the 
+variables are connected using a linear combination and an appropriate link function, subject to specific conditions (i.e., minimizing standard 
+error).  How does a neural net establish this connection?
 
-....NN *is* linear combinations and `link' functions.  But it's iterated, data-point by data-point.
+At its root, a neural net does the exact same thing as a GLM model: it combines linear combinations and link functions to connect predictor 
+variables to a response.  The fundamental differences between the models: (1) a neural net does not necessarily rely on only one linear combination 
+and link function to connect inputs to outputs -- there may be many! -- and (2) the linear combinations do not represent the solution to a 
+theoretical optimization problem (i.e., minimizing the sum of squared residuals) as they do for GLM -- instead, they are the end product of a 
+computionally intensive trial-and-error process.
 
-....data must be scaled to handle the link functions
-....we can add 'neurons', or more iterations of the linear combination + link function process to connect predictors to response
-....adjusting weights (or linear combinations) isn't to minimize a specific error metric (a la GLM)... it's simply an adjustment, since
-    model output != expected output.  repeated adjustments makes the whoel thing more accurate.... even if one particular adjustment doesn't
-    have a plainly evident goal.  it has a plainly evident cause -- output != expected output -- but not a plainly evident goal.  Yet, repeated
-	'blind; adjustments gives the model predictive value.  !!
+\subsubsection{The Structure of a Neural Net.}
+Neuroscience tells us that brain activity is dispersed across a network of interconnected neurons.  Simulating this interconnectedness, replicating
+the distrubuted structure of the neurons in a human brain is the fundamental feature of a NN predictive model.  Just as this complexity in the
+human brain allows us to answer `is this a chair??' easily despite struggling to outline \textit{how} we know that fact, a NN predictive might
+give an accurate prediction quite handily, but we would struggle to explain \textit{how} the model arrived at the answer.  In the absence of 
+knowing how a specific model works, understanding the overall structure of a neural network will prove useful.
 
-...data must be scaled!! 'link function' keeps neuron values between 0 and 1, so initial and output data needs to be scaled.
+To visualize a neural network, rather than an $xy$-graph, consider a directed graph with edges and vertices.  Each predictor variable has a vertex,
+and the response variable is a vertex, also.  The predictor vertices represent a \textit{layer} of vertices, and the response vertex is, by itself,
+a layer also.  All the vertices in one layer are connected to each vertex in the subsequent layer.  The number of layers, beyond the initial two
+for the predictor and response variables, is a matter of choice.
 
-...NN can diverge?
+%-------------NN graph!!
 
-...no need to specify distribution!  model is 'blind', just give it data, and let 'er go!
+With the structure of a neural network established, we give values to the vertices.  Predictor variables are assigned values from an observed data
+point.  Vertices in subsequent layers receive values calculated by \textit{weighted sums} of the adjacent vertices (c.f. linear combinations in GLM
+models), which are then transformed via a \textit{activation function} (c.f. link functions in GLM).  Whereas the linear combination and link
+function will be applied once to data in a GLM model, if we have assign a number of layers of neurons to our NN model, this process will be
+repeated before we arrive at an output for our response.  
 
-....trainable!  each new data point can train the model:  you don't have to re-train the whole model with N+1 data points.  just adjust the
-N-calibrated model with 1 new data point.
+%-----------NN graph side-by-side analogous GLM graph
 
-%--------------for now!!
+Before we conclude that NN is simply `supersized GLM' owing to some of the similiarities in the above graphic, consider how we establish values for
+the weights in the NN digraph, and consider the purpose of the activation function.
+
+	\subsubsection{Training a Neural Net.}
+The raw values from our observed data must be scaled to values between -1 and 1 (or between 0 and 1) before they are assigned to the vertices in 
+the neural net.  Initially, the weights connecting vertices are chosen at random.  The activation functions are functions such as an inverse 
+tangent or a logistic function with an output in the range of -1 to 1, ensuring values in all subsequent neuron layers, as well as the response 
+value, are scaled similarly to the initial data.
+
+The accuracy of a model with weights chosen at random is likely to be suspect.  To improve that, the a NN model can be trained.  The training
+process is iterative -- each data point from our observed data is scaled and fed into the neural network.  The training algorithm will compare the
+output from the neural network to the actual response value from the data, and adjust the weights as necessary.  How are the weights adjusted?  
+Typically an algorithm will have a `learning rule' that stipulates how to modify the weights.  In a GLM model, there is a goal in adjusting the
+parameters $\beta_i$: minimizing the standard error for the model.  Notice the distinction between this explicit goal and NN: for training a neural
+net there is a `blind' rule defined for adjusting the parameters, but when iterated the rule accomplishes the goal of producing accurate output.
+
+Lack of a codified goal notwithstanding, iteration of the `learning rule' in a neural net is adaptable:  we do not need to specify the type of
+distribution for our response (as we do with GLM).  We can introduce more data points to an existing model to better train it incrementally,
+whereas GLM requires us to provide all the observed data up front to create a model.  (At least, this is true in theory -- the algorithms I am
+familiar with for creating a NN model require all the data up front, also.)  The process can be `brittle' -- a learning rule can produce accurate
+models ten times in a row, but on the eleventh, the model outputs continually diverge from the actual responses as the learning rule is iterated.  
+The complexity of the NN structure means it is virtually impossible to troubleshoot why a divergence like this might arise.
+
+When it works, it's remarkable to see a neural net build an accurate predictive model through pure computational muscle (it iterates through all
+the data!) and faithful persistence to a learning rule.  When it doesn't, I'm left frustrated with an opaque black box, tweaking the structure
+of the NN, crossing my fingers and trying again.  It's about as close to mysticism as I'm comfortable with for mathematics -- and, understanding
+that, we ought to be careful what data we might analyze using a neural net.  Data that determines whether or not a patient gets a costly operation?
+Not wise.  Data that looks at whether or not a basketball team would win a game, based on their team statistics?  Sure!  On that note\dots
+
+%---------------------------------------------------------------------------------
+%--------------------- SECTION #3: Comparing GLM and NN
+%---------------------------------------------------------------------------------
+
+\section{Comparing GLM and NN Predictive Models.}
+
+last section!!
+
 \end{document}
 
 \section{Topics for Further Study.}

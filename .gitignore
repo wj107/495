@@ -15,7 +15,9 @@
 #trialdata_feb2018
 
 #####ignore tex files
+*.tex    ####only need *.Rnw, now!!
 *.aux
 *.log
 *.pdf
 *.out
+*.sty

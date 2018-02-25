@@ -15,7 +15,9 @@
 #trialdata_feb2018
 
 #####ignore tex files
+*.tex
 *.aux
 *.log
 *.pdf
 *.out
+*.sty

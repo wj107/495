@@ -73,6 +73,30 @@ accuracy for a predictive model.  This repeated resampling and model testing is 
 The ratio of the sizes of the train and test subsets can be adjusted, though a larger training subset will likely exhibit less variability across
 repeated resamplings.  For this reason, a common ratio of the size of training and testing sets is 70-30.  %Below, a graphical representation of cross-validation using an exceedingly simply data set.
 
+	%--------------RESIDUALS and STANDARD ERROR--------
+	\subsubsection{Residuals and Standard Error.}
+As alluded to above, testing the accuracy of a predictive model is of critical, given the numerous ways in which these models are applied to real-world applications of great economic, social, or environment importance.  A common test for accuracy with a predictive model is the standard error, as a number of scientific research articles have analyzed how to estimate this quantity...
+
+	Above we alluded to how we can consider accuracy for a predictive model: comparing the model's predicted values for the response
+variable against the actual response variables in the data.  The difference between these values, the predicted and the actual response, is called
+the \textbf{residual}.  Each data point in our testing set will have a residual.  How can we aggregate these values to obtain an overall picture of
+the accuracy of our model?  If we just added residuals, we could have a deceptive picture of accuracy:  if half of the data points were over
+estimated by the model, and half of the data points were under estimated, the sum of the residuals might be close to zero, but the predictions
+would be uniformly inaccurate.
+
+	To adjust for the sign of the residuals, we define the \textbf{standard error} as the sum of the \textit{squares} of the residuals.  This
+formula not only eliminates the issue of the positive and negative residuals, but it is nicely analogous to the summation in the formula for
+standard deviation for a data set:
+
+\begin*{equation}
+$SE = \sum (\bar{Y} - Y)^2$
+$SD = \sqrt{\frac{\sum(x-\bar{x})^2}{n-1}}$
+\end*{equation}	
+
+The standard error serves nicely as a metric that will represent the accuracy of our predictive models.  Through cross-validation, we will collect
+a sampling of standard errors, and a statistical summary of these standard errors will offer a more robust description of a predictive model's 
+accuracy.
+
 %--------------------SUBSECTION #2.2: PARTS of GLM------------------------------
 \subsection{The Parts of a Generalized Linear Model.}
 
@@ -195,3 +219,8 @@ models ten times in a row, but on the eleventh, the model outputs might continua
 The complexity of the NN structure means it is virtually impossible to troubleshoot why a divergence like this might arise.
 
 When it works, it's remarkable to see a neural net build an accurate predictive model through pure computational muscle and faithful persistence to a learning rule.  When it doesn't, I'm left frustrated with an opaque black box, tweaking the structure of the NN, crossing my fingers and trying again.  It's about as close to mysticism as I'm comfortable with for mathematics -- and, understanding that, we ought to be careful what data we might analyze using a neural net.  Data that determines whether or not a patient gets a risky operation with life-and-limb in the balance?  Not wise.  Data that looks at whether or not a basketball team would win a game, based on their team statistics?  Sure!  On that note\dots
+
+
+
+
+

@@ -1,0 +1,74 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% 495 Report: comparing standard error between GLM and NN models
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------
+%-------- preamble
+%----------------------------------
+
+%---set font size, options for document
+	\documentclass[12pt]{article}  
+%---set numbering depth
+	\setcounter{secnumdepth}{2}
+%---get packages!
+	%---for math notations
+	\usepackage{amsmath}
+	%---for including graphics	
+	\usepackage{graphicx}
+	%---for hyperlinks
+	\usepackage{hyperref}
+	%---hyperlink format
+	\hypersetup{colorlinks=true,urlcolor=blue}
+
+%---set graphicspath
+	\graphicspath{
+		{img/}
+		}
+	
+%%%%%%%%%%%%%%%% DOCUMENT ENVIRONMENT %%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+%---------------------------------------
+%------------top matter and abstract
+%---------------------------------------
+
+	\include{./top}
+
+%------------------------------
+%-------------body
+%------------------------------
+
+	\include{./chap1}
+
+	\include{./chap2}
+
+	\include{./chap3}
+
+\end{document}
+
+%???  method ology!!
+ In our analysis, we will hold a 10-1 ratio of the
+training and testing sets.  Also, we will resample 50 times to create 50 different training and testing sets (50-fold cross validation).
+
+\section{Topics for Further Study.}
+Having completed a very basic side-by-side comparison of GLM and Neural Net predictive methods for data sets, we can begin to focus on some 
+questions that might offer opportunities for further exploration.  For instance....
+
+%%%bibliography, etc
+
+%%%potential GLM model coefficient example
+
+
+Here we can easily see three of the critical parts of a predictive model:  the observed data (the red dots in the graph), the predictor variable 
+(tonnage of lemon imports), and the response variable (highway fatality rate).  In the process of building a GLM model, coefficients $\beta_0$ and
+$\beta_1$ were calculated so that the standard errors (the sum of the residuals squared) is minimized, providing us with a linear relationship 
+between the variables that is represented by the line on the graph.
+
+When training a GLM model, the specific values for these coefficients can be obtained, and we can determine confidence intervals for the values of
+these coefficients.    For instance, looking at the coefficients for the model shown in Figure \#?? above,
+we see that for every XXX of lemon imports, the highway fatality rate decreases by YYY.
+
+%---insert output from GLM
+
+If you believe that result, I've got a statistics book to sell you\dots
+

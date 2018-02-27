@@ -1,0 +1,45 @@
+%--------495 report, Chapter 3------------
+
+
+%---------------------------------------------------------------------------------
+%--------------------- SECTION #3: Comparing GLM and NN
+%---------------------------------------------------------------------------------
+
+\section{Comparing GLM and NN Predictive Models.}
+
+\subsection{Methodolgy.}
+
+		For this paper, I will train both GLM and NN models using two pre-selected datasets.  As mentioned above, for each type of
+predictive model, we can approximate the standard error for each model, quantifying for us the accuracy of each model.  We can then compare the 
+standard errors between the two models, hopefully drawing some conclusions about the relative accuracy of one model compared to the other.
+
+The datasets that will be considered are a listing of various attributes for nearly 54 000 diamonds, and team statistics for nearly 3000 
+basketball games from the NBA.  The diamonds data is provided without source as part of the `ggplot2' package for the R statistical software, while
+the gamelog dataset was retrieved from the website \href{https://www.basketball-reference.com}{Basketball-Reference.com}.  The diamonds dataset includes 
+10 variables for each of the diamonds, while the gamelog dataset looks at 21 statistics for each basketball game.  When creating predictive models, we will 
+consider the quantitative variable \textit{price} as our response variable for the diamonds dataset, and the categorical variable \textit{WL} (whether a team won 
+or lost a basketball game) as our response variable for the gamelog dataset.  A motivation for working with these two datasets is the fact that the  
+response variables for each dataset are distributed differently, as illustrated in the graphs in Figure \#\ref{responsedistribs}.
+
+\begin{figure}[h!]
+\includegraphics[height=1.5in]{{graph1.png}}
+\includegraphics[height=1.5in]{{graph2.png}}
+\caption{Distributions for the response variables in DIAMONDS dataset (left), and the GAMELOG dataset (right)}
+\label{responsedistribs}
+\end{figure}
+
+We can easily train calculate a GLM or NN model using an entire dataset, and then compare the predicted results from these models against the
+actual response variables.  But the weakness of this method is that we are not introducing any new data for testing accuracy.  Instead, dividing 
+the data into disjoint `train' and `test' subsets gives us a better idea of how accurate a predictive model would be given new, independent data.
+Carrying out this `train-test' process once is prone to great variability, depending on the particular choice of dataset selected to train the 
+model.  Instead, repeating this `train-test' process a number of times across repeated random samples of the dataset will give a better
+picture of the accuracy for a predictive model.  This repeated resampling and model testing is known as \textit{cross validation}, and we will 
+carry it out 50 times (50-fold cross validation) for both GLM and NN predictive models with both of our datasets.
+
+In addition, the size of the `train' subset would likely affect the accuracy of a given model.  With a larger training set, we would anticipate
+that a predictive model would be more accurate.  However, as alluded to above, the larger training set also will cost us in terms of processing
+time.  To examine how the size of the training set affects model accuracy (and processing time), we will run each instance of 50-fold cross
+validation three times, with training sets of size 500, 1000, and 2000.  
+
+To measure accuracy for each of the models, we will calculate the observed standard error of the test subset.  The computations will be carried out
+using the open-source R statistical software.

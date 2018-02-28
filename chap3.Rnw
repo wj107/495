@@ -7,26 +7,46 @@
 
 \section{Comparing GLM and NN Predictive Models.}
 
-\subsection{Methodolgy.}
+[maybe re-do this as section 1.4??]
+Having received an introduction to two different types of predictive models, let's see an example of each in action.  We'll select two different datasets,
+test predictive models for accuracy using 50-fold cross validation on each dataset.  50-fold cross validation gives us a sampling of 50 standard errors from
+which we can assess the accuracy of each model.  Furthermore, we'll repeat this process \textit{six} times: three repetitions with GLM, three repetitions with
+NN.  In each repetition, the size of the training and test sets will increase.
 
-		For this paper, I will train both GLM and NN models using two pre-selected datasets.  As mentioned above, for each type of
-predictive model, we can approximate the standard error for each model, quantifying for us the accuracy of each model.  We can then compare the 
-standard errors between the two models, hopefully drawing some conclusions about the relative accuracy of one model compared to the other.
+Right away, we'll have several different questions for consideration: how do the standard errors differ for a GLM or a NN model?  Is this the case with both
+datasets?  Does more data mean more accuracy?  Or does more data mean more time needed to build a model?  How much more time?
 
-The datasets that will be considered are a listing of various attributes for nearly 54 000 diamonds, and team statistics for nearly 3000 
-basketball games from the NBA.  The diamonds data is provided without source as part of the `ggplot2' package for the R statistical software, while
+We'll look at the datasets we are considering, we'll look at the R code used to build and test the models, and then we'll analyze the results.
+
+\subsection{The Datasets.}
+
+	For this paper, I will train both GLM and NN models using two pre-selected datasets.  The datasets that will be considered are a listing of various 
+attributes for nearly 54 000 diamonds, and team statistics for nearly 3000 
+basketball games from the NBA.  The diamonds data is provided (without source) as part of the \texttt{ggplot2} package for the R, while
 the gamelog dataset was retrieved from the website \href{https://www.basketball-reference.com}{Basketball-Reference.com}.  The diamonds dataset includes 
-10 variables for each of the diamonds, while the gamelog dataset looks at 21 statistics for each basketball game.  When creating predictive models, we will 
-consider the quantitative variable \textit{price} as our response variable for the diamonds dataset, and the categorical variable \textit{WL} (whether a team won 
-or lost a basketball game) as our response variable for the gamelog dataset.  A motivation for working with these two datasets is the fact that the  
+10 variables for each of the diamonds, while the gamelog dataset looks at 21 statistics for each basketball game.  
+
+	<<chunk5, echo=F, size="footnotesize", comment=NA, background="grey80">>=
+	load("R/gamelog.RData")
+	head(diamonds)
+	head(datt)
+	@
+
+When creating predictive models, we will 
+consider the quantitative variable \texttt{price} as our response variable for the diamonds dataset, and the categorical variable \texttt{WL} (whether a team 
+won or lost a basketball game) as our response variable for the gamelog dataset.  A motivation for working with these two datasets is the fact that the  
 response variables for each dataset are distributed differently, as illustrated in the graphs in Figure \#\ref{responsedistribs}.
 
-\begin{figure}[h!]
-\includegraphics[height=1.5in]{{graph1.png}}
-\includegraphics[height=1.5in]{{graph2.png}}
-\caption{Distributions for the response variables in DIAMONDS dataset (left), and the GAMELOG dataset (right)}
-\label{responsedistribs}
-\end{figure}
+	%responsedistribs
+	\begin{figure}[h!]
+	\includegraphics[height=1.5in]{{graph1.png}}
+	\includegraphics[height=1.5in]{{graph2.png}}
+	\caption{Distributions for the response variables in DIAMONDS dataset (left), and the GAMELOG dataset (right)}
+	\label{responsedistribs}
+	\end{figure}
+
+[do I need this???  discuss instead different link functions for the trials]
+
 
 We can easily train calculate a GLM or NN model using an entire dataset, and then compare the predicted results from these models against the
 actual response variables.  But the weakness of this method is that we are not introducing any new data for testing accuracy.  Instead, dividing 

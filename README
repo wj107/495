@@ -1,6 +1,6 @@
 #####################################################################
 ############# COMPARING ACCURACY OF GLM and NN Predictive Models
-############# v0.141 -- 26 February 2018
+############# v0.143 -- 27 February 2018
 #####################################################################
 #-------- Author: wj107
 #-------- Email: will.johnson@gmail.com
@@ -15,7 +15,7 @@
 
 #---------------------------------
 
-#---------------v0.141 has:
+#---------------v0.143 has:
 #-----------'diamonds' data set and 'gamelogs' with NBA data for training/testing models
 #-----------six pre-designed trials, and a function that inputs data frame, response variable, and outputs SE estimates
 #-----------creates summary graphs of the SE results, distinguishing between trial size, response variable type, and model type (GLM/NN)
@@ -25,7 +25,7 @@
 #-----------modularized tex write-up!  one file per chapter!
 
 
-#---------------v0.141+ needs:
+#---------------v0.143+ needs:
 #-----------create mini-scripts to produce figures for write-up
 #-----------work to broaden functions, fold them into SEestimate... make like an SEestimate.study function.
 #-----------add data to 495trials function
@@ -35,3 +35,4 @@
 #-----------careful listing of sources for the write-up
 #-----------R code for predictive model examples, integrated to Rnw
 #-----------can you do source([R file]) in a Rnw chunk??
+#-----------comments for R chunks???

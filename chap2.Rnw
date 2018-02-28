@@ -8,45 +8,50 @@
 	\section{The Parts of the Predictive Models.}
 In the first section of this paper, I presented two side-by-side graphs, one representing a GLM predictive model, and the other representing a NN
 predictive model.  But I presented the two graphs without any description of how they were created, other than alluding to the use of statistical
-computer software to carry out the computations.  The computer certainly makes the process of model creation easier; but I can't say ``Hey, R, make
-me a GLM model, please!"  (Although it's not too far off, frankly\dots)  Even if the computer is doing the heavy lifting, I need to understand the
-fundamental parts of a GLM model, and I need to understand some critical attributes of my data before a workable predictive model is created.  In 
-this section, without wading too deeply into theoretical matters, we'll look at the parts of a predictive model, so we're able to understand the 
+software to carry out the computations.  The computer certainly makes the process of model creation easier; but I can't say ``Hey, R, make
+me a GLM model, please!"  (Although it's not too far off, frankly\dots)  While the computer is doing the heavy lifting, I still need to understand 
+the fundamental parts of a GLM model, and I need to understand some critical attributes of my data before a workable predictive model is created.  
+In this section, without wading too deeply into theoretical matters, we'll look at the parts of a predictive model, so we're able to understand the 
 information we're responsible for feeding into the computer before it does its 1's and 0's thing and returns us a predictive model.  First, we'll 
 break down general concepts that we'll find in any predictive model, and in the second and third sections we'll consider details specific to GLM and
 NN models.
 
 %-------------------SUBSECTION #2.1:  PARTS of a PREDICTIVE MODEL-----------------
 \subsection{The General Parts of a Predictive Model.}
-	In the first chapter, in Figure \#1, we saw two different predictive models:  one created using GLM, one from NN.  Though the two models
-have clear points of distinction, we can also identify some similarities.  These similarities represent some of the fundamental parts in any
-predictive model.  Here, we aim to introduce precise terminology that we can use to describe these similarities, and that can help us outline the
-goals of our predictive model analysis for this paper in a clear, unambiguous manner.
+	In the first chapter, in Figure \#\ref{intromodels}, we saw graphical representations of two different predictive models:  one created using GLM, one from 
+NN.  Though the two models have clear points of distinction, we can also identify some similarities.  These similarities represent some of the 
+fundamental parts in any predictive model.  Here, we aim to introduce precise terminology that we can use to describe these similarities, and that 
+can help us outline the goals of our predictive model analysis for this paper in a clear, unambiguous manner.
 
 	%---------------OBSERVED DATA-------------
 	\subsubsection{Observed Data.}
 	The first thing, before you can even consider a predictive model:  we need to have data to draw a prediction from.  No data, no model.  And,
 of course, we want our model grounded in reality -- so it's important to verify that your data consists of well sourced observations before 
 beginning to construct any model.  There's a well-known phrase among programmers:  `Garbage in, garbage out.'  Your predictive model is only as 
-good as your data.  Make sure the process of model building starts atop a legitimate source of \textit{observed data}.  For example, the observed that was used to create the predictive models in Figure \#\ref{intromodels} was derived from the \href{https://www.cdc.gov/brfss/index.html}{Behavioral Risk Factor Surveillance System (BRFSS)}, a system of nation-wide health surveys.  These surveys have a well-documented methodology, they are conducted annually, and they are administered by the Centers for Disease Control.
+good as your data.  Make sure the process of model building starts atop a legitimate source of \textit{observed data}.  For example, the observed 
+that was used to create the predictive models in Figure \#\ref{intromodels} was derived from the 
+\href{https://www.cdc.gov/brfss/index.html}{Behavioral Risk Factor Surveillance System (BRFSS)}, a system of nation-wide health surveys.  These 
+surveys have a well-documented methodology, they are conducted annually, and they are administered by the Centers for Disease Control.
 
 	%---------------VARIABLES----------
 	\subsubsection{Variables.}
-	Once you have some observed data to work from, it is necessary to identify and classify the variables within the data set.  In particular, we 
-need to classify the variables for data in one of three different ways: as a \textbf{predictor variable}, a \textbf{response variable}, or a variable to ignore in our model.  
+	Once you have some observed data to work from, it is necessary to identify and classify the variables within the data set.  In particular, 
+we need to classify the variables for data in one of three different ways: as a \textbf{predictor variable}, a \textbf{response variable}, or a 
+variable to ignore in our model.  
 
 Below is a header for the full data set from the 2015 CDC survey used in Figure \#\ref{intromodels} in the previous chapter.  This data set has nine different 
 variables, and we designated \texttt{height} as the predictive variable, and \texttt{weight} as the response variable.  We ignored the other seven 
 variables for this model.
 
-	<<c1, echo=F, size="scriptsize">>=
+	<<c1, echo=F, size="footnotesize", comment=NA, background="grey80">>=
 	load("R/cdc.RData")
 	head(cdc)
 	@
 
 	Is it necessary to ignore all those othe seven variables? Not at all -- if we have a particular response variable of interest to us, we can select a number
 of predictor variables that we might suspect are related.  For example, we could easily consider \texttt{height} and \texttt{age} as predictor variables in the previous example.  We could designate \textbf{every} variable (other than \texttt{weight}) as a predictor.  More predictors mean our models can quickly become complex (and thus, we lose the nice visualizations from Figure \#\ref{intromodels}) and they might take longer to build, but they have the potential
-to exhibit greater accuracy.  The decision of what variables to include and exclude from a model involves a trade-off between model accuracy and simplicity --and could easily be the basis for further analysis, though these questions are beyond the scope of this paper.
+to exhibit greater accuracy.  The decision of what variables to include and exclude from a model involves a trade-off between model accuracy and simplicity 
+-- and could easily be the basis for further analysis, though these questions are beyond the scope of this paper.
 
 	%---------------FORMULAS-----------
 	\subsubsection{Formulas.}
@@ -55,13 +60,18 @@ If we were to consider \texttt{height} and \texttt{age} as predictor variables f
 
 	If we were to consider \texttt{weight} as the response variable, and all eight other variables as predictor variables, we would have the following formula:
 
-$$\texttt{weight $\sim$ genhlth + exerany + hlthplan + smoke100 + height + wtdesire + age + gender}$$
+	<<chunk4, echo=F, size="scriptsize", comment=NA, background="grey80">>=
+	f<-"weight ~ genhlth + exerany + hlthplan + smoke100 + height + wtdesire + age + gender"
+	f
+	@
 
 For a situation like this, where we do not ignore any variables, we can abbreviate it as \texttt{weight $\sim$ .} with the dot indicating that all remaining variables are predictors.
 
 	%--------------CROSS VALIDATION------------
 	\subsubsection{Cross Validation.}
-With our observed data set, and a formula that outlines the relationship we posit in our data, we could begin to create a predictive model using our entire dataset.  Furthermore, we could take this predictive model and test it: we could compare the model's predicted response values for against the actual response variables in the data.  The weakness of this method is that we are not introducing any new data for testing accuracy.  
+With our observed data set, and a formula that outlines the relationship we posit in our data, we could begin to create a predictive model using our entire 
+dataset.  Furthermore, we could take this predictive model and test it: we could compare the model's predicted response values for against the actual response 
+variables in the data.  The weakness of this method is that we are not introducing any new data for testing accuracy.  
 
 A solution to this issue is to divide the data into disjoint subsets, called the \textbf{training set} and \textbf{testing set}.  From here, we 
 create the model using the training set, and we test the model for accuracy using the testing set.  Separating out this process gives us a better 
@@ -75,23 +85,25 @@ repeated resamplings.  For this reason, a common ratio of the size of training a
 
 	%--------------RESIDUALS and STANDARD ERROR--------
 	\subsubsection{Residuals and Standard Error.}
-As alluded to above, testing the accuracy of a predictive model is of critical, given the numerous ways in which these models are applied to real-world applications of great economic, social, or environment importance.  A common test for accuracy with a predictive model is the standard error, as a number of scientific research articles have analyzed how to estimate this quantity...
+Testing the accuracy of a predictive model is of critical, given the numerous ways in which these models are applied to real-world 
+applications of great economic, social, or environment importance.  A common test for accuracy with a predictive model is the standard error, as a number of 
+scientific research articles have analyzed how to estimate this quantity [cite from science direct]
 
 	Above we alluded to how we can consider accuracy for a predictive model: comparing the model's predicted values for the response
 variable against the actual response variables in the data.  The difference between these values, the predicted and the actual response, is called
 the \textbf{residual}.  Each data point in our testing set will have a residual.  How can we aggregate these values to obtain an overall picture of
 the accuracy of our model?  If we just added residuals, we could have a deceptive picture of accuracy:  if half of the data points were over
 estimated by the model, and half of the data points were under estimated, the sum of the residuals might be close to zero, but the predictions
-would be uniformly inaccurate.
+would be uniformly inaccurate.  [example of residuals??]
 
 	To adjust for the sign of the residuals, we define the \textbf{standard error} as the sum of the \textit{squares} of the residuals.  This
-formula not only eliminates the issue of the positive and negative residuals, but it is nicely analogous to the summation in the formula for
-standard deviation for a data set:
+formula not only eliminates the issue of the positive and negative residuals, but it is nicely analogous to the formula for
+variance of a data set:
 
-\begin*{equation}
-$SE = \sum (\bar{Y} - Y)^2$
-$SD = \sqrt{\frac{\sum(x-\bar{x})^2}{n-1}}$
-\end*{equation}	
+	\begin{align*}
+	\text{Standard Error} &= \frac{\sum (\bar{Y} - Y)^2}{N} \\
+	\text{Variance} &= \frac{\sum(x-\bar{x})^2}{n-1}
+	\end{align*}	
 
 The standard error serves nicely as a metric that will represent the accuracy of our predictive models.  Through cross-validation, we will collect
 a sampling of standard errors, and a statistical summary of these standard errors will offer a more robust description of a predictive model's 
@@ -104,7 +116,7 @@ For every single predictive model, we need to have observed data, we need to hav
 	
 	%-------------COEFFICIENTS------------------------
 	\subsubsection{The Coefficients for a GLM formula.}
-In discussing how the formula for a predictive model takes the form $$\texttt{response variable $\sim$ predictor variables},$$ I committed only
+In discussing how the formula for a predictive model, I committed only
 to the language `is related to' to describe the relationship between the variables.  But, in the case of a GLM predictive model, we can strengthen 
 this description: the model will describe a linear relationship between the response and predictor variables.  That is, a GLM model will provide
 an equation in the form of
@@ -140,7 +152,7 @@ flaw:  we want an output between 0 (definite loss) and 1 (definite victory).
 %--------------image:  'bad' GLM model w/ binomial output and identity link
 
 The solution to this?  We'll add another step to the GLM model process that describes the predictor-response relationship using the 
-$Y=\beta_0 + \sum \beta_i*X_i$ equation:  we'll \textit{link} this linear output to a particular function that better models our specific response
+$Y=\beta_0 + \sum \beta_i X_i$ equation:  we'll \textit{link} this linear output to a particular function that better models our specific response
 variable.  For our circumstance, with the output varying between 0 and 1, we'll use a logistic function (with range 0 to 1) to `link' the linear 
 output to the binomial response variable.  
 
@@ -150,7 +162,7 @@ In general, for GLM predictive models, it is necessary to understand the distrib
 \textit{link function} that appropriately connects the linear output from the predictor variables to the response variable.  The particular
 link function to be chosen is (usually) determined by the distribution of the response variable; for the normally distributed response variables,
 there is no link function (or the link function is the trivial identity function).  For binomially distributed response variables, the link 
-function is a logistic function.  For responses variables with a Poisson distribution, a log function is used as a link function.
+function is a logistic function.  For responses variables with a Poisson distribution, a log function is used as a link function.  [read annotte for other links]
 
 For these three types of scenarios -- normal, binomial, and Poisson distributions for a response variable -- the process of connecting linear 
 output from the predictor variables to a link function puts the `G' in GLM:  it generalizes the linear regression methods shown in Figure \#\ref{glmcoefficients} to
@@ -167,24 +179,28 @@ predictors to the response:  the model coefficients, the link function.  For NN,
 goes in, predictions come out.  Descriptions for what happens in between can be elusive, but I'll try\dots
 
 \subsubsection{What is a Neural Net?}
-A neural network is a system for computational that can `train' its performance (that is, improve its accuracy) from observed data.  Similar to how your lifelong history experiencing, say, chairs represents an observed dataset, and your brain has been `trained' on that data to know whether or not a given object is a chair,  a neural network can be `trained' on a given dataset and from its training it will output information about a pre-determined response variable.   For GLM the variables are connected using a linear combination and an appropriate link function, subject to specific conditions (i.e., minimizing standard error).  How does a neural net establish this connection?  How is the process of `training' a neural network different than how a GLM model is built from observed data?  
+A neural network is a system for computational that can `train' its performance (that is, improve its accuracy) from observed data.  Similar to how your 
+lifelong history experiencing, say, chairs represents an observed dataset, and your brain has been `trained' on that data to know whether or not a given 
+object is a chair,  a neural network can be `trained' on a given dataset and from its training it will output information about a pre-determined response 
+variable.   For GLM the variables are connected using a linear combination and an appropriate link function, subject to specific conditions (i.e., minimizing standard error).  How does a neural net establish this connection?  How is the process of `training' a neural network different than how a GLM model is built from observed data?  
 
 At its root, a neural net accomplishes this in exactly the same way as a GLM model: it combines linear combinations and link functions to connect predictor 
 variables to a response.  The fundamental differences between the models: (1) a neural net does not necessarily rely on only one linear combination 
 and link function to connect inputs to outputs -- there may be many! -- and (2) the linear combinations do not represent the solution to a 
-theoretical optimization problem (i.e., minimizing the sum of squared residuals) as they do for GLM.  Instead, these linear combinations are the end product of a 
+optimization problem (i.e., minimizing the sum of squared residuals) as they do for GLM.  Instead, these linear combinations are the end product of a 
 computionally intensive trial-and-error process guided by a pre-determined \textit{learning rule}.
 
 \subsubsection{The Structure of a Neural Net.}
 Neuroscience tells us that brain activity is dispersed across a network of interconnected neurons.  Simulating this interconnectedness by replicating
-the distrubuted structure of the neurons in a human brain is the fundamental feature of a NN predictive model.  Just as this complexity in the
-human brain allows us to answer `is this a chair??' easily despite struggling to outline \textit{how} we know that fact, a NN predictive model might
-give an accurate prediction quite handily, but we would struggle to explain \textit{how} the model arrived at the answer.  In the absence of 
-knowing how a specific model works, understanding the overall structure of a neural network will prove useful.
+the distrubuted structure of the neurons in a human brain is the fundamental feature of a NN predictive model.  And, by `distributed structure' for a NN 
+predictive model, we mean that the results from the linear combination of the predictor variables does not directly arrive us to the response variables.  
+Instead, the results of one linear combination are then plugged into another linear combination, the results of which might be plugged into another\dots
+and, eventually, the chain of combinations (and link functions!) arrives to the response outputs.
 
 To visualize a neural network, rather than an $xy$-graph, consider a directed graph with edges and vertices.  Each predictor variable has a vertex,
 and the response variable is a vertex, also.  The predictor vertices represent a \textit{layer} of vertices, and the response vertex is, by itself,
-a layer also.  All the vertices in one layer are connected to each vertex in the subsequent layer.  The number of layers, beyond the initial layers that contain the predictor and response variables, is a matter of choice.
+a layer also.  All the vertices in one layer are connected to each vertex in the subsequent layer.  The number of layers, beyond the initial layers that 
+contain the predictor and response variables, is a matter of choice.
 
 %-------------NN graph!!
 

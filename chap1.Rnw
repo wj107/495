@@ -76,9 +76,9 @@ Today, SPSS, SAS, and R (the modernized version of S) or similar software built 
 
 For the paper, all analysis was performed using R.  The preference for R, as opposed to SAS or SPSS, owes to the fact that it supports both the creation of both GLM and NN predictive models, its wide acceptance across industry, and it is freely available through the GNU General Public License.  Throughout this paper, excerpts of R code will appear as blocktext as seen below:
 
-<<chunk2, echo=2, comment=NA, background="grey80">>=
-greeting<-"Hello World!!"
-print(greeting)
-@
+	<<chunk2, echo=2, comment=NA, background="grey80">>=
+	greeting<-"Hello World!!"
+	print(greeting)
+	@
 
 When snippets of R code appear within paragraphs, they will be formatted in the \texttt{Typewriter} font.

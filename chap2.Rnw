@@ -39,14 +39,20 @@ surveys have a well-documented methodology, they are conducted annually, and the
 we need to classify the variables for data in one of three different ways: as a \textbf{predictor variable}, a \textbf{response variable}, or a 
 variable to ignore in our model.  
 
-Below is a header for the full data set from the 2015 CDC survey used in Figure \#\ref{intromodels} in the previous chapter.  This data set has nine different 
-variables, and we designated \texttt{height} as the predictive variable, and \texttt{weight} as the response variable.  We ignored the other seven 
-variables for this model.
+In Figure \#\ref{cdchead} the header is given for the full data set from the 2015 CDC survey that was used in Figure \#\ref{intromodels} in the 
+previous chapter.  This data set has nine different variables, and we designated \texttt{height} as the predictive variable, and \texttt{weight} as 
+the response variable.  We ignored the other seven variables for this model.
 
-	<<c1, echo=F, size="footnotesize", comment=NA, background="grey80">>=
-	load("R/cdc.RData")
-	head(cdc)
-	@
+	%cdchead   [move to 'observed data' subsubsection above!!!]
+	\begin{figure}
+	\centering
+		<<c1, echo=F, size="footnotesize", comment=NA, background="grey80">>=
+		load("R/cdc.RData")
+		head(cdc)
+		@
+	\caption{Header for the \texttt{cdc} dataset}
+	\label{cdchead}
+	\end{figure}
 
 	Is it necessary to ignore all those othe seven variables? Not at all -- if we have a particular response variable of interest to us, we can select a number
 of predictor variables that we might suspect are related.  For example, we could easily consider \texttt{height} and \texttt{age} as predictor variables in the previous example.  We could designate \textbf{every} variable (other than \texttt{weight}) as a predictor.  More predictors mean our models can quickly become complex (and thus, we lose the nice visualizations from Figure \#\ref{intromodels}) and they might take longer to build, but they have the potential

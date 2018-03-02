@@ -1,6 +1,6 @@
 #####################################################################
 ############# COMPARING ACCURACY OF GLM and NN Predictive Models
-############# v0.143 -- 27 February 2018
+############# v0.144 -- 1 March 2018
 #####################################################################
 #-------- Author: wj107
 #-------- Email: will.johnson@gmail.com
@@ -15,24 +15,23 @@
 
 #---------------------------------
 
-#---------------v0.143 has:
+#---------------v0.144 has:
 #-----------'diamonds' data set and 'gamelogs' with NBA data for training/testing models
 #-----------six pre-designed trials, and a function that inputs data frame, response variable, and outputs SE estimates
 #-----------creates summary graphs of the SE results, distinguishing between trial size, response variable type, and model type (GLM/NN)
 #-----------options to save (w.out dimensions) or display graphs.
-#-----------2 chapters of a write-up:  examples of GLM, NN in literature, and outlining methodology of this project, broad outlines of GLM/NN
+#-----------3 chapters of a write-up:  chap1 overview, chap2 introductions, chap3 methods...and very basic results
 #-----------some basic knitr:  tex file replaced by a Rnw file.  495knit file to convert Rnw to tex.
 #-----------modularized tex write-up!  one file per chapter!
 
-
-#---------------v0.143+ needs:
+#---------------v0.144+ needs:
 #-----------create mini-scripts to produce figures for write-up
 #-----------work to broaden functions, fold them into SEestimate... make like an SEestimate.study function.
 #-----------add data to 495trials function
+#-----------separate 495trials/graphic from the project!  one can be generalized, the other... keep fixed results for the paper
 #-----------customize parameters for "output"... not always 50, 100, 200 test size
 #-----------improve dim's on graphs.  display both graphs in one function call??
 #-----------caption sizes for figures!
 #-----------careful listing of sources for the write-up
-#-----------R code for predictive model examples, integrated to Rnw
 #-----------can you do source([R file]) in a Rnw chunk??
-#-----------comments for R chunks???
+#-----------comments for R chunks??? width of chunks??

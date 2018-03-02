@@ -5,61 +5,165 @@
 %--------------------- SECTION #3: Comparing GLM and NN
 %---------------------------------------------------------------------------------
 
-\section{Comparing GLM and NN Predictive Models.}
+\section{A basic comparison of GLM and NN Predictive Models.}
 
-[maybe re-do this as section 1.4??]
-Having received an introduction to two different types of predictive models, let's see an example of each in action.  We'll select two different datasets,
-test predictive models for accuracy using 50-fold cross validation on each dataset.  50-fold cross validation gives us a sampling of 50 standard errors from
-which we can assess the accuracy of each model.  Furthermore, we'll repeat this process \textit{six} times: three repetitions with GLM, three repetitions with
-NN.  In each repetition, the size of the training and test sets will increase.
+Having received an introduction to two different types of predictive models, let's see an example of each in action.  We'll select two different 
+datasets, consider three subsets of each in varying sizes (think small, medium, and large, here), and test predictive models for accuracy using 
+50-fold cross validation on each data subset.  50-fold cross validation gives us a sampling of 50 standard errors from which we can assess the 
+accuracy of each model.  As our two datasets will have different distributions for the response variables (quantitative versus categorical), we'll 
+have several different questions for consideration: how do the standard errors differ for a GLM or a NN model?  Is this the case for both a 
+quantitative response variable and a categorical response?  Does more data mean more accuracy?  Or does more data mean more time needed to build a 
+model?  How much more time?
 
-Right away, we'll have several different questions for consideration: how do the standard errors differ for a GLM or a NN model?  Is this the case with both
-datasets?  Does more data mean more accuracy?  Or does more data mean more time needed to build a model?  How much more time?
+We'll look at the datasets we are considering, we'll look at the R code used to build and test the models, and then we'll summarize and analyze the 
+results.
 
-We'll look at the datasets we are considering, we'll look at the R code used to build and test the models, and then we'll analyze the results.
+%-------------------------------------------------------------------------
+%----------------Section 3.1: DATASETS.
+%-------------------------------------------------------------------------
 
 \subsection{The Datasets.}
+	For this paper, I will train both GLM and NN models using two pre-selected datasets.  The datasets that will be considered are a listing of 
+various attributes for nearly 54 000 diamonds, and team statistics for nearly 3000 
+basketball games from the NBA.  The diamonds data is provided (without source) as part of the \texttt{ggplot2} package for R, and it includes 10 
+variables for each of the diamonds.
 
-	For this paper, I will train both GLM and NN models using two pre-selected datasets.  The datasets that will be considered are a listing of various 
-attributes for nearly 54 000 diamonds, and team statistics for nearly 3000 
-basketball games from the NBA.  The diamonds data is provided (without source) as part of the \texttt{ggplot2} package for the R, while
-the gamelog dataset was retrieved from the website \href{https://www.basketball-reference.com}{Basketball-Reference.com}.  The diamonds dataset includes 
-10 variables for each of the diamonds, while the gamelog dataset looks at 21 statistics for each basketball game.  
-
-	<<chunk5, echo=F, size="footnotesize", comment=NA, background="grey80">>=
-	load("R/gamelog.RData")
+	<<chunk31, echo=F, size="footnotesize", comment=NA, background="grey80">>=
 	head(diamonds)
+	@
+
+The gamelog dataset was retrieved from the website \href{https://www.basketball-reference.com}{Basketball-Reference.com}, and it looks at 21 
+statistics for each basketball game.  
+
+	<<chunk32, echo=F, size="scriptsize", comment=NA, background="grey80">>=
+	load("R/gamelog.RData")
 	head(datt)
 	@
 
-When creating predictive models, we will 
-consider the quantitative variable \texttt{price} as our response variable for the diamonds dataset, and the categorical variable \texttt{WL} (whether a team 
-won or lost a basketball game) as our response variable for the gamelog dataset.  A motivation for working with these two datasets is the fact that the  
-response variables for each dataset are distributed differently, as illustrated in the graphs in Figure \#\ref{responsedistribs}.
+When creating our predictive models for analysis, we will consider the quantitative variable \texttt{price} as our response variable for the 
+diamonds dataset, and the categorical variable \texttt{WL} (a value of texttt{1} indicates the team won a game, \texttt{0} denotes a loss) as our 
+response variable for the gamelog dataset.  All other variables will be considered as predictor variables; thus our formulas will be 
+\texttt{price $\sim$ .} and \texttt{WL $\sim$ .} when we generate our predictive models.
+
+The distributions of the response variables for these datasets is illustrated in Figure \#\ref{responsedistribs}.  With the different distributions
+for these two datasets, we can analyze the performance of GLM and NN predictive models when given either a quantiative response variable or a 
+categorical response variable.
 
 	%responsedistribs
 	\begin{figure}[h!]
 	\includegraphics[height=1.5in]{{graph1.png}}
 	\includegraphics[height=1.5in]{{graph2.png}}
-	\caption{Distributions for the response variables in DIAMONDS dataset (left), and the GAMELOG dataset (right)}
+	\caption{Distributions for the response variables in \texttt{diamonds} dataset (left), and the \texttt{gamelog} dataset (right)}
 	\label{responsedistribs}
 	\end{figure}
 
-[do I need this???  discuss instead different link functions for the trials]
+One aspect for our analysis of predictive models involves varying the size of the training sets for building the predictive models.  Therefore,
+rather than consider the entire \texttt{diamonds} or \texttt{gamelog} dataset as a whole, we will draw three different sized subsets from each to
+consider for analysis -- allowing us to consider if more data leads to more accurate predictions from our model.  Consider the following code to
+draw three subsets from the \texttt{diamonds} dataset:
+
+	<<chunk33, eval=F, size="footnotesize", comment=NA, background="grey80">>=
+	diamonds.small<-diamonds[sample(nrow(diamonds),550),]
+	diamonds.medium<-diamonds[sample(nrow(diamonds),1100),]
+	diamonds.large<-diamonds[sample(nrow(diamonds),2200),]
+	@
+
+This code is creating three subsets from the entire \texttt{diamonds} dataset.  The small subset contains a random sample of 550 datapoints (that 
+is, the information on 550 different diamonds), the medium subset is a random sample of 1100 diamonds, and the large subset a sample of 2200 
+diamonds.  We will define the subsets \texttt{gamelog.small}, \texttt{gamelog.medium}, and \texttt{gamelog.large} in an analogous manner.
+
+When we carry out the process of cross-validation on these data subsets, we will use a 10-to-1 train-test ratio (c.f. the benchmark 70-30 train-test
+ratio) that allows us to build our predictive models with training sets of sizes 500, 1000, and 2000, and testing sets of sizes 50, 100, and 200.  
+For details on model building and testing\dots
+
+%----------------------------------------------------------------------
+%----------------SECTION 3.2: se.estimate 
+%----------------------------------------------------------------------
+
+\subsection{\texttt{se.estimate} function.}
+
+In order to analyze the standard errors for our predictive models, we will use the process of cross-validation.  As mentioned previously, that 
+requires (1) dividing our data into \textit{train} and \textit{test} subsets, (2) building a predictive model from the training set, (3) testing
+the model on the testing set, and calculating the standard error, and (5) iterating this process.  That's an enormous amount of calculation; and
+using R to script the process will make things far easier.
+
+I wrote an R script that creates a function, \texttt{se.estimate}, to accomplish these tasks and record the results for analysis.  The arguments of
+the function (along with the default values) are given below.
+
+	<<chunk34, echo=F, background="grey80", comment=NA, size="footnotesize">>=
+	source("../SEestimate/SEestimate.R")
+	head(se.estimate,3)
+	@
+	
+(Note that, in a remarkable instance of mislabelling, the argument \texttt{pred.var} refers to the \textit{response} variable for the data.  
+Whoops!) Using the \texttt{se.estimate} function, we are able to easily perform cross-validation on our datasets, collecting samplings of the 
+standard errors for analysis.  For instance, the function call:
+
+	<<chunk35, echo=T, eval=F, background="grey80", size="footnotesize", comment=NA>>=
+	se.estimate(dat=cdc, pred.var=weight, resamples=10, test.pct=0.30, 
+	method="glm", timer=T)
+	@
+
+Would perform 10-fold cross-validation on the dataset from the CDC survey, using a 70/30 train/test split and using GLM predictive models, while
+recording the time needed to build each GLM model.  The output from this function call would be list of length three, illustrated below.
+
+	<<chunk36, echo=T, eval=F, background="grey80", size="footnotesize", comment=NA>>=
+	se.estimate(dat=cdc, pred.var=weight, resamples=10, test.pct=0.30, 
+	method="glm", timer=T)
+	@
+
+The first entry of the output gives a vector (in this case of length 10) containing the standard errors from each resampling.  The second entry of 
+the output is a five-number summary of the standard errors.  The third entry is the \textit{build time}, given in seconds, that is needed for the 
+computer to construct each of the GLM models.  The full code for the \texttt{se.estimate} function is given in the bibliography [cite github].
+
+It is from repeated calls of the \texttt{se.estimate} function, for the small, medium, and large sized subsets of the \texttt{diamonds} and 
+\texttt{gamelog} datasets, that we will collect information on standard errors and build time for our analysis.  Two of these function calls are 
+given below.  (Note that \texttt{method="both"} indicates that the \texttt{se.estimate} function will build both GLM and NN
+predictive models for the selected data subset.)
+
+	<<chunk37, eval=F, background="grey80", size="footnotesize", comment=NA>>=
+	diamonds.small.result<-se.estimate(dat=diamonds.small, pred.var=price, 
+		resamples=50, test.size=50, method="both", distrib="continuous",
+		timer=T)
+	gamelog.small.result<-se.estimate(dat=gamelog.small, pred.var=WL, 
+		resamples=50, test.size=50, method="both", distrib="categorical",
+		timer=T)
+	@
+
+It is easy to see how these two function calls can be generalized to the medium and large data subsets we are considering, producing for us output
+data to compare and analyze\dots 
+
+%----------------------------------------------------------------------
+%----------------SECTION 3.3: Results for DIAMONDS 
+%----------------------------------------------------------------------
+
+\subsection{Results for predictive models built from \texttt{diamonds}.}
+	After calling the \texttt{se.estimate} function for the subsets of the \texttt{diamonds} data, we have a sampling of 300 standard errors, 
+after the script built and tested 300 predictive models. In Figure \#\ref{diamondsgraph}, we organize this sampling according to the type of predictive model 
+(GLM or NN) and the size of the testing subset for the model (50, 100, or 200).
+
+	%diamondsgraph
+	\begin{figure}[h!]
+	\centering
+		\includegraphics[height=2in]{{diamondsgraph.png}}
+	\caption{Graphical summary of standard errors built from \texttt{diamonds} dataset}
+	\label{diamondsgraph}
+	\end{figure}
 
 
-We can easily train calculate a GLM or NN model using an entire dataset, and then compare the predicted results from these models against the
-actual response variables.  But the weakness of this method is that we are not introducing any new data for testing accuracy.  Instead, dividing 
-the data into disjoint `train' and `test' subsets gives us a better idea of how accurate a predictive model would be given new, independent data.
-Carrying out this `train-test' process once is prone to great variability, depending on the particular choice of dataset selected to train the 
-model.  Instead, repeating this `train-test' process a number of times across repeated random samples of the dataset will give a better
-picture of the accuracy for a predictive model.  This repeated resampling and model testing is known as \textit{cross validation}, and we will 
-carry it out 50 times (50-fold cross validation) for both GLM and NN predictive models with both of our datasets.
+%----------------------------------------------------------------------
+%----------------SECTION 3.4: Results for DIAMONDS 
+%----------------------------------------------------------------------
 
-In addition, the size of the `train' subset would likely affect the accuracy of a given model.  With a larger training set, we would anticipate
-that a predictive model would be more accurate.  However, as alluded to above, the larger training set also will cost us in terms of processing
-time.  To examine how the size of the training set affects model accuracy (and processing time), we will run each instance of 50-fold cross
-validation three times, with training sets of size 500, 1000, and 2000.  
+\subsection{Results for predictive models built from \texttt{gamelog}.}
+After calling the \texttt{se.estimate} function for the subsets of the \texttt{gamelog} data, we have a sampling of 300 standard errors, 
+after the script built and tested 300 predictive models. In Figure \#\ref{gameloggraph}, we organize this sampling according to the type of 
+predictive model (GLM or NN) and the size of the testing subset for the model (50, 100, or 200).
 
-To measure accuracy for each of the models, we will calculate the observed standard error of the test subset.  The computations will be carried out
-using the open-source R statistical software.
+	%gameloggraph
+	\begin{figure}[h!]
+	\centering
+		\includegraphics[height=2in]{{gameloggraph.png}}
+	\caption{Graphical summary of standard errors built from \texttt{gamelog} dataset}
+	\label{gameloggraph}
+	\end{figure}

@@ -82,3 +82,23 @@ For the paper, all analysis was performed using R.  The preference for R, as opp
 	@
 
 When snippets of R code appear within paragraphs, they will be formatted in the \texttt{Typewriter} font.
+
+%---------------SUBSECTION #1.4: Overview of this Analysis-----------
+
+	\subsection{An Overview of Our Analysis.}
+	The focus of this paper is to compare the accuracy of both GLM and NN predictive models, given that we use \textit{accuracy} to refer to the
+standard error for a model's predictions.  The accuracy of the predictive models is examined across a number of comparisons:  we will examine the 
+accuracy between GLM and NN models, the accuracy for predictive models with a qualitative response versus predictive models with a categorical 
+response, and the accuracy for predictive models built on datasets of varying sizes.
+  
+	Before the models are built, tested, and analyzed, in chapter \#2 a broad introduction to some of the methodology and terminology for 
+predictive modeling is given. An overview of the components essential to all predictive models is given in \S2.1, and aspects specific to GLM and 
+NN modelling are introducted in Sections \S2.2 and \S2.3, respectively.  
+
+	In chapter \#3 the models are built, tested, and analyzed.  In section \S3.1 the datasets for analysis -- one with a quantitative response, 
+one with a categorical response -- are introduced.  In \S3.2 the R function used to build and test the models for analysis will be introduced, along
+with the specific function calls that allow us to obtain data for analysis.  In \S3.3 we summarize the results, and offer cursory analysis of the 
+findings.
+
+
+

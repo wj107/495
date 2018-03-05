@@ -1,6 +1,6 @@
 #####################################################################
 ############# COMPARING ACCURACY OF GLM and NN Predictive Models
-############# v0.144 -- 1 March 2018
+############# v0.145 -- 4 March 2018
 #####################################################################
 #-------- Author: wj107
 #-------- Email: will.johnson@gmail.com
@@ -15,16 +15,16 @@
 
 #---------------------------------
 
-#---------------v0.144 has:
+#---------------v0.145 has:
 #-----------'diamonds' data set and 'gamelogs' with NBA data for training/testing models
 #-----------six pre-designed trials, and a function that inputs data frame, response variable, and outputs SE estimates
 #-----------creates summary graphs of the SE results, distinguishing between trial size, response variable type, and model type (GLM/NN)
 #-----------options to save (w.out dimensions) or display graphs.
-#-----------3 chapters of a write-up:  chap1 overview, chap2 introductions, chap3 methods...and very basic results
+#-----------3 chapters of a write-up:  chap1 overview, chap2 introductions, chap3 methods & results
 #-----------some basic knitr:  tex file replaced by a Rnw file.  495knit file to convert Rnw to tex.
 #-----------modularized tex write-up!  one file per chapter!
 
-#---------------v0.144+ needs:
+#---------------v0.145+ needs:
 #-----------create mini-scripts to produce figures for write-up
 #-----------work to broaden functions, fold them into SEestimate... make like an SEestimate.study function.
 #-----------add data to 495trials function
@@ -35,3 +35,4 @@
 #-----------careful listing of sources for the write-up
 #-----------can you do source([R file]) in a Rnw chunk??
 #-----------comments for R chunks??? width of chunks??
+#-----------add brief analysis of TIME needed for model building

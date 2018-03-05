@@ -213,9 +213,11 @@ Notice too that the improvement in the gains in accuracy as the training sets gr
 	kable(table2)
 	@
 
-Surprisingly, the accuracy only improves for the neural net model -- for the GLM predictive models, the variation does not uniformly improve.  That
-means, although in general more data makes the models more accurate, with GLM more data can still give rise to a `bad' model that is inconsistent 
-with the general performance of other similar models.
+Notice something from these values:  unlike the first scenario, with the \texttt{diamonds} data, the variation decreases in each case.  In other
+words, for the \texttt{gamelog} data, for a categorical response variable, the predictive models become more consistent as more data is added to the
+test and train sets.  
 
-It's one comparison, from one data set.  But the numbers seem to clearly indicate:  more data is more accuracy, and neural nets are more accurate 
-and more consistent!  Are we ready to write this in stone?  Well, let's check another data set for corroborating evidence, first\dots
+Taken together, there's a lot of conflicting information:  NN is more accurate for the quantitative response, but GLM is more
+accurate for the categorical response.  For quantitative responses, more data yields more accuracy; but for categorical responses, more data yields
+more consistency (if not accuracy).  Do these trends hold in all cases?  Sounds like topics for future research and analysis!  Find yourself some
+data, use the \texttt{se.estimate} function, and dig in!

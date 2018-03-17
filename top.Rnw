@@ -7,7 +7,7 @@
 	\title{Generalized Linear Models and Neural Nets: Comparison Between Methods for Predictive Analysis}
 	\author{William R. Johnson}
 	%%%%other title commands??  advisor?  
-	\date{26 February 2018}
+	\date{16 March 2018}
 	\maketitle
 
 %------------------------

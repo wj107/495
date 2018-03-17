@@ -18,6 +18,15 @@ Generalized Linear Models (GLM), and Neural Networks (NN).  Both methods allow u
 
 Given a sample of heights and weights from 20000 individuals in the United States collected from a 2015 survey conducted by the Centers for Disease
 Control, the red lines indicate the predicted response variables from mathematical models trained on this data.  
+
+%------------------------------------------------
+%-------INSERT CHUNK w.CDC DATA and MODELS
+%------------------------------------------------
+<<chunk11,echo=F>>=
+load("R/cdc.RData")
+
+@
+%------------------------------------------------
 		
 		%intromodels
 		\begin{figure}[h!]
@@ -71,12 +80,28 @@ so we can determine whether or not the added data and accuracy is worth the extr
 %---------------SUBSECTION #1.3: Accuracy of predictive models-----------
 
 	\subsection{Use of Statistical Software in Predictive Models.}
-		In dealing with `Big Data' and attempting to address complex, computationally-intensive problems (such as building a predictive model), the approaches have hinged on the technology available.  The twentieth century began with \href{https://ww2.amstat.org/about/statisticiansinhistory/index.cfm?fuseaction=paperinfo&PaperID=4}{punch card tabulating} but by the latter half of the century, statistical analysis had moved largely to computers.  Momentum for the trend of statistical software grew during the 1960s, and the release of SPSS in 1968 was a critical moment in making statistical analysis more widely available beyond actuarials and computer scientists.  [citation]  Similiarly, the SAS software and S programming language, released in 1976, helped to make statistical analysis accessible to a wide range of scientists.
-Today, SPSS, SAS, and R (the modernized version of S) or similar software built in their mold are indispensable across the sciences and humanities for statistical analysis.  For example, [citations].
+		In dealing with `Big Data' and attempting to address complex, computationally-intensive problems (such as building a predictive 
+model), the approaches have hinged on the technology available.  The twentieth century began with 
+\href{https://ww2.amstat.org/about/statisticiansinhistory/index.cfm?fuseaction=paperinfo&PaperID=4}{punch card tabulating} but by the latter half 
+of the century, statistical analysis had moved largely to computers.  Momentum for 
+\href{https://www.stat-computing.org/computing/history/chambers-ryan.html}{the trend of statistical software grew during the 1960s},
+and \href{https://www.spss.com.hk/corpinfo/history/htm}{the release of SPSS in 1968} 
+was a critical moment in making statistical analysis more widely available beyond actuarials and computer scientists.  
+Similiarly, the SAS software and S programming language, released in 1976, helped to make statistical analysis accessible to a wide 
+range of scientists.  Today, SPSS, SAS, and R (the modernized version of S) or similar software built in their mold are indispensable across the 
+sciences and humanities for statistical analysis.  A small sampling of how these statistical languages are used in social science research:
+\href{https://www.sciencedirect.com/science/article/pii/S0277953617305105}{SPSS is used to analyze why happiness matters}, 
+\href{https://www.sciencedirect.com/science/article/pii/S0277953616301095}{SAS is used to consider the intersection of bisexuality, poverty, and mental health},
+\href{https://www.kellogg.northwestern.edu/news-events/conference/ic2s2/2018/workshops-and-datathon.aspx}{and whole conferences are devoted to finding uses for R in the social sciences}.
 
-For the paper, all analysis was performed using R.  The preference for R, as opposed to SAS or SPSS, owes to the fact that it supports both the creation of both GLM and NN predictive models, its wide acceptance across industry, and it is freely available through the GNU General Public License.  Throughout this paper, excerpts of R code will appear as blocktext as seen below:
+For this paper, all analysis was performed using R.  The preference for R, as opposed to SAS or SPSS, owes to the fact that it supports both the 
+creation of both GLM and NN predictive models, its wide acceptance across industry (note the conference above!), and it is freely available 
+through the GNU General Public License.  
+\vfill\eject
 
-	<<chunk2, echo=2, comment=NA, background="grey80">>=
+Throughout this paper, excerpts of R code will appear as blocktext as seen below:
+
+	<<chunk12, echo=2, comment=NA, background="grey80">>=
 	greeting<-"Hello World!!"
 	print(greeting)
 	@

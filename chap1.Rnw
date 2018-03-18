@@ -14,25 +14,26 @@ remain practical and functional in our `Big Data' world.
 
 Now, I will not discuss the specific predictive methods for proprietary applications, like the aforementioned travel predictions from Google or 
 suggested product recommendations from Amazon.  But I will offer a cursory examination of two major mathematical methods for predictive analysis:
-Generalized Linear Models (GLM), and Neural Networks (NN).  Both methods allow us to `train' mathematical models on an \textit{observed data set}, which can subsequently be used to predict future outcomes, or \textbf{response variables} .  Figure \#\ref{intromodels} contains two graphs that illustrate, graphically, these two types of mathematical models for a simple data set.
+Generalized Linear Models (GLM), and Neural Networks (NN).  Both methods allow us to `train' mathematical models on an \textit{observed data set}, which can subsequently be used to predict future outcomes, or \textbf{response variables}.  
 
+Figure \#\ref{intromodels} contains two graphs that illustrate, graphically, these two types of mathematical models for a simple data set.
 Given a sample of heights and weights from 20000 individuals in the United States collected from a 2015 survey conducted by the Centers for Disease
 Control, the red lines indicate the predicted response variables from mathematical models trained on this data.  
 
-%------------------------------------------------
-%-------INSERT CHUNK w.CDC DATA and MODELS
-%------------------------------------------------
-<<chunk11,echo=F>>=
-load("R/cdc.RData")
+%----------No chunk, just used 'chunk11.R' file to create graphs
+	
+%	%load cdc data and create models and graphs.
+%	<<chunk11,echo=F,results='hide',fig.keep='all'>>=
+%		invisible(source("R/chunk11.R"))
+%	@
 
-@
 %------------------------------------------------
 		
 		%intromodels
 		\begin{figure}[h!]
 		\centering
-		\includegraphics[height=1.8in]{{model1.png}}
-		\includegraphics[height=1.8in]{{model2.png}}
+		\includegraphics[height=2.3in]{{model1.png}}
+		\includegraphics[height=2.3in]{{model2.png}}
 		\caption{Predictive models for height and weight data, trained using GLM methods (left), and NN methods (right)}
 		\label{intromodels}
 		\end{figure}

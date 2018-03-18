@@ -1,6 +1,6 @@
 #####################################################################
 ############# COMPARING ACCURACY OF GLM and NN Predictive Models
-############# v0.146 -- 16 March 2018
+############# v0.147 -- 17 March 2018
 #####################################################################
 #-------- Author: wj107
 #-------- Email: will.johnson@gmail.com
@@ -15,17 +15,18 @@
 
 #---------------------------------
 
-#---------------v0.146 has:
+#---------------v0.147 has:
 #-----------'diamonds' data set and 'gamelogs' with NBA data for training/testing models
 #-----------six pre-designed trials, and a function that inputs data frame, response variable, and outputs SE estimates
 #-----------creates summary graphs of the SE results, distinguishing between trial size, response variable type, and model type (GLM/NN)
 #-----------options to save (w.out dimensions) or display graphs.
 #-----------3 chapters of a write-up:  chap1 overview, chap2 introductions, chap3 methods & results
 #-----------some basic knitr:  tex file replaced by a Rnw file.  495knit file to convert Rnw to tex.
+#-----------scripts for figures in chap1 and chap2.1 and 2.2
 #-----------modularized tex write-up!  one file per chapter!
 
-#---------------v0.146+ needs:
-#-----------create mini-scripts to produce figures for write-up
+#---------------v0.147+ needs:
+#-----------create mini-scripts to produce figures for chap2 and chap3
 #-----------work to broaden functions, fold them into SEestimate... make like an SEestimate.study function.
 #-----------add data to 495trials function
 #-----------separate 495trials/graphic from the project!  one can be generalized, the other... keep fixed results for the paper

@@ -6,15 +6,15 @@
 %------------------------------------------------------------------------------------------
 
 	\section{The Parts of the Predictive Models.}
-In the first section of this paper, I presented two side-by-side graphs, one representing a GLM predictive model, and the other representing a NN
-predictive model.  But I presented the two graphs without any description of how they were created, other than alluding to the use of statistical
-software to carry out the computations.  The computer certainly makes the process of model creation easier; but I can't say ``Hey, R, make
-me a GLM model, please!"  (Although it's not too far off, frankly\dots)  While the computer is doing the heavy lifting, I still need to understand 
-the fundamental parts of a GLM model, and I need to understand some critical attributes of my data before a workable predictive model is created.  
-In this section, without wading too deeply into theoretical matters, we'll look at the parts of a predictive model, so we're able to understand the 
-information we're responsible for feeding into the computer before it does its 1's and 0's thing and returns us a predictive model.  First, we'll 
-break down general concepts that we'll find in any predictive model, and in the second and third sections we'll consider details specific to GLM and
-NN models.
+In the first section of this paper, I presented two side-by-side graphs, one representing a GLM predictive model, 
+and the other representing a NN predictive model.  But I presented the two graphs without any description of how they were created, other than 
+alluding to the use of statistical software to carry out the computations.  The computer certainly makes the process of model creation easier; but 
+I can't say ``Hey, R, make me a GLM model, please!"  (Although it's not too far off, frankly\dots)  While the computer is doing the heavy lifting, 
+I still need to understand the fundamental parts of a GLM model, and I need to understand some critical attributes of my data before a workable 
+predictive model is created.  In this section, without wading too deeply into theoretical matters, we'll look at the parts of a predictive model, 
+so we're able to understand the information we're responsible for feeding into the computer before it does its 1's and 0's thing and returns us a 
+predictive model.  First, we'll break down general concepts that we'll find in any predictive model, and in the second and third sections we'll 
+consider details specific to GLM and NN models.
 
 %-------------------SUBSECTION #2.1:  PARTS of a PREDICTIVE MODEL-----------------
 \subsection{The General Parts of a Predictive Model.}
@@ -29,30 +29,32 @@ can help us outline the goals of our predictive model analysis for this paper in
 of course, we want our model grounded in reality -- so it's important to verify that your data consists of well sourced observations before 
 beginning to construct any model.  There's a well-known phrase among programmers:  `Garbage in, garbage out.'  Your predictive model is only as 
 good as your data.  Make sure the process of model building starts atop a legitimate source of \textit{observed data}.  For example, the observed 
-that was used to create the predictive models in Figure \#\ref{intromodels} was derived from the 
+that was used to create the predictive models in the previous section was derived from the 
 \href{https://www.cdc.gov/brfss/index.html}{Behavioral Risk Factor Surveillance System (BRFSS)}, a system of nation-wide health surveys.  These 
-surveys have a well-documented methodology, they are conducted annually, and they are administered by the Centers for Disease Control.
+surveys have a well-documented methodology, they are conducted annually, and they are administered by the Centers for Disease Control.  The header 
+for this dataset, which lists the names of the nine observed variables, is given in Figure \#\ref{cdchead}.
 
-	%---------------VARIABLES----------
-	\subsubsection{Variables.}
-	Once you have some observed data to work from, it is necessary to identify and classify the variables within the data set.  In particular, 
-we need to classify the variables for data in one of three different ways: as a \textbf{predictor variable}, a \textbf{response variable}, or a 
-variable to ignore in our model.  
-
-In Figure \#\ref{cdchead} the header is given for the full data set from the 2015 CDC survey that was used in Figure \#\ref{intromodels} in the 
-previous chapter.  This data set has nine different variables, and we designated \texttt{height} as the predictive variable, and \texttt{weight} as 
-the response variable.  We ignored the other seven variables for this model.
-
-	%cdchead   [move to 'observed data' subsubsection above!!!]
+	%cdchead
 	\begin{figure}
 	\centering
-		<<c1, echo=F, size="footnotesize", comment=NA, background="grey80">>=
+		<<c21, echo=F, size="footnotesize", comment=NA, background="grey80">>=
 		load("R/cdc.RData")
 		head(cdc)
 		@
 	\caption{Header for the \texttt{cdc} dataset}
 	\label{cdchead}
 	\end{figure}
+
+
+	%---------------VARIABLES----------
+	\subsubsection{Variables.}
+	With observed data to work from, it is necessary to identify and classify the variables within the data set.  In particular, 
+we need to classify the variables for data in one of three different ways: as a \textbf{predictor variable}, a \textbf{response variable}, or a 
+variable to ignore in our model.  
+
+In Figure \#\ref{cdchead} we can easily identify the nine different variables (and determine if they are quantitative or categorical).  In Figure
+\#\ref{intromodels}, we designated \texttt{height} as the predictive variable, and \texttt{weight} as the response variable.  The other seven 
+variables were ignored in our model.
 
 	Is it necessary to ignore all those othe seven variables? Not at all -- if we have a particular response variable of interest to us, we can select a number
 of predictor variables that we might suspect are related.  For example, we could easily consider \texttt{height} and \texttt{age} as predictor variables in the previous example.  We could designate \textbf{every} variable (other than \texttt{weight}) as a predictor.  More predictors mean our models can quickly become complex (and thus, we lose the nice visualizations from Figure \#\ref{intromodels}) and they might take longer to build, but they have the potential
@@ -62,16 +64,22 @@ to exhibit greater accuracy.  The decision of what variables to include and excl
 	%---------------FORMULAS-----------
 	\subsubsection{Formulas.}
 	After identifying the predictor and response variables, we can also write a formula that describes this relationship between the variables.
-If we were to consider \texttt{height} and \texttt{age} as predictor variables for the CDC data, we would write \texttt{weight $\sim$ height + age}, with the left-hand argument signifying our response variable, and the right-hand sum comprised of the predictor variables.  (Could we add exponents or other operations to these terms?  Sure\dots but that's for another paper.)  Read aloud, we might say ``Weight is related to height and age". \textit{Is related to} is fairly vague language, but as we'll see later on, the nature of the relationship depends on a number of other factors -- so we cannot offer a stronger characterization, here.
+If we were to consider \texttt{height} and \texttt{age} as predictor variables for the CDC data, we would write \texttt{weight $\sim$ height + age},
+with the left-hand argument signifying our response variable, and the right-hand sum comprised of the predictor variables.  (Could we add exponents
+or other operations to these terms?  Sure\dots but that's for another paper.)  Read aloud, we might say ``Weight is related to height and age". 
+\textit{Is related to} is fairly vague language, but as we'll see later on, the nature of the relationship depends on a number 
+of other factors -- so we cannot offer a stronger characterization, here.
 
-	If we were to consider \texttt{weight} as the response variable, and all eight other variables as predictor variables, we would have the following formula:
+	If we were to consider \texttt{weight} as the response variable, and all eight other variables as predictor variables, we would have the 
+following formula:
 
-	<<chunk4, echo=F, size="scriptsize", comment=NA, background="grey80">>=
+	<<chunk22, echo=F, size="scriptsize", comment=NA, background="grey80">>=
 	f<-"weight ~ genhlth + exerany + hlthplan + smoke100 + height + wtdesire + age + gender"
 	f
 	@
 
-For a situation like this, where we do not ignore any variables, we can abbreviate it as \texttt{weight $\sim$ .} with the dot indicating that all remaining variables are predictors.
+For a situation like this, where we do not ignore any variables, we can abbreviate it as \texttt{weight $\sim$ .} with the dot indicating that all 
+remaining variables are predictors.
 
 	%--------------CROSS VALIDATION------------
 	\subsubsection{Cross Validation.}
@@ -84,27 +92,62 @@ create the model using the training set, and we test the model for accuracy usin
 idea of how accurate a predictive model would be if it was given new, independent data.  However, carrying out this `train-test' splitting of the data just 
 once is prone to great variability, depending on the particular choice of dataset selected to train the model.  Instead, repeating this `train-test' 
 splitting a number of times, repeatedly drawing random samples from the data as training and testing sets, will give a better picture of the 
-accuracy for a predictive model.  This repeated resampling and model testing is known as \textit{cross validation}.
+accuracy for a predictive model.  This repeated resampling and model testing is known as \textit{cross validation}.  In Figure \#\ref{crossvalidation},
+a visual representation of the process is given, where the train-test split is performed four times: 4-fold cross validation.
+
+	%crossvalidation
+	\begin{figure}[h!]
+	\centering
+		\includegraphics[height=15em]{{crossvalidation.jpg}}
+	\caption{Visual representation of cross-validation.  Created by Fabian Fl\"{o}ck.}
+	\label{crossvalidation}
+	\end{figure}
+
 
 The ratio of the sizes of the train and test subsets can be adjusted, though a larger training subset will likely exhibit less variability across
-repeated resamplings.  For this reason, a common ratio of the size of training and testing sets is 70-30.  %Below, a graphical representation of cross-validation using an exceedingly simply data set.
+repeated resamplings.  For this reason, a common ratio of the size of training and testing sets is 70-30.  Note that, in Figure \#\ref{crossvalidation},
+the example uses a 75-25 split, or 3-to-1 train-test ratio.
+
+
+
 
 	%--------------RESIDUALS and STANDARD ERROR--------
 	\subsubsection{Residuals and Standard Error.}
 Testing the accuracy of a predictive model is of critical, given the numerous ways in which these models are applied to real-world 
-applications of great economic, social, or environment importance.  A common test for accuracy with a predictive model is the standard error, as a number of 
-scientific research articles have analyzed how to estimate this quantity [cite from science direct]
+applications of great economic, social, or environment importance.  A common test for accuracy with a predictive model is the standard error, as 
+\href{https://www.sciencedirect.com/science/article/pii/S0165176518300855}{a number} of 
+\href{https://www.sciencedirect.com/science/article/pii/S030441651730404X}{scientific research articles} have 
+\href{https://www.sciencedirect.com/science/article/pii/S0165176516303718}{analyzed how to estimate this quantity}.
 
-	Above we alluded to how we can consider accuracy for a predictive model: comparing the model's predicted values for the response
+	Above we alluded to how we can consider accuracy for a predictive model: we can compare the model's predicted values for the response
 variable against the actual response variables in the data.  The difference between these values, the predicted and the actual response, is called
-the \textbf{residual}.  Each data point in our testing set will have a residual.  How can we aggregate these values to obtain an overall picture of
-the accuracy of our model?  If we just added residuals, we could have a deceptive picture of accuracy:  if half of the data points were over
-estimated by the model, and half of the data points were under estimated, the sum of the residuals might be close to zero, but the predictions
-would be uniformly inaccurate.  [example of residuals??]
+the \textbf{residual}.  For example, in Figure \#\ref{residual}, the NN predictive model for the height and weight of 20000 people is given, as it
+was in Figure \#\ref{intromodels}.  Using myself as the 20,001st data point, I plotted my height and weight (5'6", 144 pounds) with a large blue 
+dot on top of the existing training set data.  My data point is off the red line -- and that distance, indicated by a small blue line, represents the
+\textit{residual} for the data.
 
-	To adjust for the sign of the residuals, we define the \textbf{standard error} as the sum of the \textit{squares} of the residuals.  This
-formula not only eliminates the issue of the positive and negative residuals, but it is nicely analogous to the formula for
-variance of a data set:
+		%chunk23: graph cdc data with my residual:  no chunk code:  just run chunk23.R script
+		%<<chunk23, echo=F>>=
+		%	
+		%@
+
+	%residual
+	\begin{figure}[h!]
+	\centering
+		\includegraphics[height=15em]{{model3.png}}
+	\caption{The small vertical blue line represents a residual:  the difference between my weight and the predicted weight from the 
+		neural net predictive model.}
+	\label{residual}
+	\end{figure}
+
+My blue dot represents just one point; but each data point in a testing set will have a residual.  How can we aggregate these values to obtain an 
+overall picture of the accuracy of our model?  If we just added residuals, we could have a deceptive picture of accuracy:  if half of the data 
+points were over estimated by the model, and half of the data points were under estimated, the sum of the residuals might be close to zero, but the 
+predictions would be uniformly inaccurate.
+
+	To adjust for the sign of the residuals, we define the \textbf{standard error} as the sum of the \textit{squares} of the residuals divided
+by the number of observations.  This formula not only eliminates the issue of the positive and negative residuals, but it is nicely analogous to 
+the formula for variance of a data set:
 
 	\begin{align*}
 	\text{Standard Error} &= \frac{\sum (\bar{Y} - Y)^2}{N} \\
@@ -112,13 +155,16 @@ variance of a data set:
 	\end{align*}	
 
 The standard error serves nicely as a metric that will represent the accuracy of our predictive models.  Through cross-validation, we will collect
-a sampling of standard errors, and a statistical summary of these standard errors will offer a more robust description of a predictive model's 
-accuracy.
+a sampling of standard errors, for both GLM and NN predictive models, and a statistical summary of these standard errors will offer a more robust 
+description of a predictive model's accuracy.
 
 %--------------------SUBSECTION #2.2: PARTS of GLM------------------------------
 \subsection{The Parts of a Generalized Linear Model.}
 
-For every single predictive model, we need to have observed data, we need to have classified the predictor and response variables.  To test the accuracy of any given predictive model, we need to establish how we will cross-validate the model with our data set, and we need to identify a statistic (such as standard error) to quantify the accuracy of a model.  With these pieces in place, we can then look at some of the details unique to GLM models.
+For every single predictive model, we need to have observed data, we need to have classified the predictor and response variables.  To test the 
+accuracy of any given predictive model, we need to establish how we will cross-validate the model with our data set, and we need to identify a 
+statistic (such as standard error) to quantify the accuracy of a model.  With these pieces in place, we can then look at some of the details unique 
+to GLM models.
 	
 	%-------------COEFFICIENTS------------------------
 	\subsubsection{The Coefficients for a GLM formula.}
@@ -129,40 +175,81 @@ an equation in the form of
 
 $$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 \dots \beta_k X_k,$$
 
-that relates the response variable $Y$ and the $k$ different predictor variables $X_i$.  The \textbf{model coefficients} $\beta_i$ need to be
-calculated so that our model best `fits' the observed data.   A very simple, two-dimensional example is given is Figure \#\ref{glmcoefficients}.
+\noindent that relates the response variable $Y$ and the $k$ different predictor variables $X_i$.  The \textbf{model coefficients} $\beta_i$ need 
+to be calculated so that our model best `fits' the observed data.   These calculations are easily carried out in R;  a very simple, two-dimensional 
+example is given is Figure \#\ref{glmcoefficients}.
 
 		%glmcoefficients
 		\begin{figure}[h!]
-		\includegraphics[height=1.5in]{{regression1.jpg}}
-		\caption{A basic linear regression with dataset, predictor and response variables, and linear model.}
+		\centering
+		\includegraphics[height=2.2in]{{regression1.jpg}} 
+			<<chunk24,echo=3,background="grey80">>= 
+			figure5<-data.frame(lemons=c(240,290,355,445,530),fatalities=c(15.86,15.7,15.36,15.31,14.88)) 
+			glm(fatalities~lemons, data=figure5)->glm.output
+			glm.output
+			@
+		\caption{A graph of a basic linear regression, and the output -- including coefficients $\beta_i$ -- provided by a GLM predictive 
+			model fitting the data.}
 		\label{glmcoefficients}
 		\end{figure}
 		%glmcoefficients
 
-A key consequence of a GLM model establishing this relationship between predictor and response variables is that we can analyze the specific coefficients generated by a model, and we can even determine confidence intervals for these coefficients.  If the confidence interval for a given coefficient does NOT contain zero, then we can state (with some degree of confidence) that there is a correlation (though not necessarily a cause-effect relationship!) between the variables.  For example, in the model represented in Figure \#\ref{glmcoefficients}, the coefficient 
-$\beta_1= X$ indicates that for each metric ton of lemons imported to the US, the highway fatality rate will drop by X.  %confidence interval too??
+\noindent Notice where it says \texttt{Coefficients:} in the output: these are the values $\beta_0$ and $\beta_1$ for the model.  A defining feature of a GLM
+model is that we can analyze the specific coefficients generated by a model to establish a relationship between predictor and response variables.
+For example, in the model represented in Figure \#\ref{glmcoefficients}, the coefficient $\beta_1= \Sexpr{glm.output$coefficients[2]}$ indicates 
+that for each metric ton of lemons imported to the US, the highway fatality rate will drop by $\Sexpr{abs(glm.output$coefficients[2])}$.
 
-Although we will not further analyze model coefficients in this paper, their presence in GLM models can give us very useful language to describe the relationship between specific variables in a dataset.  (And, if you believe the correlation result from above, I've got a statistics book to sell you\dots)
+We can even determine confidence intervals for these coefficients.  If the confidence interval for a given coefficient does NOT contain zero, then 
+we can state (with some degree of confidence) that there is a correlation (though not necessarily a cause-effect relationship!) between the 
+variables.  (And, if you believe the correlation result from above, I've got a statistics book to sell you\dots)
+  %--------IF you have time.... write more on confidence intervals for GLM coefficients!!!!
+
+Although we will not further analyze model coefficients in this paper, their presence in GLM models can give us very useful language to describe 
+the relationship between specific variables in a dataset.  
 
 	%-------------LINK FUNCTIONS------------------------
 	\subsubsection{The Link Function for a GLM model.}
 
-In Figure \#\ref{glmcoefficients} above, it is a reasonable assumption (from the observed data) that the response variable, the highway fatality rate, is normally 
-distributed.  (In practice, you'd prefer more than five data points to corroborate your assumption\dots)  In this case, the linear relationship
-outlined by GLM provides an appropriate model for the response variable.  However, consider a situation where our observed data consists of the 
-points an NBA team scores in a game, and whether or not they win the game.  Here, the second variable is binomially distributed -- `win' or `loss' 
--- and so trying to model this variable with a linear relationship and an equation with an output that spans the real number line has a fundamental
-flaw:  we want an output between 0 (definite loss) and 1 (definite victory).
+In Figure \#\ref{glmcoefficients} above, it is a reasonable assumption (from the observed data) that the response variable, the highway fatality
+rate, is normally distributed.  (In practice, you'd prefer more than five data points to corroborate your assumption\dots)  In this case, the 
+linear relationship outlined by GLM provides an appropriate model for the response variable.  However, consider a situation where our observed 
+data consists of the points an NBA team scores in a game, and whether or not they win the game.  Here, the second variable is binomially
+distributed -- `win' or `loss' -- and so trying to model this variable with a linear relationship as before, we see how poorly our model represents
+the data.  We want an output between 0 (definite loss) and 1 (definite victory).  The line exceeds those bounds on the ends, and in the middle the
+line appears to ignore our data altogether.  This woeful model is shown in Figure \#\ref{binomialbad}.
 
 %--------------image:  'bad' GLM model w/ binomial output and identity link
+
+%chunk25:  code to create GLM identity model for binomial response, using NBA data
+%<<chunk25,echo=3,background="grey80">>= 
+%			
+%@
+		%binomialbad
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[height=1.8in]{{binomialbad.png}} 
+		\caption{Binomial response data -- WIN or LOSE for a basketball game -- is misrepresented by a predictive model expecting a
+			normally distributed response}
+		\label{binomialbad}
+		\end{figure}
+
 
 The solution to this?  We'll add another step to the GLM model process that describes the predictor-response relationship using the 
 $Y=\beta_0 + \sum \beta_i X_i$ equation:  we'll \textit{link} this linear output to a particular function that better models our specific response
 variable.  For our circumstance, with the output varying between 0 and 1, we'll use a logistic function (with range 0 to 1) to `link' the linear 
-output to the binomial response variable.  
+output to the binomial response variable.  The results in Figure \#\ref{binomialgood}, and the improved fit over the previous results, demonstrate 
+the effectiveness of using a link function in this case.  
 
 %-------------image;  data + linear output + logistic link
+
+		%binomialgood
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[height=1.8in]{{binomialgood.png}} 
+		\caption{Binomial response data -- WIN or LOSE for a basketball game -- is represented much more meaningfully when the
+			linear regression is \textit{linked} to a logistic function}
+		\label{binomialgood}
+		\end{figure}
 
 In general, for GLM predictive models, it is necessary to understand the distribution of the response variable, and then select a
 \textit{link function} that appropriately connects the linear output from the predictor variables to the response variable.  The particular

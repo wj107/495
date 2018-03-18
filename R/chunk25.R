@@ -25,12 +25,13 @@
 	glm2<-glm(WL~PTS,data=dat,family=binomial)
 	
 ####create a data frame for (bad) predictive model:
-	pred2<-data.frame(X=dat$PTS,Y=predict(glm2,type="response"))
+	pred2<-data.frame(X=dat$PTS,Y=predict(glm2,type="response"),Y2=predict(glm2))
 
 ####graph it and save!!
 	ggplot(dat,aes(PTS,WL))+geom_point(alpha=1/20,position=position_jitter(height=0.05))+
-	geom_line(dat=pred1,color="red",size=1,alpha=1/4,aes(X,Y))+
-	geom_line(dat=pred2,color="blue",size=3,aes(X,Y))
+	geom_line(dat=pred2,color="red",size=1,alpha=1/4,aes(X,Y2))+
+	geom_line(dat=pred2,color="blue",size=3,aes(X,Y))+
+	ylim(-1,2)
 	ggsave("../img/binomialgood.png", height=4, width=8)
 		
 

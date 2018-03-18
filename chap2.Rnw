@@ -176,7 +176,9 @@ an equation in the form of
 $$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 \dots \beta_k X_k,$$
 
 \noindent that relates the response variable $Y$ and the $k$ different predictor variables $X_i$.  The \textbf{model coefficients} $\beta_i$ need 
-to be calculated so that our model best `fits' the observed data.   These calculations are easily carried out in R;  a very simple, two-dimensional 
+to be calculated so that our model best `fits' the observed data.   As mentioned in the previous section, the idea of `fit' is quantified by the
+standard error; so the calculation of the coefficients $\beta_i$ then becomes an optimization problem -- we need to calculate $\beta_i$ so that
+the standard error of the model will be minimized.  These calculations are easily carried out in R;  a very simple, two-dimensional 
 example is given is Figure \#\ref{glmcoefficients}.
 
 		%glmcoefficients
@@ -251,11 +253,27 @@ the effectiveness of using a link function in this case.
 		\label{binomialgood}
 		\end{figure}
 
-In general, for GLM predictive models, it is necessary to understand the distribution of the response variable, and then select a
-\textit{link function} that appropriately connects the linear output from the predictor variables to the response variable.  The particular
-link function to be chosen is (usually) determined by the distribution of the response variable; for the normally distributed response variables,
-there is no link function (or the link function is the trivial identity function).  For binomially distributed response variables, the link 
-function is a logistic function.  For responses variables with a Poisson distribution, a log function is used as a link function.  [read annotte for other links]
+Comparing the linear output in Figure \#\ref{binomialbad} and Figure \#\ref{binomialgood}, we notice that the red lines are different.  What 
+happened?  In the first graph, the linear output, the red line, is designed to predict the response variable directly (through the process of
+minimizing standard errors, as mentioned previously).  In the second graph, the red line is not directly representing the response variable -- that's
+the job of the blue logistic graph.  Instead, the red line represents intermediate values that `link' the predictor variables to the response 
+variables.  Predictor variables are mapped onto the red line via linear combination; the values on the red line are mapped onto response variables 
+via the logistic equation.  The red line itself is nothing more than intermediate values -- neither predictor nor response variables --  with no 
+discernable meaning in the context real-world context of the scenario.  This is why the line awkwardly slants across the data in Figure 
+\#\ref{binomialgood}, compared to the line in Figure \#\ref{binomialbad}, which at least tries to approximate the responses.
+
+Understanding these chain of mappings, from predictors to linear combinations to responses, is important to understanding GLM models.  Equally 
+important is to understand that the intermediate step on that chain -- the linear combination -- has no `real-world' meaning in terms of the
+context of the problem.  But it allows us to `link' to an appropriate function (in Figure \#\ref{binomialgood}, a logistic graph) to represent the
+response.  Making qualitiative sense of these intermediate linear combinations can't be done without digging deeper into the math -- beyond the
+scope of this paper -- since the values don't make sense in the context of the problem.  But, when the overall GLM process is understood, they are 
+easily understood qualitatively -- they `link' our predictors to our responses.
+
+Details on the linear combination aside, for other GLM predictive models, it is necessary to understand the distribution of the response variable, 
+to select an appropriate \textit{link function} -- the logistic function above would not be appropriate for, say, a response with a Poisson
+distribution.  We saw that for the normally distributed response variables (in Figure \#\ref{glmcoefficients}), there is no link function (or the 
+link function is the trivial identity function).  For binomially distributed response variables (Figure \#\ref{binomialgood}), the link function is 
+a logistic function.  For responses variables with a Poisson distribution, a log function is used as a link function. [read annotte for other links]
 
 For these three types of scenarios -- normal, binomial, and Poisson distributions for a response variable -- the process of connecting linear 
 output from the predictor variables to a link function puts the `G' in GLM:  it generalizes the linear regression methods shown in Figure \#\ref{glmcoefficients} to
@@ -269,26 +287,29 @@ In the previous section, we described how GLM requires some extra information fr
 also provides us with some extra information (the coefficients describing the linear relationship between the variables).  For neural nets, no 
 extra information is required\dots but no extra information is given.  For GLM, we can describe some of the pieces that help us connect the 
 predictors to the response:  the model coefficients, the link function.  For NN, the model can, in ways, resemble a `black box':  observed data
-goes in, predictions come out.  Descriptions for what happens in between can be elusive, but I'll try\dots
+goes in, predictions come out.  For GLM, I described the intermediate linear output as `slightly cryptic'.  For NN, the intermediate stages go from 
+`slightly cryptic' to `bafflingly abstruse to the point of opacity'.  Descriptions for what happens in between can be elusive, but I'll try\dots
 
 \subsubsection{What is a Neural Net?}
-A neural network is a system for computational that can `train' its performance (that is, improve its accuracy) from observed data.  Similar to how your 
-lifelong history experiencing, say, chairs represents an observed dataset, and your brain has been `trained' on that data to know whether or not a given 
-object is a chair,  a neural network can be `trained' on a given dataset and from its training it will output information about a pre-determined response 
-variable.   For GLM the variables are connected using a linear combination and an appropriate link function, subject to specific conditions (i.e., minimizing standard error).  How does a neural net establish this connection?  How is the process of `training' a neural network different than how a GLM model is built from observed data?  
+A neural network is a system for computational that can `train' its performance (that is, improve its accuracy) from observed data.  Similar to how 
+your lifelong history experiencing, say, chairs represents an observed dataset, and your brain has been `trained' on that data to know whether or 
+not a given object is a chair,  a neural network can be `trained' on a given dataset and from its training it will output information about a 
+pre-determined response variable.   For GLM the variables are connected using a linear combination and an appropriate link function, subject to 
+specific conditions (i.e., minimizing standard error).  How does a neural net establish this connection?  How is the process of `training' a neural 
+network different than how a GLM model is built from observed data?  
 
-At its root, a neural net accomplishes this in exactly the same way as a GLM model: it combines linear combinations and link functions to connect predictor 
-variables to a response.  The fundamental differences between the models: (1) a neural net does not necessarily rely on only one linear combination 
-and link function to connect inputs to outputs -- there may be many! -- and (2) the linear combinations do not represent the solution to a 
-optimization problem (i.e., minimizing the sum of squared residuals) as they do for GLM.  Instead, these linear combinations are the end product of a 
-computionally intensive trial-and-error process guided by a pre-determined \textit{learning rule}.
+At its root, a neural net accomplishes this in exactly the same way as a GLM model: it combines linear combinations and link functions to connect 
+predictor variables to a response.  The fundamental differences between the models: (1) a neural net does not necessarily rely on only one linear 
+combination and link function to connect inputs to outputs -- there may be many! -- and (2) the linear combinations do not represent the solution 
+to a optimization problem (i.e., minimizing the standard errors) as they do for GLM.  Instead, these linear combinations are the end 
+product of a computionally intensive trial-and-error process guided by a pre-determined \textit{learning rule}.
 
 \subsubsection{The Structure of a Neural Net.}
-Neuroscience tells us that brain activity is dispersed across a network of interconnected neurons.  Simulating this interconnectedness by replicating
-the distrubuted structure of the neurons in a human brain is the fundamental feature of a NN predictive model.  And, by `distributed structure' for a NN 
-predictive model, we mean that the results from the linear combination of the predictor variables does not directly arrive us to the response variables.  
-Instead, the results of one linear combination are then plugged into another linear combination, the results of which might be plugged into another\dots
-and, eventually, the chain of combinations (and link functions!) arrives to the response outputs.
+Neuroscience tells us that brain activity is dispersed across a network of interconnected neurons.  Simulating this interconnectedness by 
+replicating the distrubuted structure of the neurons in a human brain is the fundamental feature of a NN predictive model.  And, by `distributed 
+structure' for a NN predictive model, we mean that the results from the linear combination of the predictor variables does not directly arrive us 
+to the response variables.  Instead, the results of one linear combination are then plugged into another linear combination, the results of which 
+might be plugged into another\dots and, eventually, the chain of combinations (and link functions!) arrives to the response outputs.
 
 To visualize a neural network, rather than an $xy$-graph, consider a directed graph with edges and vertices.  Each predictor variable has a vertex,
 and the response variable is a vertex, also.  The predictor vertices represent a \textit{layer} of vertices, and the response vertex is, by itself,

@@ -1,6 +1,6 @@
 #####################################################################
 ############# COMPARING ACCURACY OF GLM and NN Predictive Models
-############# v0.147 -- 17 March 2018
+############# v0.1475 -- 18 March 2018
 #####################################################################
 #-------- Author: wj107
 #-------- Email: will.johnson@gmail.com
@@ -15,7 +15,7 @@
 
 #---------------------------------
 
-#---------------v0.147 has:
+#---------------v0.1475 has:
 #-----------'diamonds' data set and 'gamelogs' with NBA data for training/testing models
 #-----------six pre-designed trials, and a function that inputs data frame, response variable, and outputs SE estimates
 #-----------creates summary graphs of the SE results, distinguishing between trial size, response variable type, and model type (GLM/NN)
@@ -25,7 +25,7 @@
 #-----------scripts for figures in chap1 and chap2.1 and 2.2
 #-----------modularized tex write-up!  one file per chapter!
 
-#---------------v0.147+ needs:
+#---------------v0.1475+ needs:
 #-----------create mini-scripts to produce figures for chap2 and chap3
 #-----------work to broaden functions, fold them into SEestimate... make like an SEestimate.study function.
 #-----------add data to 495trials function

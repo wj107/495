@@ -262,6 +262,19 @@ via the logistic equation.  The red line itself is nothing more than intermediat
 discernable meaning in the context real-world context of the scenario.  This is why the line awkwardly slants across the data in Figure 
 \#\ref{binomialgood}, compared to the line in Figure \#\ref{binomialbad}, which at least tries to approximate the responses.
 
+The schematic in Figure \#\ref{glmchart} illustrates the process:  in red, predictor variables are mapped to a linear 
+combination -- the numbers that `don't make sense' in the context of the problem.  These `nonsense' numbers are then mapped, via a link function, 
+to the response variable.
+
+%------simple flowchart???
+		%glmchart
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[width=4.4in]{{glmchart.png}} 
+		\caption{A schematic showing the mappings to connect the predictor variables to the response variable}
+		\label{glmchart}
+		\end{figure}
+
 Understanding these chain of mappings, from predictors to linear combinations to responses, is important to understanding GLM models.  Equally 
 important is to understand that the intermediate step on that chain -- the linear combination -- has no `real-world' meaning in terms of the
 context of the problem.  But it allows us to `link' to an appropriate function (in Figure \#\ref{binomialgood}, a logistic graph) to represent the
@@ -313,10 +326,18 @@ might be plugged into another\dots and, eventually, the chain of combinations (a
 
 To visualize a neural network, rather than an $xy$-graph, consider a directed graph with edges and vertices.  Each predictor variable has a vertex,
 and the response variable is a vertex, also.  The predictor vertices represent a \textit{layer} of vertices, and the response vertex is, by itself,
-a layer also.  All the vertices in one layer are connected to each vertex in the subsequent layer.  The number of layers, beyond the initial layers that 
-contain the predictor and response variables, is a matter of choice.
+a layer also.  All the vertices in one layer are connected to each vertex in the subsequent layer.  The number of layers, beyond the initial layers 
+that contain the predictor and response variables, is a matter of choice.  Figure \#\ref{nnmodel} illustrates the structure of Neural Net with two 
+hidden layers, each containing three neurons.
 
 %-------------NN graph!!
+		%nnmodel
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[width=4.4in]{{nnmodel.png}} 
+		\caption{A schematic showing the structure of a neural net with two hidden layers of three neurons each.}
+		\label{nnmodel}
+		\end{figure}
 
 With the structure of a neural network established, we give values to the vertices.  Predictor variables are assigned values from an observed data
 point.  Vertices in subsequent layers receive values calculated by \textit{weighted sums} of the adjacent vertices (c.f. linear combinations in GLM
@@ -324,10 +345,31 @@ models), which are then transformed via a \textit{activation function} (c.f. lin
 function will be applied once to data in a GLM model, if we have assigned a number of layers of neurons to our NN model, this process will be
 repeated before we arrive at an output for our response.  
 
-%-----------NN graph side-by-side analogous GLM graph
+In Figure \#\ref{nnchart}, this structure and its complexity is laid out in a colored schematic.  The colors are meant to evoke the pieces of the
+GLM process from Figure \#\ref{glmchart} -- red indicates a linear combination, and blue represents a `link' function (called an activation function,
+here).  Notice that the red and blue are combined in each of the neurons.  This is because for each neuron, we must apply a linear combination AND 
+an activation function to our data.  That is, each neuron contains a `tiny' version of the GLM process, but for clarity it's crunched into one
+multi-colored neuron, here.
 
-Before we conclude that NN is simply `supersized GLM' owing to some of the similiarities in the above graphic, consider how we establish values for
-the weights in the NN digraph, and consider the purpose of the activation function.
+%-----------NN graph
+		%nnchart
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[width=4.4in]{{nnchart.png}} 
+		\caption{A schematic showing the mappings to connect the predictor variables to the response variable for a NN predictive model}
+		\label{nnchart}
+		\end{figure}
+
+When discussing GLM I made a great deal about the fact that the red linear combinations were `nonsense' numbers meaningless in the context
+of the origin variables.  Here, for all the many linear combinations and `link' functions creating the intermediate stages, every calculation will
+consist of these `nonsense' numbers.  Only when the final values are generated do we arrive at numbers that we can wrap our minds around.  All the
+other numbers -- for instance, if you found the weight of the sum between Neuron \#2 and Neuron \#6 or the value of the activation function in
+Neuron \#4 -- it wouldn't mean anything to us.  The complexity of the system and the lack of context for all the numbers calculated in the 
+intermediate stages makes a NN model feel like a \textit{black box}.  I'm not saying there's not more to learn in those intermediate numbers -- but
+I am saying that I won't be the one to teach you anything about them.
+  
+Next: before we conclude that NN is simply `supersized GLM' owing to some of the similiarities in the above graphic, consider how we establish values for
+the weights in the NN digraph.
 
 	\subsubsection{Training a Neural Net.}
 The raw values from our observed data must be scaled to values between -1 and 1 (or between 0 and 1) before they are assigned to the vertices in 
@@ -339,16 +381,23 @@ The accuracy of a model with weights chosen at random is likely to be suspect.  
 process is iterative -- each data point from our observed data is scaled and fed into the neural network.  The training algorithm will compare the
 output from the neural network to the actual response value from the data, and adjust the weights as necessary.  How are the weights adjusted?  
 Typically an algorithm will have a `learning rule' that stipulates how to modify the weights.  In a GLM model, there is a goal in adjusting the
-parameters $\beta_i$: minimizing the standard error for the model.  For training a neural net there is a `blind' rule defined for adjusting the parameters.  Remarkably, in the end, after repeated iterations, this `blind' rule accomplishes can achieve accurate output.  But is it more accurate than GLM?  Fast forward to Section \#3 for details of a head-to-head comparison between the methods\dots
+parameters $\beta_i$: minimizing the standard error for the model.  For training a neural net there is a `blind' rule defined for adjusting the 
+parameters.  Remarkably, in the end, after repeated iterations, this `blind' rule accomplishes can achieve accurate output.  But is it more 
+accurate than GLM?  Fast forward to Section \#3 for details of a head-to-head comparison between the methods\dots
 
 The iterative training process of the `learning rule' in a neural net is adaptable:  we do not need to specify the type of
 distribution for our response (as we do with GLM).  We can introduce more data points to an existing model to better train it incrementally,
 whereas GLM requires us to provide all the observed data up front to create a model.  (At least, this is true in theory -- the algorithms I am
-familiar with for creating a NN model require all the data up front, also.)  The process can be `brittle' -- it is possible for a learning rule can produce accurate
-models ten times in a row, but on the eleventh, the model outputs might continually diverge from the actual responses as the learning rule is iterated.  
-The complexity of the NN structure means it is virtually impossible to troubleshoot why a divergence like this might arise.
+familiar with for creating a NN model require all the data up front, also.)  The process can be `brittle' -- it is possible for a learning rule to
+produce accurate models for given data, but when one parameter in the learning rule or the structure of the NN is changed, even slightly, the model 
+outputs might continually diverge from the actual responses and no meaningful predictions are produced -- the model collapses.  The complexity of 
+the NN structure means it is virtually impossible to troubleshoot why a divergence like this might arise.
 
-When it works, it's remarkable to see a neural net build an accurate predictive model through pure computational muscle and faithful persistence to a learning rule.  When it doesn't, I'm left frustrated with an opaque black box, tweaking the structure of the NN, crossing my fingers and trying again.  It's about as close to mysticism as I'm comfortable with for mathematics -- and, understanding that, we ought to be careful what data we might analyze using a neural net.  Data that determines whether or not a patient gets a risky operation with life-and-limb in the balance?  Not wise.  Data that looks at whether or not a basketball team would win a game, based on their team statistics?  Sure!  On that note\dots
+When it works, it's remarkable to see a neural net build an accurate predictive model through pure computational muscle and faithful persistence 
+to a learning rule.  When it doesn't, I'm left frustrated with an opaque black box, tweaking the structure of the NN, crossing my fingers and 
+trying again.  It's about as close to mysticism as I'm comfortable with for mathematics -- and, understanding that, we ought to be careful what 
+data we might analyze using a neural net.  Data that determines whether or not a patient gets a risky operation with life-and-limb in the balance? 
+Not wise.  Data that looks at whether or not a basketball team would win a game, based on their team statistics?  Sure!  On that note\dots
 
 
 

@@ -223,9 +223,7 @@ line appears to ignore our data altogether.  This woeful model is shown in Figur
 %--------------image:  'bad' GLM model w/ binomial output and identity link
 
 %chunk25:  code to create GLM identity model for binomial response, using NBA data
-%<<chunk25,echo=3,background="grey80">>= 
-%			
-%@
+
 		%binomialbad
 		\begin{figure}[h!]
 			\centering
@@ -286,7 +284,9 @@ Details on the linear combination aside, for other GLM predictive models, it is 
 to select an appropriate \textit{link function} -- the logistic function above would not be appropriate for, say, a response with a Poisson
 distribution.  We saw that for the normally distributed response variables (in Figure \#\ref{glmcoefficients}), there is no link function (or the 
 link function is the trivial identity function).  For binomially distributed response variables (Figure \#\ref{binomialgood}), the link function is 
-a logistic function.  For responses variables with a Poisson distribution, a log function is used as a link function. [read annotte for other links]
+a logistic function.  For responses variables with a Poisson distribution, a log function is used as a link function. 
+
+%%%%---------[read annotte for other links].  figures for link functions???
 
 For these three types of scenarios -- normal, binomial, and Poisson distributions for a response variable -- the process of connecting linear 
 output from the predictor variables to a link function puts the `G' in GLM:  it generalizes the linear regression methods shown in Figure \#\ref{glmcoefficients} to

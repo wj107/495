@@ -1,6 +1,6 @@
 #####################################################################
 ############# COMPARING ACCURACY OF GLM and NN Predictive Models
-############# v0.1483 -- 19 March 2018
+############# v0.15 -- 20 March 2018
 #####################################################################
 #-------- Author: wj107
 #-------- Email: will.johnson@gmail.com
@@ -15,18 +15,18 @@
 
 #---------------------------------
 
-#---------------v0.1483 has:
+#---------------v0.15 has:
 #-----------'diamonds' data set and 'gamelogs' with NBA data for training/testing models
 #-----------six pre-designed trials, and a function that inputs data frame, response variable, and outputs SE estimates
 #-----------creates summary graphs of the SE results, distinguishing between trial size, response variable type, and model type (GLM/NN)
 #-----------options to save (w.out dimensions) or display graphs.
 #-----------3 chapters of a write-up:  chap1 overview, chap2 introductions, chap3 methods & results
 #-----------some basic knitr:  tex file replaced by a Rnw file.  495knit file to convert Rnw to tex.
-#-----------scripts for figures in chap1 and chap2,  including flowcharts w/R grid and Gmisc packages
+#-----------first draft of figures and scripts and graphs!  
 #-----------modularized tex write-up!  one file per chapter!
 
-#---------------v0.1483+ needs:
-#-----------create mini-scripts to produce figures and tables for chap3
+#---------------v0.15+ needs:
+#-----------re-size flowcharts in chap 2 to make them readable
 #-----------work to broaden functions, fold them into SEestimate... make like an SEestimate.study function.
 #-----------add data to 495trials function
 #-----------separate 495trials/graphic from the project!  one can be generalized, the other... keep fixed results for the paper
@@ -37,3 +37,6 @@
 #-----------can you do source([R file]) in a Rnw chunk??
 #-----------comments for R chunks??? width of chunks??
 #-----------add brief analysis of TIME needed for model building
+#-----------kable_styling(latex_options="striped" ????
+#-----------bibliography
+#-----------create a wiki to host further research!!

@@ -1,0 +1,26 @@
+%---------------495 Report, Chapter 3------------------
+
+%----------------------------------------------------------------------
+%----------------SECTION 3.5: Final thoughts.
+%----------------------------------------------------------------------
+
+\subsection{Final Thoughts.}
+
+Other than the clear trend where NN models require far more time to construct than GLM models, the mixed nature of the results in the previous 
+sections indicate that there's more research to be done in comparing predictive models.  In no particular order:
+
+\begin{itemize}
+  \item The GLM model used to predict the quantitative response variable assumed a normally distributed response variable.  From Figure 
+\#\ref{responsedistribs}, it is clear that the response variable actually had a (heavily) right skewed distribution.  Perhaps performing a 
+log-transform on the data, and then re-comparing the GLM to NN models might yield new results?
+  \item How would the presented results change if a new predictor variable was introduced (or removed) from the data?  That is, how do the standard
+  errors change, incrementally, when the predictors change?
+  \item Related:  what if we took three datasets, one with only two predictor variables, one with (say) 10, and a third with 25.  That is, we had data with a `small, medium, and large' set of predictors.  Do we notice any significant differences comparing GLM and NN across each of these sets?  Is, say, the improvements in accuracy in NN most pronounced over large (ie, many predictors) data sets?
+  \item Our categorical data set had two levels:  win and loss.  What about categorical responses with more levels?  What about ordered categorical responses (5-star ratings for a restaurant, say), versus un-ordered ones (the destination airport for a flight leaving from O'Hare)?
+  \item What if a dataset consisted entirely of categorical data?
+\end{itemize}
+
+I invite the interested reader to use the \texttt{se.estimate} function, and dig in to the above questions!  Or create your own!  
+
+%---Lest you think that's just an idle threat, I have created a GitHub XYZ page to catalog my results.  If you find further results, please share! %----https://help.github.com/articles/about-github-wikis/ 
+%----create a github something-or-other to compile any further research to these questions!!!

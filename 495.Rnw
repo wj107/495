@@ -19,6 +19,7 @@
 	\usepackage{hyperref}
 	%---hyperlink format
 	\hypersetup{colorlinks=true,urlcolor=blue}
+	
 
 %---set graphicspath
 	\graphicspath{
@@ -47,5 +48,6 @@
 	  \input{./chap32}
 	  \input{./chap33}
 	  \input{./chap34}
+	  \input{./chap35}
 	  
 \end{document}

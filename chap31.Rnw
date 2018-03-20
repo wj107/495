@@ -6,7 +6,7 @@
 
 \subsection{The Datasets.}
 	For this paper, I will train both GLM and NN models using two pre-selected datasets.  The datasets that will be considered are a listing of 
-various attributes for nearly 54 000 diamonds, and team statistics for nearly 3000 
+various attributes for nearly 54,000 diamonds, and team statistics for nearly 3000 
 basketball games from the NBA.  The diamonds data is provided (without source) as part of the \texttt{ggplot2} package for R, and it includes 10 
 variables for each of the diamonds.
 
@@ -31,6 +31,7 @@ The distributions of the response variables for these datasets is illustrated in
 for these two datasets, we can analyze the performance of GLM and NN predictive models when given either a quantiative response variable or a 
 categorical response variable.
 
+%----------------just use 'table' to illustrate categorical, and a similar command for quantiative variable??
 	%responsedistribs
 	\begin{figure}[h!]
 	\includegraphics[height=1.5in]{{graph1.png}}

@@ -1,0 +1,48 @@
+%---------------495 Report, Chapter 3---------------
+
+%----------------------------------------------------------------------
+%----------------SECTION 3.3: Results for DIAMONDS 
+%----------------------------------------------------------------------
+
+\subsection{Results for predictive models built from \texttt{diamonds}.}
+	After calling the \texttt{se.estimate} function for the subsets of the \texttt{diamonds} data, we have a sampling of 300 standard errors, 
+after the script built and tested 300 predictive models. In Figure \#\ref{diamondsgraph}, we organize this sampling according to the type of predictive model (GLM or NN) and the size of the testing subset for the model (50, 100, or 200).
+
+	%diamondsgraph
+	\begin{figure}[h!]
+	\centering
+		\includegraphics[width=5in]{{diamondsgraph.png}}
+	\caption{Graphical summary of standard errors built from \texttt{diamonds} dataset}
+	\label{diamondsgraph}
+	\end{figure}
+
+Looking at the graph, we notice that the general clustering of the standard error data points \textit{decreases} as the size of the
+testing set increases; so the reasonable hunch that `more data means more accuracy' seems to be supported, in this case.  Also, the blue
+dots, the standard errors for the neural net models, are noticeably below the red (GLM) dots.  That is, the neural net predictive models, 
+on the whole, were more accurate than the GLM models.  The results, summarized in tabular form, paint this same picture:
+
+	<<chunk38, echo=F, background="grey80", size="footnotesize", comment=NA>>=
+	require(knitr)
+	load("R/results2.RData")
+	tapply(results2[,4],results2[,2:3],mean)->table1
+	kable(table1)
+	@
+
+Another observation we might expect after repeating the cross-validation with larger training sets is for the variation in the standard errors 
+to decrease.  That is, we might expect to narrow in on the `true' standard error when the training sets were larger.  This would be similar to the 
+Law of Large Numbers, but for data sampling -- more data, more representative samplings, more tendency to cluster around an (ostensibly) `true' 
+value for the standard error.  Although we can't conclusively test this property from the data in Figure \#\ref{diamondsgraph} above, when looking 
+at a numerical table we can check:
+
+	<<chunk39, echo=F, background="grey80", size="footnotesize", comment=NA>>=
+	tapply(results2[,4],results2[,2:3],sd)->table2
+	kable(table2)
+	@
+
+Surprisingly, the accuracy only improves for the neural net model -- for the GLM predictive models, the variation does not uniformly improve.  That
+means, although in general more data makes the models more accurate, with GLM more data can still give rise to a `bad' model that is inconsistent 
+with the general performance of other similar models.
+
+It's one comparison, from one data set.  But the numbers seem to clearly indicate:  more data is more accuracy, and neural nets are more accurate 
+and more consistent!  Are we ready to write this in stone?  Well, let's check another data set for corroborating evidence, first\dots
+

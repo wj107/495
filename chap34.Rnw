@@ -1,0 +1,43 @@
+%---------------495 Report, Chapter 3------------------
+
+%----------------------------------------------------------------------
+%----------------SECTION 3.4: Results for GAMELOG 
+%----------------------------------------------------------------------
+
+\subsection{Results for predictive models built from \texttt{gamelog}.}
+After calling the \texttt{se.estimate} function for the subsets of the \texttt{gamelog} data, we have a sampling of 300 standard errors, 
+after the script built and tested 300 predictive models. In Figure \#\ref{gameloggraph}, we organize this sampling according to the type of 
+predictive model (GLM or NN) and the size of the testing subset for the model (50, 100, or 200).
+
+	%gameloggraph
+	\begin{figure}[h!]
+	\centering
+		\includegraphics[width=5in]{{gameloggraph.png}}
+	\caption{Graphical summary of standard errors built from \texttt{gamelog} dataset}
+	\label{gameloggraph}
+	\end{figure}
+
+Surprisingly, the first observation is that neural net predictive models are notably \textbf{less} accurate in this example.  Across all three
+sample sizes, the GLM models showed better accuracy.  The results, summarized in tabular form:
+
+	<<chunk310, echo=F, background="grey80", size="footnotesize", comment=NA>>=
+	load("R/results3.RData")
+	tapply(results3[,4],results3[,2:3],mean)->table1
+	kable(table1)
+	@
+
+Notice too that the improvement in the gains in accuracy as the training sets grow are negligible.  Examining standard error:
+
+	<<chunk311, echo=F, background="grey80", size="footnotesize", comment=NA>>=
+	tapply(results3[,4],results3[,2:3],sd)->table2
+	kable(table2)
+	@
+
+Notice something from these values:  unlike the first scenario, with the \texttt{diamonds} data, the variation decreases in each case.  In other
+words, for the \texttt{gamelog} data, for a categorical response variable, the predictive models become more consistent as more data is added to the
+test and train sets.  
+
+Taken together, there's a lot of conflicting information:  NN is more accurate for the quantitative response, but GLM is more
+accurate for the categorical response.  For quantitative responses, more data yields more accuracy; but for categorical responses, more data yields
+more consistency (if not accuracy).  Do these trends hold in all cases?  Sounds like topics for future research and analysis!  Find yourself some
+data, use the \texttt{se.estimate} function, and dig in!

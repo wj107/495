@@ -1,0 +1,59 @@
+%-----------495 report, Chapter 3---------------------
+
+%-------------------------------------------------------------------------
+%----------------Section 3.1: DATASETS.
+%-------------------------------------------------------------------------
+
+\subsection{The Datasets.}
+	For this paper, I will train both GLM and NN models using two pre-selected datasets.  The datasets that will be considered are a listing of 
+various attributes for nearly 54 000 diamonds, and team statistics for nearly 3000 
+basketball games from the NBA.  The diamonds data is provided (without source) as part of the \texttt{ggplot2} package for R, and it includes 10 
+variables for each of the diamonds.
+
+	<<chunk31, echo=F, size="footnotesize", comment=NA, background="grey80">>=
+	head(diamonds)
+	@
+
+The gamelog dataset was retrieved from the website \href{https://www.basketball-reference.com}{Basketball-Reference.com}, and it looks at 21 
+statistics for each basketball game.  
+
+	<<chunk32, echo=F, size="scriptsize", comment=NA, background="grey80">>=
+	load("R/gamelog.RData")
+	head(datt)
+	@
+
+When creating our predictive models for analysis, we will consider the quantitative variable \texttt{price} as our response variable for the 
+diamonds dataset, and the categorical variable \texttt{WL} (a value of texttt{1} indicates the team won a game, \texttt{0} denotes a loss) as our 
+response variable for the gamelog dataset.  All other variables will be considered as predictor variables; thus our formulas will be 
+\texttt{price $\sim$ .} and \texttt{WL $\sim$ .} when we generate our predictive models.
+
+The distributions of the response variables for these datasets is illustrated in Figure \#\ref{responsedistribs}.  With the different distributions
+for these two datasets, we can analyze the performance of GLM and NN predictive models when given either a quantiative response variable or a 
+categorical response variable.
+
+	%responsedistribs
+	\begin{figure}[h!]
+	\includegraphics[height=1.5in]{{graph1.png}}
+	\includegraphics[height=1.5in]{{graph2.png}}
+	\caption{Distributions for the response variables in \texttt{diamonds} dataset (left), and the \texttt{gamelog} dataset (right)}
+	\label{responsedistribs}
+	\end{figure}
+
+One aspect for our analysis of predictive models involves varying the size of the training sets for building the predictive models.  Therefore,
+rather than consider the entire \texttt{diamonds} or \texttt{gamelog} dataset as a whole, we will draw three different sized subsets from each to
+consider for analysis -- allowing us to consider if more data leads to more accurate predictions from our model.  Consider the following code to
+draw three subsets from the \texttt{diamonds} dataset:
+
+	<<chunk33, eval=F, size="footnotesize", comment=NA, background="grey80">>=
+	diamonds.small<-diamonds[sample(nrow(diamonds),550),]
+	diamonds.medium<-diamonds[sample(nrow(diamonds),1100),]
+	diamonds.large<-diamonds[sample(nrow(diamonds),2200),]
+	@
+
+This code is creating three subsets from the entire \texttt{diamonds} dataset.  The small subset contains a random sample of 550 datapoints (that 
+is, the information on 550 different diamonds), the medium subset is a random sample of 1100 diamonds, and the large subset a sample of 2200 
+diamonds.  We will define the subsets \texttt{gamelog.small}, \texttt{gamelog.medium}, and \texttt{gamelog.large} in an analogous manner.
+
+When we carry out the process of cross-validation on these data subsets, we will use a 10-to-1 train-test ratio (c.f. the benchmark 70-30 train-test
+ratio) that allows us to build our predictive models with training sets of sizes 500, 1000, and 2000, and testing sets of sizes 50, 100, and 200.  
+For details on model building and testing\dots

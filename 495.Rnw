@@ -13,6 +13,12 @@
 %---get packages!
 	%---for math notations
 	\usepackage{amsmath}
+	%---for titlepage geometry
+	\usepackage{geometry}
+	%---for titlepage color
+	\usepackage{xcolor}
+	    \definecolor{titlepagecolor}{cmyk}{1,.60,0,.40}
+      \definecolor{namecolor}{cmyk}{1,.50,0,.10} 
 	%---for including graphics	
 	\usepackage{graphicx}
 	%---for hyperlinks
@@ -33,21 +39,21 @@
 %------------top matter and abstract
 %---------------------------------------
 
-	\include{./top}
+	\include{./tex/top}
 
 %------------------------------
 %-------------body
 %------------------------------
 
-	\include{./chap1}
+	\include{./tex/chap1}
 
-	\include{./chap2}
+	\include{./tex/chap2}
 
-	\input{./chap3}
-	  \input{./chap31}
-	  \input{./chap32}
-	  \input{./chap33}
-	  \input{./chap34}
-	  \input{./chap35}
+	\input{./tex/chap3}
+	  \input{./tex/chap31}
+	  \input{./tex/chap32}
+	  \input{./tex/chap33}
+	  \input{./tex/chap34}
+	  \input{./tex/chap35}
 	  
 \end{document}

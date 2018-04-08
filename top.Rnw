@@ -4,11 +4,47 @@
 %---top matter
 %-------------------------
 
-	\title{Generalized Linear Models and Neural Nets: Comparison Between Methods for Predictive Analysis}
-	\author{William R. Johnson}
-	%%%%other title commands??  advisor?  
-	\date{20 March 2018}
-	\maketitle
+\begin{titlepage}
+\newgeometry{left=7.5cm} %defines the geometry for the titlepage
+\pagecolor{titlepagecolor}
+
+
+\noindent
+\includegraphics[width=4cm]{neiu.png}\color{white}
+
+\noindent
+{\textsf{A Project in Applied Mathematics\\ 
+Presented to the Faculty of the Department of Mathematics}}
+
+\noindent
+\makebox[0pt][l]{\rule{1.3\textwidth}{1pt}}
+\par
+\noindent
+\textbf{\textsf{Northeastern Illinois University}} \textcolor{namecolor}{\textsf{Chicago}}
+
+\vskip 25pt
+\noindent
+{\huge \textsf{Generalized Linear Models\\
+and Neural Nets:}}
+
+\noindent
+{\large \textsf{Comparison Between Methods for Predictive Analysis}}
+
+\vfill
+\noindent
+{\large \textsf{In Partial Fulfillment of the Requirements for the\\
+Master of Science In Applied Mathematics}}
+\vskip\baselineskip
+\noindent
+{\Large \textsf{William R. Johnson}}
+\vskip\baselineskip
+\noindent
+\textsf{\today}
+\end{titlepage}
+\restoregeometry % restores the geometry
+\nopagecolor% Use this to restore the color pages to white
+% ----------------------------------------------------------------
+
 
 %------------------------
 %---abstract
@@ -26,3 +62,6 @@ accuracy, and I will compute these approximations using 50-fold cross-validation
 normally distributed response variable, and one with a binomially distributed response.  The results -- estimated standard errors and processing 
 time -- will be analyzed across the different model types, the different response variables, and different sizes of training sets.
 	\end{abstract}
+	\vfill\eject
+
+	\tableofcontents

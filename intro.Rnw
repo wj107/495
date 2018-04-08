@@ -1,0 +1,20 @@
+
+%------------------------
+%---abstract
+%------------------------
+
+%	\renewcommand{\abstractname}{Abstract:}
+	\subsection*{Abstract:}
+		Whether a \href{https://fivethirtyeight.com/features/oscars-2018-early-predictions-nominations/}{fluffy article about primetime 
+awards programs on the website fivethirtyeight.com}, or deep within the analytical 
+department of a multi-billion dollar, multinational corporations, predictive analysis is a critical part of our world in the age of ``Big Data".  
+In this paper, I will examine two types of predicitive analysis, Generalized Linear Models (GLM) and Neural Nets (NN).  I will offer a cursory 
+overview of the mathematics behind each type of model, and using the R statistical software, I will analyze the accuracy of both GLM and NN 
+predictive models, as well as the time needed to construct each model. I will consider an approximation of the standard error as a measure of model 
+accuracy, and I will compute these approximations using 50-fold cross-validation.  The models will be fit to two different datasets -- one with a 
+normally distributed response variable, and one with a binomially distributed response.  The results -- estimated standard errors and processing 
+time -- will be analyzed across the different model types, the different response variables, and different sizes of training sets.
+%	\end{abstract}
+	\vfill\eject
+
+	\tableofcontents

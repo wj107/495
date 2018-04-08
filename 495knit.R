@@ -3,15 +3,25 @@
 ########################################################################
 
 require(knitr)
+require(ggplot2)
+require(magrittr)
+require(kableExtra)
 
-knit("top.Rnw")
-knit("chap1.Rnw")
-knit("chap2.Rnw")
-knit("chap3.Rnw")
-  knit("chap31.Rnw")
-  knit("chap32.Rnw")
-  knit("chap33.Rnw")
-  knit("chap34.Rnw")
-  knit("chap35.Rnw")
+#---knit cover/intro(abstract &toc)
+	knit("cover.Rnw")
+	knit("intro.Rnw")
 
-knit("495.Rnw")
+#---knit chapters and subsections
+	knit("chap1.Rnw")
+	
+	knit("chap2.Rnw")
+	
+	knit("chap3.Rnw")
+		knit("chap31.Rnw")
+		knit("chap32.Rnw")
+		knit("chap33.Rnw")
+		knit("chap34.Rnw")
+		knit("chap35.Rnw")
+
+#---put it ALL together!!
+	knit("495.Rnw")

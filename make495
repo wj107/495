@@ -1,12 +1,12 @@
 #!/bin/bash
 
 #--------------------------------------------
-#------------project maker
+#------------make495
 #--------------------------------------------
 
-#--------------------------------------------------------
-#------ bash script to knit and compile 495 project.
-#--------------------------------------------------------
+#----------------------------------------------------------------
+#------ bash script to knit, typeset, and display 495 project.
+#----------------------------------------------------------------
 
 #---knit Rnw files using littler
 	r 495knit.R
@@ -17,5 +17,6 @@
 #---typeset!!
 	pdflatex tex/495.tex
 	pdflatex tex/495.tex
-#---move pdf back to home directory
-#	mv tex/495.pdf .
+
+#---display pdf
+	mupdf 495.pdf

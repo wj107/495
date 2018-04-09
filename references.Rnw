@@ -1,0 +1,58 @@
+%-----------------------------------------------------
+%-------------  495 references
+%-----------------------------------------------------
+
+\addcontentsline{toc}{section}{References}
+
+\begin{thebibliography}{12}
+
+\bibitem{agresti}
+Alan Agresti. \textit{Categorical Data Analysis, 2nd Edition.} John Wiley \& Sons, Hoboken, NJ.  2002.
+
+\bibitem{bbref}  
+Basketball Reference.  \href{https://www.basketball-reference.com}{\texttt{www.basketball-reference.com}} 
+Sports Reference LLC.  2018.
+
+\bibitem{brfss}
+Behavioral Risk Factor Surveillance System.  \href{https://www.cdc.gov/brfss/index.html}{\texttt{www.cdc.gov/brfss/index.html}}.  
+National Center for Chronic Disease Prevention and Health Promotion.  22 March 2018.
+
+\bibitem{chambers}
+John M. Chambers and Barbara Ryan. \href{https://stat-computing.org/computing/history/chambers-ryan.html}{
+\textit{The ASA Statistical Computing Section:  A History.}}
+The American Statistician.  May 1990.
+
+\bibitem{dobson}
+Annette J. Dobson.  \textit{Introduction to Generalized Linear Models, 2nd Edition.} Chapman \& Hall.  2002.
+
+\bibitem{grier}
+David Alan Grier. \href{magazine.amstat.org/blog/2006/09/01/origins-of-statistical-computing/}{\textit{The Origins of Statistical Computing.}} 
+AmStatNews.  The Membership Magazine of the American Statistical Association.  1 September 2006.
+
+\bibitem{hastie}
+Trevor Hastie, Robert Tibshirani, Jerome Friedman.  \textit{The Elements of Statistical Learning: Data Mining, Inference, and Prediction.  2nd Edition.}
+Springer Publishing, New York. 2008.
+
+\bibitem{johnson}
+William Johnson.  \href{https://github.com/wj107/SEestimate/}{\textit{R code for SE.estimation.}} Hosted on GitHub; GitHub, Inc.  2018.
+
+\bibitem{kriesel}
+David Kriesel.  \textit{A Brief Introduction to Neural Networks.}  \href{http://www.dkriesel.com}{Self-published.}  2007.
+
+\bibitem{kurenkov}
+Andrey Kurenkov. \href{www.andreykurenkov.com/writing/ai/a-brief-history-of-neural-nets-and-deep-learning}{
+\textit{A Brief History of Neural Nets and Deep Learning.}}  Personal website, 24 December 2015.
+
+\bibitem{kutner}
+Michael Kutner, Christopher Nachtsheim, John Neter, William Li.  \textit{Applied Linear Statistical Models, 5th Edition.}  
+McGraw Hill, NY, NY.  2005.
+
+\bibitem{ozgur}
+Ceyhun Ozgur, Michelle Kleckner, Yang Li.  \href{http://journals.sagepub.com/doi/full/10.1177/2158244015584379}{
+\textit{Selection of Statistical Software for Solving Big Data Problems:  A Guide for Businesses, Students, and Universities.}}
+Published online by Sage Publications, Inc.  19 May 2015.
+
+\bibitem{scidirect}
+Science Direct.  \href{https://www.sciencedirect.com}{\texttt{www.sciencedirect.com}}.  Elsevier B. V.  2018.
+
+\end{thebibliography}

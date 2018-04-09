@@ -24,3 +24,5 @@ I invite the interested reader to use the \texttt{se.estimate} function, and dig
 
 %---Lest you think that's just an idle threat, I have created a GitHub XYZ page to catalog my results.  If you find further results, please share! %----https://help.github.com/articles/about-github-wikis/ 
 %----create a github something-or-other to compile any further research to these questions!!!
+
+\vfill\eject

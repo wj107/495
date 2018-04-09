@@ -32,7 +32,7 @@ good as your data.  Make sure the process of model building starts atop a legiti
 that was used to create the predictive models in the previous section was derived from the 
 \href{https://www.cdc.gov/brfss/index.html}{Behavioral Risk Factor Surveillance System (BRFSS)}, a system of nation-wide health surveys.  These 
 surveys have a well-documented methodology, they are conducted annually, and they are administered by the Centers for Disease Control.  The header 
-for this dataset, which lists the names of the nine observed variables, is given in Figure \#\ref{cdchead}.
+for this dataset, which lists the names of the nine observed variables, is given in Figure \#\ref{cdchead} \cite{brfss}.
 
 	%cdchead
 	\begin{figure}
@@ -92,14 +92,14 @@ create the model using the training set, and we test the model for accuracy usin
 idea of how accurate a predictive model would be if it was given new, independent data.  However, carrying out this `train-test' splitting of the data just 
 once is prone to great variability, depending on the particular choice of dataset selected to train the model.  Instead, repeating this `train-test' 
 splitting a number of times, repeatedly drawing random samples from the data as training and testing sets, will give a better picture of the 
-accuracy for a predictive model.  This repeated resampling and model testing is known as \textit{cross validation}.  In Figure \#\ref{crossvalidation},
+accuracy for a predictive model.  This repeated resampling and model testing is known as \textit{cross validation} \cite{hastie}.  In Figure \#\ref{crossvalidation},
 a visual representation of the process is given, where the train-test split is performed four times: 4-fold cross validation.
 
 	%crossvalidation
 	\begin{figure}[h!]
 	\centering
 		\includegraphics[height=15em]{{crossvalidation.jpg}}
-	\caption{Visual representation of cross-validation.  Created by Fabian Fl\"{o}ck.}
+	\caption{Visual representation of cross-validation.  Created by Fabian Fl\"{o}ck, as found on the Wikipedia page for cross-validation.}
 	\label{crossvalidation}
 	\end{figure}
 
@@ -108,23 +108,20 @@ The ratio of the sizes of the train and test subsets can be adjusted, though a l
 repeated resamplings.  For this reason, a common ratio of the size of training and testing sets is 70-30.  Note that, in Figure \#\ref{crossvalidation},
 the example uses a 75-25 split, or 3-to-1 train-test ratio.
 
-
-
-
 	%--------------RESIDUALS and STANDARD ERROR--------
 	\subsubsection{Residuals and Standard Error.}
 Testing the accuracy of a predictive model is of critical, given the numerous ways in which these models are applied to real-world 
 applications of great economic, social, or environment importance.  A common test for accuracy with a predictive model is the standard error, as 
 \href{https://www.sciencedirect.com/science/article/pii/S0165176518300855}{a number} of 
 \href{https://www.sciencedirect.com/science/article/pii/S030441651730404X}{scientific research articles} have 
-\href{https://www.sciencedirect.com/science/article/pii/S0165176516303718}{analyzed how to estimate this quantity}.
+\href{https://www.sciencedirect.com/science/article/pii/S0165176516303718}{analyzed how to estimate this quantity} \cite{scidirect}.
 
 	Above we alluded to how we can consider accuracy for a predictive model: we can compare the model's predicted values for the response
 variable against the actual response variables in the data.  The difference between these values, the predicted and the actual response, is called
 the \textbf{residual}.  For example, in Figure \#\ref{residual}, the NN predictive model for the height and weight of 20000 people is given, as it
 was in Figure \#\ref{intromodels}.  Using myself as the 20,001st data point, I plotted my height and weight (5'6", 144 pounds) with a large blue 
 dot on top of the existing training set data.  My data point is off the red line -- and that distance, indicated by a small blue line, represents the
-\textit{residual} for the data.
+\textit{residual} for the data \cite{kutner}.
 
 		%chunk23: graph cdc data with my residual:  no chunk code:  just run chunk23.R script
 		%<<chunk23, echo=F>>=
@@ -134,7 +131,7 @@ dot on top of the existing training set data.  My data point is off the red line
 	%residual
 	\begin{figure}[h!]
 	\centering
-		\includegraphics[height=15em]{{model3.png}}
+		\includegraphics[width=5in]{{model3.png}}
 	\caption{The small vertical blue line represents a residual:  the difference between my weight and the predicted weight from the 
 		neural net predictive model.}
 	\label{residual}
@@ -146,7 +143,7 @@ points were over estimated by the model, and half of the data points were under 
 predictions would be uniformly inaccurate.
 
 	To adjust for the sign of the residuals, we define the \textbf{standard error} as the sum of the \textit{squares} of the residuals divided
-by the number of observations.  This formula not only eliminates the issue of the positive and negative residuals, but it is nicely analogous to 
+by the number of observations \cite{kutner}.  This formula not only eliminates the issue of the positive and negative residuals, but it is nicely analogous to 
 the formula for variance of a data set:
 
 	\begin{align*}
@@ -178,13 +175,13 @@ $$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 \dots \beta_k X_k,$$
 \noindent that relates the response variable $Y$ and the $k$ different predictor variables $X_i$.  The \textbf{model coefficients} $\beta_i$ need 
 to be calculated so that our model best `fits' the observed data.   As mentioned in the previous section, the idea of `fit' is quantified by the
 standard error; so the calculation of the coefficients $\beta_i$ then becomes an optimization problem -- we need to calculate $\beta_i$ so that
-the standard error of the model will be minimized.  These calculations are easily carried out in R;  a very simple, two-dimensional 
+the standard error of the model will be minimized \cite{kutner}.  These calculations are easily carried out in R;  a very simple, two-dimensional 
 example is given is Figure \#\ref{glmcoefficients}.
 
 		%glmcoefficients
 		\begin{figure}[h!]
 		\centering
-		\includegraphics[height=2.2in]{{regression1.jpg}} 
+		\includegraphics[width=5in]{{regression1.jpg}} 
 			<<chunk24,echo=3,background="grey80">>= 
 			figure5<-data.frame(lemons=c(240,290,355,445,530),fatalities=c(15.86,15.7,15.36,15.31,14.88)) 
 			glm(fatalities~lemons, data=figure5)->glm.output
@@ -227,7 +224,7 @@ line appears to ignore our data altogether.  This woeful model is shown in Figur
 		%binomialbad
 		\begin{figure}[h!]
 			\centering
-			\includegraphics[height=1.8in]{{binomialbad.png}} 
+			\includegraphics[width=5in]{{binomialbad.png}} 
 		\caption{Binomial response data -- WIN or LOSE for a basketball game -- is misrepresented by a predictive model expecting a
 			normally distributed response}
 		\label{binomialbad}
@@ -237,7 +234,7 @@ line appears to ignore our data altogether.  This woeful model is shown in Figur
 The solution to this?  We'll add another step to the GLM model process that describes the predictor-response relationship using the 
 $Y=\beta_0 + \sum \beta_i X_i$ equation:  we'll \textit{link} this linear output to a particular function that better models our specific response
 variable.  For our circumstance, with the output varying between 0 and 1, we'll use a logistic function (with range 0 to 1) to `link' the linear 
-output to the binomial response variable.  The results in Figure \#\ref{binomialgood}, and the improved fit over the previous results, demonstrate 
+output to the binomial response variable \cite{dobson}.  The results in Figure \#\ref{binomialgood}, and the improved fit over the previous results, demonstrate 
 the effectiveness of using a link function in this case.  
 
 %-------------image;  data + linear output + logistic link
@@ -245,7 +242,7 @@ the effectiveness of using a link function in this case.
 		%binomialgood
 		\begin{figure}[h!]
 			\centering
-			\includegraphics[height=1.8in]{{binomialgood.png}} 
+			\includegraphics[width=5in]{{binomialgood.png}} 
 		\caption{Binomial response data -- WIN or LOSE for a basketball game -- is represented much more meaningfully when the
 			linear regression is \textit{linked} to a logistic function}
 		\label{binomialgood}
@@ -268,7 +265,7 @@ to the response variable.
 		%glmchart
 		\begin{figure}[h!]
 			\centering
-			\includegraphics[width=4.4in]{{glmchart.png}} 
+			\includegraphics[width=5in]{{glmchart.png}} 
 		\caption{A schematic showing the mappings to connect the predictor variables to the response variable}
 		\label{glmchart}
 		\end{figure}
@@ -284,14 +281,14 @@ Details on the linear combination aside, for other GLM predictive models, it is 
 to select an appropriate \textit{link function} -- the logistic function above would not be appropriate for, say, a response with a Poisson
 distribution.  We saw that for the normally distributed response variables (in Figure \#\ref{glmcoefficients}), there is no link function (or the 
 link function is the trivial identity function).  For binomially distributed response variables (Figure \#\ref{binomialgood}), the link function is 
-a logistic function.  For responses variables with a Poisson distribution, a log function is used as a link function. 
-
-%%%%---------[read annotte for other links].  figures for link functions???
+a logistic function.  For responses variables with a Poisson distribution, a log function is used as a link function \cite{dobson}. 
 
 For these three types of scenarios -- normal, binomial, and Poisson distributions for a response variable -- the process of connecting linear 
 output from the predictor variables to a link function puts the `G' in GLM:  it generalizes the linear regression methods shown in Figure \#\ref{glmcoefficients} to
 encompass response variables that do not exhibit linear behavior.  A common thread for the scenarios that allow us to apply the GLM process is that the 
-response distributions all belong to the \textit{exponential} family of distributions.
+response distributions all belong to the \textit{exponential} family of distributions \cite{dobson}.
+
+%----extra link examples??
 
 %--------------------SUBSECTION #2.3: PARTS of NN--------------------------------
 \subsection{The Parts of a Neural Net.}
@@ -315,14 +312,14 @@ At its root, a neural net accomplishes this in exactly the same way as a GLM mod
 predictor variables to a response.  The fundamental differences between the models: (1) a neural net does not necessarily rely on only one linear 
 combination and link function to connect inputs to outputs -- there may be many! -- and (2) the linear combinations do not represent the solution 
 to a optimization problem (i.e., minimizing the standard errors) as they do for GLM.  Instead, these linear combinations are the end 
-product of a computionally intensive trial-and-error process guided by a pre-determined \textit{learning rule}.
+product of a computionally intensive trial-and-error process guided by a pre-determined \textit{learning rule} \cite{kriesel}.
 
 \subsubsection{The Structure of a Neural Net.}
 Neuroscience tells us that brain activity is dispersed across a network of interconnected neurons.  Simulating this interconnectedness by 
 replicating the distrubuted structure of the neurons in a human brain is the fundamental feature of a NN predictive model.  And, by `distributed 
 structure' for a NN predictive model, we mean that the results from the linear combination of the predictor variables does not directly arrive us 
 to the response variables.  Instead, the results of one linear combination are then plugged into another linear combination, the results of which 
-might be plugged into another\dots and, eventually, the chain of combinations (and link functions!) arrives to the response outputs.
+might be plugged into another\dots and, eventually, the chain of combinations (and link functions!) arrives to the response outputs \cite{kriesel}.
 
 To visualize a neural network, rather than an $xy$-graph, consider a directed graph with edges and vertices.  Each predictor variable has a vertex,
 and the response variable is a vertex, also.  The predictor vertices represent a \textit{layer} of vertices, and the response vertex is, by itself,
@@ -334,14 +331,14 @@ hidden layers, each containing three neurons.
 		%nnmodel
 		\begin{figure}[h!]
 			\centering
-			\includegraphics[width=4.4in]{{nnmodel.png}} 
+			\includegraphics[width=5in]{{nnmodel.png}} 
 		\caption{A schematic showing the structure of a neural net with two hidden layers of three neurons each.}
 		\label{nnmodel}
 		\end{figure}
 
 With the structure of a neural network established, we give values to the vertices.  Predictor variables are assigned values from an observed data
 point.  Vertices in subsequent layers receive values calculated by \textit{weighted sums} of the adjacent vertices (c.f. linear combinations in GLM
-models), which are then transformed via a \textit{activation function} (c.f. link functions in GLM).  Whereas the linear combination and link
+models), which are then transformed via a \textit{activation function} (c.f. link functions in GLM) \cite{kriesel}.  Whereas the linear combination and link
 function will be applied once to data in a GLM model, if we have assigned a number of layers of neurons to our NN model, this process will be
 repeated before we arrive at an output for our response.  
 
@@ -355,7 +352,7 @@ multi-colored neuron, here.
 		%nnchart
 		\begin{figure}[h!]
 			\centering
-			\includegraphics[width=4.4in]{{nnchart.png}} 
+			\includegraphics[width=5in]{{nnchart.png}} 
 		\caption{A schematic showing the mappings to connect the predictor variables to the response variable for a NN predictive model}
 		\label{nnchart}
 		\end{figure}
@@ -366,8 +363,11 @@ consist of these `nonsense' numbers.  Only when the final values are generated d
 other numbers -- for instance, if you found the weight of the sum between Neuron \#2 and Neuron \#6 or the value of the activation function in
 Neuron \#4 -- it wouldn't mean anything to us.  The complexity of the system and the lack of context for all the numbers calculated in the 
 intermediate stages makes a NN model feel like a \textit{black box}.  I'm not saying there's not more to learn in those intermediate numbers -- but
-I am saying that I won't be the one to teach you anything about them.
+I am saying that I won't be the one to teach you anything about them.  For a cursory discussion of intermediate values and \textit{layers} in
+neural nets, I'll recommend the web posting by Kurenkov \cite{kurenkov}.
   
+%----perceptron comp??
+
 Next: before we conclude that NN is simply `supersized GLM' owing to some of the similiarities in the above graphic, consider how we establish values for
 the weights in the NN digraph.
 
@@ -375,15 +375,18 @@ the weights in the NN digraph.
 The raw values from our observed data must be scaled to values between -1 and 1 (or between 0 and 1) before they are assigned to the vertices in 
 the neural net.  Initially, the weights connecting vertices are chosen at random.  The activation functions are functions such as an inverse 
 tangent or a logistic function with an output in the range of -1 to 1, ensuring values in all subsequent neuron layers, as well as the response 
-value, are scaled similarly to the initial data.
+value, are scaled similarly to the initial data \cite{kriesel}.
 
 The accuracy of a model with weights chosen at random is likely to be suspect.  To improve that, the a NN model can be trained.  The training
 process is iterative -- each data point from our observed data is scaled and fed into the neural network.  The training algorithm will compare the
 output from the neural network to the actual response value from the data, and adjust the weights as necessary.  How are the weights adjusted?  
 Typically an algorithm will have a `learning rule' that stipulates how to modify the weights.  In a GLM model, there is a goal in adjusting the
-parameters $\beta_i$: minimizing the standard error for the model.  For training a neural net there is a `blind' rule defined for adjusting the 
-parameters.  Remarkably, in the end, after repeated iterations, this `blind' rule accomplishes can achieve accurate output.  But is it more 
-accurate than GLM?  Fast forward to Section \#3 for details of a head-to-head comparison between the methods\dots
+parameters $\beta_i$: minimizing the standard error for the model.  But this metric, standard error, is calculated in the aggregate:  to judge the
+accuracy of a model, we need \textbf{all} the data points to calculate a standard error.  For training a neural net, however, we can do so 
+incrementally, one data point at a time.  The output generated by a NN model from one data point is compared to the actual output, and based on the
+difference, the model weights will be adjusted according to a \textit{backproprogation} rule. This backpropogation rule is more commonly referred to 
+as a `learning rule', and for a further discussion of backpropagation, I recommend the text by Hastie \cite{hastie}.  Backpropogation is applied, 
+point-by-point, creating a number of incremental changes in the model weights that, taken together, build the final predictive model.
 
 The iterative training process of the `learning rule' in a neural net is adaptable:  we do not need to specify the type of
 distribution for our response (as we do with GLM).  We can introduce more data points to an existing model to better train it incrementally,

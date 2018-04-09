@@ -4,7 +4,7 @@
 %------------------------------------
 
 \begin{titlepage}
-\newgeometry{left=5.5cm} %defines the geometry for the titlepage
+\newgeometry{left=3.5cm} %defines the geometry for the titlepage
 \pagecolor{titlepagecolor}
 
 
@@ -23,8 +23,7 @@ Presented to the Faculty of the Department of Mathematics}}
 
 \vskip 25pt
 \noindent
-{\huge \textsf{Generalized Linear Models\\
-and Neural Nets:}}
+{\huge \textsf{Generalized Linear Models and Neural Nets}}
 
 \noindent
 {\large \textsf{Comparison Between Methods for Predictive Analysis}}
@@ -35,12 +34,11 @@ and Neural Nets:}}
 Master of Science In Applied Mathematics}}
 \vskip\baselineskip
 \noindent
-{\Large \textsf{William R. Johnson}}
+{\huge \textsf{William R. Johnson}}
 \vskip\baselineskip
 \noindent
 \textsf{\today}
 \end{titlepage}
 \restoregeometry % restores the geometry
 \nopagecolor% Use this to restore the color pages to white
-% ----------------------------------------------------------------
 

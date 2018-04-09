@@ -15,7 +15,8 @@ variables for each of the diamonds.
 	@
 
 The gamelog dataset was retrieved from the website \href{https://www.basketball-reference.com}{Basketball-Reference.com}, and it looks at 21 
-statistics for each basketball game.  
+statistics for each basketball game \cite{bbref}.  
+	\vfill\eject
 
 	<<chunk32, echo=F, size="scriptsize", comment=NA, background="grey80">>=
 	load("R/gamelog.RData")

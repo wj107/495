@@ -6,7 +6,8 @@
 
 \subsection{Results for predictive models built from \texttt{diamonds}.}
 	After calling the \texttt{se.estimate} function for the subsets of the \texttt{diamonds} data, we have a sampling of 300 standard errors, 
-after the script built and tested 300 predictive models. In Figure \#\ref{diamondsgraph}, we organize this sampling according to the type of predictive model (GLM or NN) and the size of the testing subset for the model (50, 100, or 200).
+after the script built and tested 300 predictive models. In Figure \#\ref{diamondsgraph}, we organize this sampling according to the type of 
+predictive model (GLM or NN) and the size of the testing subset for the model (50, 100, or 200).
 
 	%diamondsgraph
 	\begin{figure}[h!]
@@ -16,9 +17,9 @@ after the script built and tested 300 predictive models. In Figure \#\ref{diamon
 	\label{diamondsgraph}
 	\end{figure}
 
-Looking at the graph, we notice that the general clustering of the standard error data points \textit{decreases} as the size of the
-testing set increases; so the reasonable hunch that `more data means more accuracy' seems to be supported, in this case.  Also, the blue
-dots, the standard errors for the neural net models, are noticeably below the red (GLM) dots.  That is, the neural net predictive models, 
+Looking at the graph, we notice that the median (as indicated by the box plots) of the standard error data points \textit{decreases} as the size of 
+the testing set increases; so the reasonable hunch that `more data means more accuracy' seems to be supported, in this case.  Also, the medians of 
+the blue dots, the standard errors for the neural net models, are noticeably below the red (GLM) dots.  That is, the neural net predictive models, 
 on the whole, were more accurate than the GLM models.  The results, summarized in Table \#1, paint this same picture.
 
 	<<chunk38, echo=F, background="grey80", size="footnotesize", comment=NA>>=
@@ -35,27 +36,28 @@ on the whole, were more accurate than the GLM models.  The results, summarized i
 	@
 
 Another observation we might expect after repeating the cross-validation with larger training sets is for the variation in the standard errors 
-to decrease.  That is, we might expect to narrow in on the `true' standard error when the training sets were larger.  This would be similar to the 
-Law of Large Numbers, but for data sampling -- more data, more representative samplings, more tendency to cluster around an (ostensibly) `true' 
-value for the standard error.  Although we can't conclusively test this property from the data in Figure \#\ref{diamondsgraph} above, when looking 
-at a the standard devations in Table \#2, we can observe the trends.
+to decrease.  That is, we might expect to more consistently narrow in on the `true' standard error when the training sets were larger.  This would 
+be similar to the Law of Large Numbers, but for data sampling -- more data, more representative samplings, more tendency to cluster around an 
+(ostensibly) `true' value for the standard error.  Although we can't conclusively test this property from the data in Figure \#\ref{diamondsgraph} 
+above, when looking at a the standard devations in Table \#2, we can observe the trends.
 
 	<<chunk39, echo=F, background="grey80", size="footnotesize", comment=NA>>=
 #-----find sd across GLM, NN and test sizes 
 		tapply(results.diamonds[,4],results.diamonds[,2:3],sd)->sd.table.diamonds
 #-----re-write grouped data in 3-column data frame.  there's an  easier way... I can't find it easily.
-  	sd.table.diamonds<-data.frame(TEST.SIZE=rownames(sd.table.diamonds),GLM=sd.table.diamonds[,1],NN=sd.table.diamonds[,2],row.names=NULL)
+	sd.table.diamonds<-data.frame(TEST.SIZE=rownames(sd.table.diamonds),GLM=sd.table.diamonds[,1],NN=sd.table.diamonds[,2],row.names=NULL)
 #-----create table, center alignment, w/title
 	kable(sd.table.diamonds,format="latex",col.names=c("Size of Testing Set","Std. Dev. of GLM Std. Error","Std. Dev. of NN Std. Error"),
 	        caption="Variation for Standard Errors for predictive models with varying sizes of test sets",align="c") %>% 
-	  kable_styling(latex_options="scale_down")
+		kable_styling(latex_options="scale_down")
 	@
 
-Surprisingly, the accuracy only improves for the neural net model -- for the GLM predictive models, the variation does not uniformly improve.  That
-means, although in general more data makes the models more accurate, with GLM more data can still give rise to a `bad' model that is inconsistent 
-with the general performance of other similar models.
+Surprisingly, the consistency only improves for the neural net model -- for the GLM predictive models, the variation does not uniformly improve.  
+That means, although in general more data makes the models more accurate, with GLM more data can still give rise to a `bad' model that is 
+inconsistent with the general performance of other similar models.
 
-A final observation to consider when comparing the two types of predictive models:  how long does it take to generate a model from the training data?  Accuracy and consistency are important; but resources are limited.  The time it takes to generate a model is worth considering.  Table \#3 gives both the average build time and the maximum build time for GLM and NN models.
+A final observation to consider when comparing the two types of predictive models:  how long does it take to generate a model from the training data?  Accuracy and consistency are important; but resources are limited.  The time it takes to generate a model is worth considering.  Table 
+\#3 gives both the average build time and the maximum build time for GLM and NN models.
 
  <<chunk310, echo=F, background="grey80", comment=NA>>=
 #-----find mean, max of build time across GLM, NN, and test sizes
@@ -71,7 +73,9 @@ A final observation to consider when comparing the two types of predictive model
 	  kable_styling(latex_options="scale_down")
 		@
 	
-Whoa! The difference in build time between GLM and NN models is crystal clear:  GLM models only take a blink to create -- regardless of the size of the testing set -- whereas NN models take several orders of magnitude longer to create.  The difference from several hundredths of a second to nearly a minute is vast.  But think back to the diagrams in chapter 2 comparing GLM and NN models: for GLM, it required one linear combination and one link function.  For NN, there was a maze of mappings between neurons.  More mappings, more calculations, more computing time needed.  Complexity has its cost -- and it is time!
+Whoa! The difference in build time between GLM and NN models is crystal clear:  GLM models only take a blink to create -- regardless of the size of the testing set -- whereas NN models take several orders of magnitude longer to create.  The difference from several hundredths of a second to nearly a minute is vast.  But think back to the diagrams in chapter 2 comparing GLM and NN models: for GLM, it required one linear combination and one link function.  For NN, there was a maze of mappings between neurons.  More mappings, more calculations, more computing time 
+needed.  Complexity has its cost -- and it is time!
 
-Taking all three comparisons into account, the numbers seem to indicate:  more data is more accuracy, and neural nets are more accurate and more consistent\dots and take WAY longer to build!  Are we ready to write this in stone?  Well, let's check another data set for corroborating evidence, first\dots
-
+Taking all three comparisons into account, the numbers seem to indicate:  more data is more accuracy, and neural nets are more accurate and more 
+consistent\dots and take WAY longer to build!  Are we ready to write this in stone?  Well, let's check another data set for corroborating evidence, 
+first\dots

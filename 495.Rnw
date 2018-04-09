@@ -18,7 +18,7 @@
 	%---for titlepage color
 	\usepackage{xcolor}
 	    \definecolor{titlepagecolor}{cmyk}{1,.60,0,.40}
-      \definecolor{namecolor}{cmyk}{1,.50,0,.10} 
+	    \definecolor{namecolor}{cmyk}{1,.50,0,.10} 
 	%---for including graphics	
 	\usepackage{graphicx}
 	%---for hyperlinks
@@ -56,5 +56,7 @@
 	  \input{./tex/chap33}
 	  \input{./tex/chap34}
 	  \input{./tex/chap35}
+
+	\input{./tex/references}
 	  
 \end{document}

@@ -18,9 +18,9 @@ a reasonable estimate for true standard error parameter for a model.
 We look for trends: which model type is more accurate?  How much so?  The results are also presented graphically using ggplot. The detailed 
 write-up on the models, as well as plenty of introductory description about predictive modelling, is given in the LaTeX documents.
 
-#### Some features of v0.7:
+#### Some features of v0.9:
 
-* Title page!  Table of contents!
+* Title page!  Table of contents! References!!
 * 'diamonds' data set and 'gamelogs' with NBA data for training/testing models
 * six pre-designed trials, and a function that inputs data frame, response variable, and outputs SE estimates
 * creates summary graphs of the SE results, distinguishing between trial size, response variable type, and model type (GLM/NN)
@@ -32,8 +32,7 @@ write-up on the models, as well as plenty of introductory description about pred
 
 #### v0.7+ needs:
 
-* bibliography
-* re-size flowcharts in chap 2 to make them readable
+* flowcharts... can you make them better?
 * work to broaden functions, fold them into SEestimate... make like an SEestimate.study function.
 * add data to 495trials function
 * separate 495trials/graphic from the project!  one can be generalized, the other... keep fixed results for the paper
@@ -45,3 +44,4 @@ write-up on the models, as well as plenty of introductory description about pred
 * comments for R chunks??? width of chunks??
 * kable_styling(latex_options="striped" ????
 * create a wiki to host further research!!
+* perceptron, exponential functions... add more figures

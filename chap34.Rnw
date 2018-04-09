@@ -18,7 +18,8 @@ predictive model (GLM or NN) and the size of the testing subset for the model (5
 	\end{figure}
 
 Surprisingly, the first observation is that neural net predictive models are notably \textbf{less} accurate in this example.  Across all three
-sample sizes, the GLM models showed better accuracy.  The results are summarized in Table \#4.
+sample sizes, the GLM models showed better accuracy, as indicated by the medians of the standard error in the boxplots.  The results are summarized 
+in Table \#4.
 
 	<<chunk311, echo=F, background="grey80", size="footnotesize", comment=NA>>=
 	require(knitr)
@@ -33,7 +34,8 @@ sample sizes, the GLM models showed better accuracy.  The results are summarized
 	  kable_styling(latex_options="scale_down")    ###why can't I do 'striped'  or 'booktabs'  ????
 	@
 
-Notice too that the improvement in the gains in accuracy -- the tendency of the dots to cluster -- is negligible across the three sample sizes.  The standard deviation of the standard errors across each of the tests illustrates this, as shown in Table \#5.
+Notice too that the improvement in the gains in consistency -- the tendency of the dots to cluster -- is negligible across the three sample sizes.  
+The standard deviation of the standard errors across each of the tests illustrates this, as shown in Table \#5.
 
 	<<chunk312, echo=F, background="grey80", size="footnotesize", comment=NA>>=
 #-----find sd across GLM, NN and test sizes 
@@ -47,7 +49,9 @@ Notice too that the improvement in the gains in accuracy -- the tendency of the 
 	@
 
 Notice something from these values:  unlike the first scenario, with the \texttt{diamonds} data, the variation decreases in each case.  In other
-words, for the \texttt{gamelog} data, for a categorical response variable, the predictive models become more consistent as more data is added to the test and train sets.  Is this tendency only present when categorical data is considered?  That would make a terrific question for further research.
+words, for the \texttt{gamelog} data, for a categorical response variable, the predictive models become more consistent as more data is added to 
+the test and train sets  (even though this was not readily apparently from looking at the graphs).  Is this tendency only present when categorical 
+data is considered?  That would make a terrific question for further research.
 
 Our last comparison, of the build times, is summarized in Table \#6.
 
@@ -65,7 +69,11 @@ Our last comparison, of the build times, is summarized in Table \#6.
 	  kable_styling(latex_options="scale_down")
 		@
 
-Once again, the difference in build time between the two types of models is very clearly apparent.  The NN models are significantly more costly, in terms of time, to construct than GLM models.  This trend, as well as the size of the discrepancy -- several orders of magnitude -- is consistent whether we're studying a quantitative response variable or a categorical response.  It seems to be a conclusive takeaway from our comparison: neural net models are significantly more time-intensive to construct.
+Once again, the difference in build time between the two types of models is very clearly apparent.  The NN models are significantly more costly, in
+terms of time, to construct than GLM models.  This trend, as well as the size of the discrepancy -- several orders of magnitude -- is consistent 
+whether we're studying a quantitative response variable or a categorical response.  It seems to be a conclusive takeaway from our comparison: 
+neural net models are significantly more time-intensive to construct.
 
 But that said, accuracy-wise, there's a lot of conflicting information:  NN is more accurate for the quantitative response, but GLM is more
-accurate for the categorical response.  For quantitative responses, more data yields more accuracy; but for categorical responses, more data yields more consistency (if not accuracy).  Do these trends hold in all cases?  Sounds like topics for future research and analysis!  On that note\dots
+accurate for the categorical response.  For quantitative responses, more data yields more accuracy; but for categorical responses, more data yields
+more consistency (if not accuracy).  Do these trends hold in all cases?  Sounds like topics for future research and analysis!  On that note\dots

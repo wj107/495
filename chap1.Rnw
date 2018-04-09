@@ -18,7 +18,7 @@ Generalized Linear Models (GLM), and Neural Networks (NN).  Both methods allow u
 
 Figure \#\ref{intromodels} contains two graphs that illustrate, graphically, these two types of mathematical models for a simple data set.
 Given a sample of heights and weights from 20000 individuals in the United States collected from a 2015 survey conducted by the Centers for Disease
-Control, the red lines indicate the predicted response variables from mathematical models trained on this data.  
+Control \cite{brfss}, the red lines indicate the predicted response variables from mathematical models trained on this data.  
 
 %----------No chunk, just used 'chunk11.R' file to create graphs
 	
@@ -32,8 +32,8 @@ Control, the red lines indicate the predicted response variables from mathematic
 		%intromodels
 		\begin{figure}[h!]
 		\centering
-		\includegraphics[height=2.3in]{{model1.png}}
-		\includegraphics[height=2.3in]{{model2.png}}
+		\includegraphics[width=2.8in]{{model1.png}}
+		\includegraphics[width=2.8in]{{model2.png}}
 		\caption{Predictive models for height and weight data, trained using GLM methods (left), and NN methods (right)}
 		\label{intromodels}
 		\end{figure}
@@ -48,13 +48,13 @@ observe and analyze in many other contexts over the course of this paper.
 	\subsection{GLM in Mathematical Literature.}
 		For many scientific breakthroughs, there is no one, clear, defining `AHA!' moment where a new idea was discovered from scratch. For
 GLM, however, the is a moment that approximates that: the publication in 1972, by Nelder and Wedderburn, of the paper `Generalized Linear Models'
-in the \textit{Journal of the Royal Statistical Society}.  This often-cited work clearly laid out many of the ideas that are central to the study 
+in the \textit{Journal of the Royal Statistical Society} \cite{agresti}.  This often-cited work clearly laid out many of the ideas that are central to the study 
 of GLMs today.  On the back of this work, and with the rise of widely-available statistical software to calculate GLM models such as R and SPSS, 
 these models have been widely applied across the scientific literature in service of predictive analysis.  For instance, GLM has utility in
 analyzing systems as varied as 
 \href{https://www.sciencedirect.com/science/article/pii/S037877961630222X}{hydropower generation}, 
 \href{https://www.sciencedirect.com/science/article/pii/S1470160X17306271}{habitat selection for small mammals}, and 
-\href{https://www.sciencedirect.com/science/article/pii/S0167668715303358}{insurance claims}.  
+\href{https://www.sciencedirect.com/science/article/pii/S0167668715303358}{insurance claims} \cite{scidirect}.  
 
 Certainly, if GLM is used to obtain predictions of economically or ecologically important data, as suggested in the links above, we would want to 
 ensure that the predictions are accurate. We will demonstrate in this paper how to estimate the standard error for a GLM model, which can be 
@@ -64,14 +64,16 @@ whether or not a predictive model is a valid basis for making policy decisions t
 %---------------SUBSECTION #1.2: NN in scholarly works----------------------
 
 	\subsection{NN in Mathematical Literature.}
-		From the earliest work on \textit{threshold logic} by McCulloch and Pitts in 1943, to the explosion of machine learning algorithms
+		From the earliest work on \textit{threshold logic} by McCulloch and Pitts in 1943, to Frank Rosenblatt's Perceptron,
+to the explosion of machine learning algorithms
 in use today in the age of `Big Data', the idea that the architecture of computing systems could be inspired by the architecture of the human brain
-and its neural networks has maintained a presence in the scientific literature.  With the dramatic rise in computational power in the last 
+and its neural networks has maintained a presence in the scientific literature \cite{kurenkov}.  
+With the dramatic rise in computational power in the last 
 generation along with statistical software such as R and SPSS, interest in neural networks has flourished, along with its place in scientific
 research.  We can see examples of current research using neural nets to analyze topics as diverse as 
 \href{https://www.sciencedirect.com/science/article/pii/S1877050918300656}{the gender of Russian authors},
 \href{https://www.sciencedirect.com/science/article/pii/S2468203916300024}{the surface radiation in the Sundarban forest in India}, and 
-\href{https://www.sciencedirect.com/science/article/pii/S1877050917303617}{routes through the city of Zhengzhou chosen by tourists}.
+\href{https://www.sciencedirect.com/science/article/pii/S1877050917303617}{routes through the city of Zhengzhou chosen by tourists} \cite{scidirect}.
 		
 A distinct characteristic of neural nets is that of \textit{machine learning} -- given more data to `train' the model, it can improve the accuracy
 of the response variable.  However, adding more data to a neural network requires more computational muscle, and for large or complex datasets,
@@ -83,16 +85,15 @@ so we can determine whether or not the added data and accuracy is worth the extr
 	\subsection{Use of Statistical Software in Predictive Models.}
 		In dealing with `Big Data' and attempting to address complex, computationally-intensive problems (such as building a predictive 
 model), the approaches have hinged on the technology available.  The twentieth century began with 
-\href{https://ww2.amstat.org/about/statisticiansinhistory/index.cfm?fuseaction=paperinfo&PaperID=4}{punch card tabulating} but by the latter half 
+\href{https://magazine.amstat.org/blog/2006/09/01/origins-of-statistical-computing/}{punch card tabulating} \cite{grier} but by the latter half 
 of the century, statistical analysis had moved largely to computers.  Momentum for 
-\href{https://www.stat-computing.org/computing/history/chambers-ryan.html}{the trend of statistical software grew during the 1960s},
-and \href{https://www.spss.com.hk/corpinfo/history/htm}{the release of SPSS in 1968} 
-was a critical moment in making statistical analysis more widely available beyond actuarials and computer scientists.  
-Similiarly, the SAS software and S programming language, released in 1976, helped to make statistical analysis accessible to a wide 
+\href{https://www.stat-computing.org/computing/history/chambers-ryan.html}{the trend of statistical software grew during the 1960s} \cite{chambers},
+and the release of SPSS in 1968 was a critical moment in making statistical analysis more widely available beyond actuarials and computer 
+scientists.  Similiarly, the SAS software and S programming language, released in 1976, helped to make statistical analysis accessible to a wide 
 range of scientists.  Today, SPSS, SAS, and R (the modernized version of S) or similar software built in their mold are indispensable across the 
-sciences and humanities for statistical analysis.  A small sampling of how these statistical languages are used in social science research:
+sciences and humanities for statistical analysis \cite{ozgur}.  A small sampling of how these statistical languages are used in social science research:
 \href{https://www.sciencedirect.com/science/article/pii/S0277953617305105}{SPSS is used to analyze why happiness matters}, 
-\href{https://www.sciencedirect.com/science/article/pii/S0277953616301095}{SAS is used to consider the intersection of bisexuality, poverty, and mental health},
+\href{https://www.sciencedirect.com/science/article/pii/S0277953616301095}{SAS is used to consider the intersection of bisexuality, poverty, and mental health} \cite{scidirect},
 \href{https://www.kellogg.northwestern.edu/news-events/conference/ic2s2/2018/workshops-and-datathon.aspx}{and whole conferences are devoted to finding uses for R in the social sciences}.
 
 For this paper, all analysis was performed using R.  The preference for R, as opposed to SAS or SPSS, owes to the fact that it supports both the 

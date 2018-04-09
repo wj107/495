@@ -23,5 +23,8 @@ require(kableExtra)
 		knit("chap34.Rnw")
 		knit("chap35.Rnw")
 
+#---bibliography!
+	knit("references.Rnw")
+
 #---put it ALL together!!
 	knit("495.Rnw")

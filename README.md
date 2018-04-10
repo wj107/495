@@ -35,6 +35,7 @@ write-up on the models, as well as plenty of introductory description about pred
 #### v0.94+ needs:
 
 * flowcharts... can you make them better?
+* do you need both make and knit function?  create Rnw folder.  Organize!!
 * work to broaden functions, fold them into SEestimate... make like an SEestimate.study function. (this is probably for the SE.estimate project)
 	* add data to 495trials function
 	* separate 495trials/graphic from the project!  one can be generalized, the other... keep fixed results for the paper

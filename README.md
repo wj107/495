@@ -21,9 +21,10 @@ We look for trends: which model type is more accurate?  How much so?  The result
 write-up on the models, as well as plenty of introductory description about predictive modelling, is given in the LaTeX documents.
 
 
-#### Some features of v0.94:
+#### Some features of v0.99:
 
 * Title page!  Table of contents! References!!
+* Wiki page on github for interested readers to share their own data analysis
 * 'diamonds' data set and 'gamelogs' with NBA data for training/testing models
 * six pre-designed trials using SE.estimate
 * creates summary graphs of the SE.estimate results, distinguishing between trial size, response variable type, and model type (GLM/NN)
@@ -32,7 +33,7 @@ write-up on the models, as well as plenty of introductory description about pred
 * some basic knitr:  tex file replaced by a Rnw file.  495knit file to convert Rnw to tex.
 * make495 file to knit, typeset, and display the finished pdf in one call
 
-#### v0.94+ needs:
+#### v0.99+ needs:
 
 * flowcharts... can you make them better?
 * work to broaden functions, fold them into SEestimate... make like an SEestimate.study function. (this is probably for the SE.estimate project)
@@ -40,8 +41,6 @@ write-up on the models, as well as plenty of introductory description about pred
 	* separate 495trials/graphic from the project!  one can be generalized, the other... keep fixed results for the paper
 	* customize parameters for "output"... not always 50, 100, 200 test size
 * caption sizes for figures!
-* can you do source([R file]) in a Rnw chunk??
 * comments for R chunks??? width of chunks??
 * kable_styling(latex_options="striped" ????
-* create a wiki to host further research!!
 * perceptron, overfitting, exponential functions... add more figures

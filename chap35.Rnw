@@ -20,9 +20,13 @@ log-transform on the data, and then re-comparing the GLM to NN models might yiel
   \item What if a dataset consisted entirely of categorical data?
 \end{itemize}
 
-I invite the interested reader to use the \texttt{se.estimate} function, and dig in to the above questions!  Or create your own!  
+I invite the interested reader to use the \href{https://github.com/wj107/SEestimate}{\texttt{se.estimate}} function, and dig in to the above 
+questions!  Or create your own!  
 
-%---Lest you think that's just an idle threat, I have created a GitHub XYZ page to catalog my results.  If you find further results, please share! %----https://help.github.com/articles/about-github-wikis/ 
-%----create a github something-or-other to compile any further research to these questions!!!
+Lest you think that's just an idle threat, I have created a 
+\href{https://github.com/wj107/495project/wiki/ANALYZE-YOUR-OWN-DATA}{GitHub wiki page}
+ to outline how you, dear reader, can perform your own standard
+error comparisons for any data set of your choosing using R.  Since the page is a wiki, if you find further results, however mundane, curious, or
+otherwise notable\dots please share!
 
 \vfill\eject

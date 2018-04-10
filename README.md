@@ -3,7 +3,7 @@
 
 #### A statistical analysis, using R.
 
-Author: wj107
+Author: Will Johnson
 
 Email: will.johnson@gmail.com
 
@@ -30,7 +30,7 @@ write-up on the models, as well as plenty of introductory description about pred
 * make495 file to knit, typeset, and display the finished pdf in one call
 * modularized tex write-up!  one file per chapter!
 
-#### v0.7+ needs:
+#### v0.9+ needs:
 
 * flowcharts... can you make them better?
 * work to broaden functions, fold them into SEestimate... make like an SEestimate.study function.
@@ -39,9 +39,8 @@ write-up on the models, as well as plenty of introductory description about pred
 * customize parameters for "output"... not always 50, 100, 200 test size
 * improve dim's on graphs.  display both graphs in one function call??
 * caption sizes for figures!
-* careful listing of sources for the write-up
 * can you do source([R file]) in a Rnw chunk??
 * comments for R chunks??? width of chunks??
 * kable_styling(latex_options="striped" ????
 * create a wiki to host further research!!
-* perceptron, exponential functions... add more figures
+* perceptron, overfitting, exponential functions... add more figures

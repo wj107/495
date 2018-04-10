@@ -11,7 +11,7 @@ requires (1) dividing our data into \textit{train} and \textit{test} subsets, (2
 the model on the testing set, and calculating the standard error, and (5) iterating this process.  That's an enormous amount of calculation; and
 using R to script the process will make things far easier.
 
-I wrote an R script that creates a function, \texttt{se.estimate} \cite{johnson}, to accomplish these tasks and record the results for analysis.  The arguments of
+I wrote an R script that creates a function, \href{https://github.com/wj107/SEestimate}{\texttt{se.estimate}} \cite{johnson}, to accomplish these tasks and record the results for analysis.  The arguments of
 the function (along with the default values) are given below.
 
 <<chunk34, echo=F, background="grey80", comment=NA, size="footnotesize">>=

@@ -12,32 +12,33 @@ analysis -- Generalized Linear Models (GLM) and Neural Nets (NN) and comparing t
 using the R statistical software.
 
 The R scripts in this package run some pre-designed trials on pre-selected data sets in an effort to analyze the standard error for both 
-GLM and NN predictive models.  The standard errors are computed across a number of re-sampled data sets, allowing us to view averages as 
-a reasonable estimate for true standard error parameter for a model.
+GLM and NN predictive models using the function SE.estimate.  [I wrote the SE.estimate function](https://github.com/wj107/SEestimate) to carry out
+these trials: the train/test splits, the model creation, the re-sampling, and the error calculation.  After using the function to create a number
+of models (we will use 50-fold cross validation), we can use the model averages as a reasonable estimate for true standard error parameter for a 
+model. 
 
 We look for trends: which model type is more accurate?  How much so?  The results are also presented graphically using ggplot. The detailed 
 write-up on the models, as well as plenty of introductory description about predictive modelling, is given in the LaTeX documents.
 
-#### Some features of v0.9:
+
+#### Some features of v0.94:
 
 * Title page!  Table of contents! References!!
 * 'diamonds' data set and 'gamelogs' with NBA data for training/testing models
-* six pre-designed trials, and a function that inputs data frame, response variable, and outputs SE estimates
-* creates summary graphs of the SE results, distinguishing between trial size, response variable type, and model type (GLM/NN)
-* options to save (w.out dimensions) or display graphs.
-* 3 chapters of a write-up:  chap1 overview, chap2 introductions, chap3 methods & results
+* six pre-designed trials using SE.estimate
+* creates summary graphs of the SE.estimate results, distinguishing between trial size, response variable type, and model type (GLM/NN)
+* Full write-up of trials: chap1 modeling overview, chap2 technical intro to GLM and NN, chap3 trial methods & results
+* modularized tex write-up!  one file per chapter!
 * some basic knitr:  tex file replaced by a Rnw file.  495knit file to convert Rnw to tex.
 * make495 file to knit, typeset, and display the finished pdf in one call
-* modularized tex write-up!  one file per chapter!
 
-#### v0.9+ needs:
+#### v0.94+ needs:
 
 * flowcharts... can you make them better?
-* work to broaden functions, fold them into SEestimate... make like an SEestimate.study function.
-* add data to 495trials function
-* separate 495trials/graphic from the project!  one can be generalized, the other... keep fixed results for the paper
-* customize parameters for "output"... not always 50, 100, 200 test size
-* improve dim's on graphs.  display both graphs in one function call??
+* work to broaden functions, fold them into SEestimate... make like an SEestimate.study function. (this is probably for the SE.estimate project)
+	* add data to 495trials function
+	* separate 495trials/graphic from the project!  one can be generalized, the other... keep fixed results for the paper
+	* customize parameters for "output"... not always 50, 100, 200 test size
 * caption sizes for figures!
 * can you do source([R file]) in a Rnw chunk??
 * comments for R chunks??? width of chunks??

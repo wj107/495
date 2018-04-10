@@ -20,17 +20,26 @@ predictive model (GLM or NN) and the size of the testing subset for the model (5
 Looking at the graph, we notice that the median (as indicated by the box plots) of the standard error data points \textit{decreases} as the size of 
 the testing set increases; so the reasonable hunch that `more data means more accuracy' seems to be supported, in this case.  Also, the medians of 
 the blue dots, the standard errors for the neural net models, are noticeably below the red (GLM) dots.  That is, the neural net predictive models, 
-on the whole, were more accurate than the GLM models.  The results, summarized in Table \#1, paint this same picture.
+on the whole, were more accurate than the GLM models.  The results, summarized in Table \#1, paint this same picture: average NN standard errors 
+was at most roughly 30\% of GLM standard errors.
 
 	<<chunk38, echo=F, background="grey80", size="footnotesize", comment=NA>>=
 	require(knitr)
 	load("R/results_diamonds.RData")
 #-----find mean across GLM, NN and test sizes 
 	tapply(results.diamonds[,4],results.diamonds[,2:3],mean)->mean.table.diamonds
-#-----re-write grouped data in 3-column data frame.  there's an  easier way... I can't find it easily.
-	mean.table.diamonds<-data.frame(TEST.SIZE=rownames(mean.table.diamonds),GLM=mean.table.diamonds[,1],NN=mean.table.diamonds[,2],row.names=NULL)
+#-----append RATIO of means to table
+	mean.table.diamonds<-cbind(mean.table.diamonds,RATIO=mean.table.diamonds[,2]/mean.table.diamonds[,1])
+#-----format big numbers
+	mean.table.diamonds[,1:2]<-format(mean.table.diamonds[,1:2],big.mark=",")
+#-----format decimal numbers
+	mean.table.diamonds[,3]<-format(as.numeric(mean.table.diamonds[,3]),digits=4)
+#-----re-write grouped data in 4-column data frame.  there's an  easier way... I can't find it easily.
+	mean.table.diamonds<-data.frame(TEST.SIZE=rownames(mean.table.diamonds),GLM=mean.table.diamonds[,1],NN=mean.table.diamonds[,2],
+	RATIO=mean.table.diamonds[,3],row.names=NULL)
 #-----create table, center alignment, w/title
-	kable(mean.table.diamonds,format="latex",col.names=c("Size of Testing Set","Mean of GLM Std. Error","Mean of NN Std. Error"),
+	kable(mean.table.diamonds,format="latex",
+		col.names=c("Size of Testing Set","Mean of GLM Std. Error","Mean of NN Std. Error","Ratio of NN models to GLM models"),
 	        caption="Averages for Standard Errors for predictive models with varying sizes of test sets",align="c") %>% 
 	  kable_styling(latex_options="scale_down")    ###why can't I do 'striped'  or 'booktabs'  ????
 	@
@@ -44,10 +53,18 @@ above, when looking at a the standard devations in Table \#2, we can observe the
 	<<chunk39, echo=F, background="grey80", size="footnotesize", comment=NA>>=
 #-----find sd across GLM, NN and test sizes 
 		tapply(results.diamonds[,4],results.diamonds[,2:3],sd)->sd.table.diamonds
-#-----re-write grouped data in 3-column data frame.  there's an  easier way... I can't find it easily.
-	sd.table.diamonds<-data.frame(TEST.SIZE=rownames(sd.table.diamonds),GLM=sd.table.diamonds[,1],NN=sd.table.diamonds[,2],row.names=NULL)
+#-----append RATIO of means to table
+	sd.table.diamonds<-cbind(sd.table.diamonds,RATIO=sd.table.diamonds[,2]/sd.table.diamonds[,1])
+#-----format big numbers
+	sd.table.diamonds[,1:2]<-format(sd.table.diamonds[,1:2],big.mark=",")
+#-----format decimal numbers
+	sd.table.diamonds[,3]<-format(as.numeric(sd.table.diamonds[,3]),digits=4)
+#-----re-write grouped data in 4-column data frame.  there's an  easier way... I can't find it easily.
+	sd.table.diamonds<-data.frame(TEST.SIZE=rownames(sd.table.diamonds),GLM=sd.table.diamonds[,1],NN=sd.table.diamonds[,2],
+	RATIO=sd.table.diamonds[,3],row.names=NULL)
 #-----create table, center alignment, w/title
-	kable(sd.table.diamonds,format="latex",col.names=c("Size of Testing Set","Std. Dev. of GLM Std. Error","Std. Dev. of NN Std. Error"),
+	kable(sd.table.diamonds,format="latex",
+		col.names=c("Size of Testing Set","Std. Dev. of GLM Std. Error","Std. Dev. of NN Std. Error","Ratio of NN models to GLM models"),
 	        caption="Variation for Standard Errors for predictive models with varying sizes of test sets",align="c") %>% 
 		kable_styling(latex_options="scale_down")
 	@
@@ -62,10 +79,10 @@ A final observation to consider when comparing the two types of predictive model
  <<chunk310, echo=F, background="grey80", comment=NA>>=
 #-----find mean, max of build time across GLM, NN, and test sizes
 	 tapply(results.diamonds[,5],results.diamonds[,2:3],mean)->build.time1
-   tapply(results.diamonds[,5],results.diamonds[,2:3],max)->build.time2
+	 tapply(results.diamonds[,5],results.diamonds[,2:3],max)->build.time2
 #-----combine summarized data and clean
    data.frame(cbind(build.time1,build.time2),row.names=NULL)->build.time
-   build.time<-cbind(TEST.SIZE=rownames(build.time),build.time)
+   build.time<-cbind(TEST.SIZE=c(50,100,200),build.time)
 #-----create table, center alignment, w/title
 	kable(build.time,format="latex",col.names=c("Size of Testing Set","GLM","NN","GLM","NN"),
 	        caption="Build Times for predictive models with varying sizes of test sets",align="c") %>%
